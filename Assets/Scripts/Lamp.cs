@@ -51,9 +51,9 @@ public class Lamp : MonoBehaviour
 
     private IEnumerator DecrementLight()
     {
-        var intensity = (baseIntensity / baseDuration);
-        var radius = (baseRadius / baseDuration);
-        var innerRad = (baseRadius - 1 / baseDuration);
+        var intensity = (baseIntensity - minIntensity) / baseDuration;
+        var radius = (baseRadius -minRadius) / baseDuration;
+        var innerRad = (baseRadius - (1/3f) - minRadius)/ baseDuration;
         while (_timeRemaining > 0)
         {
             _light.intensity             = Mathf.Max(minIntensity, _light.intensity - intensity * Time.deltaTime);
@@ -96,11 +96,12 @@ public class Lamp : MonoBehaviour
 
     private void ResetLight()
     {
-        DisableLight();
         _timeRemaining = baseDuration;
         _light.intensity = baseIntensity;
         _lightCollider.radius = baseRadius;
         transform.localScale = baseScale;
+        DisableLight();
+
     }
 
     public bool IsLightOn()

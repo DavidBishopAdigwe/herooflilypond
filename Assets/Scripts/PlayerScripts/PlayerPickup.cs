@@ -23,9 +23,10 @@ public class PlayerPickup : MonoBehaviour
 
     private void Awake()
     {
-        _lightSource = GetComponentInParent<Lamp>();
-        _playerObjectHaver = GetComponentInParent<PlayerObjectHaver>();
-        _playerHealth = GetComponentInParent<Health>();
+        _player = GetComponentInParent<PlayerController>();
+        _playerObjectHaver = _player.GetComponent<PlayerObjectHaver>();
+        _playerHealth = _player.GetComponent<Health>();
+        _lightSource = _player.GetComponentInChildren<Lamp>();
     }   
 
     private void Start()
@@ -35,7 +36,6 @@ public class PlayerPickup : MonoBehaviour
         
         _interactAction.performed += OnInteractKeyClicked;
         _lightSource.OnLightToggled += OnLightStateChanged;
-        
     }
 
 
@@ -97,19 +97,22 @@ public class PlayerPickup : MonoBehaviour
         {
             _objectsInRange.Add(pickableObject);
         }
-        
-        if (!pickableObject.TryGetComponent(out IUIDisplayable ui)) return;
-        
-        ui.HideInteractUI();
+
+        if (pickableObject && pickableObject.TryGetComponent(out IUIDisplayable ui))
+        {
+            ui.HideInteractUI();
     
-        if (pickableObject.IsHidable() && _lightSource.IsLightOn())
-        {
-            ui.ShowInteractUI();
+            if (pickableObject.IsHidable() && _lightSource.IsLightOn())
+            {
+                ui.ShowInteractUI();
+            }
+            else
+            {
+                ui.ShowInteractUI();
+            }
         }
-        else
-        {
-            ui.ShowInteractUI();
-        }
+        
+
     }
 
     private void OnTriggerExit2D(Collider2D other)
