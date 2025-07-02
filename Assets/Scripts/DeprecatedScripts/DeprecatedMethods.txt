@@ -1,0 +1,74 @@
+
+Previous methods, kept for personal uses in the case of needing it again or looking at previous implementations.
+
+
+
+private IEnumerator KeepLightRotating()
+ {
+     while (true)
+     {
+         ChooseLayerStuff();
+         Vector2 direction = _agent.velocity.normalized;
+         lightSource.transform.up = Vector2.Lerp(lightSource.transform.up, direction, lerpSpeed * Time.deltaTime);
+         if (_collider.IsTouching(movementPoints[_randomIndex].GetComponent<Collider2D>()) && !movementPoints[_randomIndex].gameObject.CompareTag("StairPoint"))
+         {
+             onWanderPoint = true;
+             _canGoDown = true;
+         }
+         else if (_collider.IsTouching(movementPoints[_randomIndex].GetComponent<Collider2D>()))
+         {
+             onWanderPoint = true;
+             Chooser();
+         }
+         else if (movementPoints[_randomIndex].gameObject.CompareTag("StairPoint"))
+         {
+             Chooser();
+         }
+         _agent.SetDestination(movementPoints[_randomIndex].position);
+         yield return null;
+     }
+
+ }
+
+ private void LightRotation(Vector2 direction) // scanning logic
+ {
+     rotationTimer += Time.deltaTime * 2f;
+     float lightOffset = Mathf.Sin(lightRotationPosition) * coneAngle;
+     Vector2 rotationDirection = Quaternion.Euler(0, 0, lightOffset) * direction;
+     lightSource.transform.up = Vector2.Lerp(lightSource.transform.up, rotationDirection, LerpSpeed * Time.deltaTime);
+ }
+
+ private void OnTriggerStay2D(Collider2D other)
+ {
+     if (other.gameObject.CompareTag("Enemy") && onWanderPoint)
+     {
+         Chooser();
+         _light.enabled = true;
+     }
+ }
+ 
+ private void LayerStuff() // prev logic
+ {
+  if (sprite.sortingLayerName == layer1 )
+    {
+
+        _agent.agentTypeID = AgentLayer1ID;
+        _light.m_ApplyToSortingLayers = new [] {
+            SortingLayer.NameToID(layer1),
+        };
+        spotLight.m_ApplyToSortingLayers = new [] {
+            SortingLayer.NameToID(layer1),
+        };
+
+    }
+    else if (sprite.sortingLayerName == layer2 )
+    {
+
+        _agent.agentTypeID = AgentLayer2ID;
+        _light.m_ApplyToSortingLayers = new [] {
+            SortingLayer.NameToID(layer2),
+        };
+        spotLight.m_ApplyToSortingLayers = new [] {
+            SortingLayer.NameToID(layer2),
+        };
+ }  */
