@@ -57,9 +57,6 @@ namespace PlayerScripts
                 _layer2Light.intensity = activeLightIntensity;
                 _layer1Light.intensity = inactiveLightIntensity; ;
             } 
-            // _attachedLight.m_ApplyToSortingLayers = new int[] {SortingLayer.NameToID("Default"), sortingLayerId };
-           
-            // m_ApplytoSortinglayers reverts back to private when exported to other computers, looking for new solution
 
         }
         

@@ -11,24 +11,30 @@ using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class PlayerPickup : MonoBehaviour
-{ 
-    [SerializeField] private PlayerLightSourceController playerLightSourceController;
-    [SerializeField] private Lamp lightSource;
-    [SerializeField] private PlayerObjectHaver playerObjectHaver;
-    [SerializeField] private Health playerHealth;
+{
+    private PlayerController _player;
+    private Lamp _lightSource;
+    private PlayerObjectHaver _playerObjectHaver; 
+    private Health _playerHealth;
     private InputAction _interactAction;
     private PickableObject _bestObject;
 
     private readonly List<PickableObject> _objectsInRange = new ();
 
+    private void Awake()
+    {
+        _lightSource = GetComponentInParent<Lamp>();
+        _playerObjectHaver = GetComponentInParent<PlayerObjectHaver>();
+        _playerHealth = GetComponentInParent<Health>();
+    }   
+
     private void Start()
     {
-        
         _interactAction = InputManager.Instance.GetInteractAction();
         _interactAction.Enable();
         
         _interactAction.performed += OnInteractKeyClicked;
-        lightSource.OnLightToggled += OnLightStateChanged;
+        _lightSource.OnLightToggled += OnLightStateChanged;
         
     }
 
@@ -52,7 +58,7 @@ public class PlayerPickup : MonoBehaviour
             }
 
             if (_bestObject == null || !_bestObject.TryGetComponent(out PickableObject interactable)
-                                       || interactable.IsHidable() && !lightSource.IsLightOn()) 
+                                       || interactable.IsHidable() && !_lightSource.IsLightOn()) 
                 return;
             
             PickupObject(interactable);  
@@ -76,7 +82,7 @@ public class PlayerPickup : MonoBehaviour
 
     private void OnDestroy()
     {
-        lightSource.OnLightToggled -= OnLightStateChanged;
+        _lightSource.OnLightToggled -= OnLightStateChanged;
         
         _interactAction.performed -= OnInteractKeyClicked;
       
@@ -96,7 +102,7 @@ public class PlayerPickup : MonoBehaviour
         
         ui.HideInteractUI();
     
-        if (pickableObject.IsHidable() && lightSource.IsLightOn())
+        if (pickableObject.IsHidable() && _lightSource.IsLightOn())
         {
             ui.ShowInteractUI();
         }
@@ -121,20 +127,21 @@ public class PlayerPickup : MonoBehaviour
         switch (interactable) 
         {
             case not null when interactable.CompareTag("Rope"):
-                playerObjectHaver.PickedRope();
+                _playerObjectHaver.PickedRope();
                 break;
             case not null when interactable.CompareTag("Key"):
-                playerObjectHaver.PickedKey();
+                _playerObjectHaver.PickedKey();
                 break;
             case not null when interactable.CompareTag("Lamp"):
             {
+                _lightSource.PickedUpLamp();
                 break;
             }
-            case PickableLampOil oil when playerObjectHaver.PlayerHasLamp():
-                oil.AddOilToLamp(lightSource);
+            case PickableLampOil oil when _playerObjectHaver.PlayerHasLamp():
+                oil.AddOilToLamp(_lightSource);
                 break;
             case PickableHealthPotion hpPot:
-                hpPot.AddHp(ref playerHealth);
+                hpPot.AddHp(ref _playerHealth);
                 break;
         }
     }

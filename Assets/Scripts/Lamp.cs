@@ -18,7 +18,7 @@ public class Lamp : MonoBehaviour
     private Light2D _light;
     private float _timeRemaining;
     public event Action<bool> OnLightToggled;
-    public Coroutine _currentRoutine;
+    private Coroutine _currentRoutine;
     private bool _lightOn;
 
 
@@ -96,6 +96,7 @@ public class Lamp : MonoBehaviour
 
     private void ResetLight()
     {
+        DisableLight();
         _timeRemaining = baseDuration;
         _light.intensity = baseIntensity;
         _lightCollider.radius = baseRadius;
@@ -106,11 +107,7 @@ public class Lamp : MonoBehaviour
     {
         return _lightOn;
     }
-
-    public void PickupLight()
-    {
-        ResetLight();
-    }
+    
     
     public IEnumerator GraduallyRefillOil(float oil)
     {
@@ -138,6 +135,10 @@ public class Lamp : MonoBehaviour
                 baseRadius - 1);
             _light.intensity = Mathf.Min(_light.intensity + radiusToAdd, baseIntensity);
             _timeRemaining = clampedTime;
-        
+    }
+
+    public void PickedUpLamp()
+    {
+        ResetLight();
     }
 }
