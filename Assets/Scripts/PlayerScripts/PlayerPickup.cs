@@ -58,8 +58,7 @@ public class PlayerPickup : MonoBehaviour
             }
 
             if (_bestItem == null || !_bestItem.TryGetComponent(out PickableItem interactable)
-                                       || interactable.IsHidable() && !_lightSource.IsLightOn()) 
-                return;
+                                     || interactable.IsHidable() && !_lightSource.IsLightOn()) return;
             
             PickupObject(interactable);  
         }

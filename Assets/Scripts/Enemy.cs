@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float maxChaseSpeed;
     [SerializeField] private float speedIncreasePerSecondWhileChasing;
+    private SpriteRenderer _spriteRenderer;
     private float _currentSpeed;
     private Transform _player;
     private MovementArea _movementArea;
@@ -64,16 +65,21 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _currentSpeed = speed;
     }
 
-    public void Setup(MovementArea area) 
+    public void Setup(MovementArea area)
     {
-        Transform areaTransform = area.GetComponent<Transform>();
+        Transform areaTransform = area.transform;
+        
         foreach (Transform child in areaTransform)
         {
             _movementPoints.Add(child);
         }
+
+        if (_movementPoints.Count <= 0) return;
+        
         _numberOfMovementPoints = _movementPoints.Count;
         gameObject.transform.position = _movementPoints[0].position;
         _agent = GetComponent<NavMeshAgent>();
@@ -137,7 +143,7 @@ public class Enemy : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     private void DetectPlayer()
     {
-       if (_isSwitchingState) return;
+
         Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = _agent.velocity.normalized; 
 
@@ -151,7 +157,7 @@ public class Enemy : MonoBehaviour
             
             Debug.DrawRay(rayOrigin, spreadDirection * rayLength, Color.red); // TODO: Take ts out
             
-            Transform playerTransform = null;
+            Transform playerTransform;
             
             switch (hit.collider)
             {
@@ -181,20 +187,6 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private IEnumerator TestConversing()
-    {
-        // if (_isSwitchingState || _playerHide.IsHidden()) return;
-        while (_enemyState == EnemyState.Converse)
-        {
-            
-            yield return null;
-        }
-    }
-
-    public void StartConversationWithOtherEnemy()
-    {
-        
-    }
 
     private IEnumerator ChasePlayer()
     {
@@ -226,14 +218,6 @@ public class Enemy : MonoBehaviour
     }
     
     
-    // <TODO> Replace with StopChasingPlayer() in new map.
-    private IEnumerator StopChasingPlayerCooldown() 
-    {
-        _isSwitchingState = true;
-        yield return new WaitForSeconds(_stateSwitchCooldown);
-        StopChasingPlayer();
-        _isSwitchingState = false;
-    }
 
     private void DetectPlayerWhileHiding()
     {
@@ -263,20 +247,12 @@ public class Enemy : MonoBehaviour
 
     private void UpdateFacingDirection(Vector2 direction)
     {
-        if (direction.x < 0)
-        {
-            transform.right = -transform.right;
-        }
-        else
-        {
-            transform.right = transform.right;
-        }
+        _spriteRenderer.flipX = !(direction.x > 0);
     }
 
 
     private void StopChasingPlayer()
     {
-        _chasingPlayer = false;
         _agent.speed = speed;
         SwitchCoroutine(MoveAbout());
     }

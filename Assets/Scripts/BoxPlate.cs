@@ -8,16 +8,14 @@ public class BoxPlate : MonoBehaviour
     private bool _occupied;
     [SerializeField] private Door connectedObject;
 
-    public void BoxHitEdge()
+    public void BoxEnterEdge()
     {
-        Debug.Log("Box hit edge");
         _edgeColliders++;
         CheckOccupationState();
     }
 
     public void BoxExitEdge()
     {
-        Debug.Log("Box exit edge");
         _edgeColliders--;
         CheckOccupationState();
     }

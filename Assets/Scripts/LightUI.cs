@@ -7,11 +7,10 @@ using UnityEngine.Serialization;
 public class LightUI : MonoBehaviour
 { 
     [SerializeField] private RectTransform imageComponent;
-    [SerializeField] private float lightDuration;
-    
+
+    private float _lightDuration;
     private float _originalHeight;
     private RectTransform _rectTransform;
-
 
     private void Awake()
     {
@@ -22,13 +21,13 @@ public class LightUI : MonoBehaviour
     
     public void GetUIDuration(float lightDuration)
     {
-        this.lightDuration = lightDuration;
+        this._lightDuration = lightDuration;
     }
 
     public void ChangeSize(float timeRemaining)
     {
         var size = imageComponent.sizeDelta;
-        float timeNormalized = Mathf.Clamp01(timeRemaining / lightDuration );
+        float timeNormalized = Mathf.Clamp01(timeRemaining / _lightDuration );
         size.y = timeNormalized * _originalHeight;
         imageComponent.sizeDelta = size;
     }

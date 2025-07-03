@@ -1,31 +1,36 @@
 using System;
 using System.Collections.Generic;
-using Managers;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class MovementAreaManager : MonoBehaviour
+[CreateAssetMenu(menuName = "ScriptableObject/MovementAreaManager", fileName = "MovementAreaManager")]
+public class MovementAreaManager : ScriptableObjectSingleton<MovementAreaManager>
 {
     [SerializeField] private Enemy enemyPrefab;
     private List<MovementArea> _movementAreas = new List<MovementArea>();
+    
 
-    private void Awake()
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += FindMovementAreasInScene;
+    }
+
+    private void FindMovementAreasInScene(Scene scene, LoadSceneMode mode)
     {
         _movementAreas.Clear();
         foreach (MovementArea area in FindObjectsByType<MovementArea>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
         {
             _movementAreas.Add(area);
         }
-    }
-
-    private void Start()
-    {
+        
         if (_movementAreas.Count <= 0)
         {
             Console.WriteLine("zero");
             return;
         }
-        SpawnEnemies(); 
+        SpawnEnemies();
     }
+
 
     private void SpawnEnemies()
     {

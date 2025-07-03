@@ -145,6 +145,6 @@ NavMeshProjectSettings:
       m_Flags: 0
   m_SettingNames:
   - Humanoid
-  - Layer1Agent
+  - MovingEnemyAgent
   - Layer2Agent
   - Layer3Agent

@@ -71,6 +71,15 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    public void ChangeMovementSpeed(float speed)
+    {
+        _currentSpeed = speed;
+    }
+
+    public void ResetMovementSpeed()
+    {
+        _currentSpeed = maxMovementSpeed;
+    }
 
     public void UnsubscribeInputs()
     {
@@ -101,14 +110,6 @@ public class PlayerController : MonoBehaviour
         UnsubscribeInputs();
     }
 
-    public void ChangeMovementSpeed(float speed)
-    {
-        _currentSpeed = speed;
-    }
 
-    public void ResetMovementSpeed()
-    {
-        _currentSpeed = maxMovementSpeed;
-    }
 
 }
