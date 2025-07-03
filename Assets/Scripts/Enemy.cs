@@ -149,14 +149,24 @@ public class Enemy : MonoBehaviour
 
             RaycastHit2D hit           = Physics2D.Raycast(rayOrigin, spreadDirection, rayLength, playerLayer);
             
-            Debug.DrawRay(rayOrigin, spreadDirection * rayLength, Color.red);
-
-            if (!hit || !NavMesh.SamplePosition(hit.collider.transform.parent.position, out NavMeshHit meshHit, 1f, NavMesh.AllAreas )) continue;
-            if (hit.collider.CompareTag("Player") || hit.collider.CompareTag("PlayerLight"))
+            Debug.DrawRay(rayOrigin, spreadDirection * rayLength, Color.red); // TODO: Take ts out
+            
+            Transform playerTransform = null;
+            
+            switch (hit.collider)
             {
-                var player = hit.collider.transform.parent;
-                StartChase(ref player);
-                break;
+                case not null when hit.collider.CompareTag("Player") && 
+                                   NavMesh.SamplePosition(hit.collider.transform.position, out NavMeshHit hitPlayerMesh, 1f, NavMesh.AllAreas):
+                    
+                    playerTransform = hit.collider.transform;
+                    StartChase(ref playerTransform);
+                    break;
+                case not null when hit.collider.CompareTag("PlayerLight") && 
+                                   NavMesh.SamplePosition(hit.collider.transform.parent.position, out NavMeshHit hitLight, 1f, NavMesh.AllAreas):
+                    
+                     playerTransform = hit.collider.transform.parent;
+                     StartChase(ref playerTransform);
+                    break;
             }
         }
     }
@@ -194,11 +204,9 @@ public class Enemy : MonoBehaviour
             DetectPlayerWhileHiding();
             Vector2 direction = _agent.velocity.normalized;
             lightSource.transform.up = direction;
-          Debug.Log(_player.position);
             if (NavMesh.SamplePosition(_player.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
             {
                 _agent.SetDestination(hit.position);
-                Debug.Log(hit.position);
             }
             else
             {
@@ -255,7 +263,14 @@ public class Enemy : MonoBehaviour
 
     private void UpdateFacingDirection(Vector2 direction)
     {
-        Console.WriteLine("Flipped");
+        if (direction.x < 0)
+        {
+            transform.right = -transform.right;
+        }
+        else
+        {
+            transform.right = transform.right;
+        }
     }
 
 

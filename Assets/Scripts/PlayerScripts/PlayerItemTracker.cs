@@ -2,7 +2,7 @@
 
  namespace PlayerScripts
  {
-     public class PlayerObjectHaver: MonoBehaviour
+     public class PlayerItemTracker: MonoBehaviour
      {
          // To control and know what objects the player currently has
         

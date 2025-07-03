@@ -169,7 +169,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 369482347
-  m_SortingLayer: 9
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 8885839255511970297, guid: 6edcf081ca244874599ba6d4fbc2c182,
     type: 3}
@@ -193,7 +193,6 @@ GameObject:
   m_Component:
   - component: {fileID: 652109488809111304}
   - component: {fileID: 6086100432763679147}
-  - component: {fileID: 8487083039985550352}
   - component: {fileID: 1470188745245144145}
   m_Layer: 0
   m_Name: Rope
@@ -275,20 +274,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8487083039985550352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8418488530445901289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68fc071f7b84e394092cc90b98145fa2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectName: Rope
-  interactionUI: {fileID: 7857042065088720852}
 --- !u!61 &1470188745245144145
 BoxCollider2D:
   m_ObjectHideFlags: 0

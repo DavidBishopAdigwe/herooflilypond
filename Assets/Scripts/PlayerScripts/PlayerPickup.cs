@@ -13,20 +13,20 @@ using UnityEngine.Serialization;
 public class PlayerPickup : MonoBehaviour
 {
     private PlayerController _player;
-    private Lamp _lightSource;
-    private PlayerObjectHaver _playerObjectHaver; 
+    private LightSource _lightSource;
+    private PlayerItemTracker _playerItemTracker; 
     private Health _playerHealth;
     private InputAction _interactAction;
-    private PickableObject _bestObject;
+    private PickableItem _bestItem;
 
-    private readonly List<PickableObject> _objectsInRange = new ();
+    private readonly List<PickableItem> _objectsInRange = new ();
 
     private void Awake()
     {
         _player = GetComponentInParent<PlayerController>();
-        _playerObjectHaver = _player.GetComponent<PlayerObjectHaver>();
+        _playerItemTracker = _player.GetComponent<PlayerItemTracker>();
         _playerHealth = _player.GetComponent<Health>();
-        _lightSource = _player.GetComponentInChildren<Lamp>();
+        _lightSource = _player.GetComponentInChildren<LightSource>();
     }   
 
     private void Start()
@@ -45,7 +45,7 @@ public class PlayerPickup : MonoBehaviour
         {
     
             float closestDistance = Mathf.Infinity;
-            _bestObject = null;
+            _bestItem = null;
 
             foreach (var pickableObject in (_objectsInRange))
             {
@@ -54,10 +54,10 @@ public class PlayerPickup : MonoBehaviour
                 if ((distance > closestDistance)) continue;
                 
                 closestDistance = distance;
-                _bestObject = pickableObject;
+                _bestItem = pickableObject;
             }
 
-            if (_bestObject == null || !_bestObject.TryGetComponent(out PickableObject interactable)
+            if (_bestItem == null || !_bestItem.TryGetComponent(out PickableItem interactable)
                                        || interactable.IsHidable() && !_lightSource.IsLightOn()) 
                 return;
             
@@ -93,7 +93,7 @@ public class PlayerPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out PickableObject pickableObject) && !_objectsInRange.Contains(pickableObject))
+        if (other.TryGetComponent(out PickableItem pickableObject) && !_objectsInRange.Contains(pickableObject))
         {
             _objectsInRange.Add(pickableObject);
         }
@@ -117,30 +117,30 @@ public class PlayerPickup : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent(out IUIDisplayable ui) && other.TryGetComponent(out PickableObject pickableObject))
+        if (other.TryGetComponent(out IUIDisplayable ui) && other.TryGetComponent(out PickableItem pickableObject))
         {
             ui.HideInteractUI();
             _objectsInRange.Remove(pickableObject);
         }
     }
 
-    private void PickupObject(PickableObject interactable)
+    private void PickupObject(PickableItem interactable)
     {
         interactable.Pickup();
         switch (interactable) 
         {
             case not null when interactable.CompareTag("Rope"):
-                _playerObjectHaver.PickedRope();
+                _playerItemTracker.PickedRope();
                 break;
             case not null when interactable.CompareTag("Key"):
-                _playerObjectHaver.PickedKey();
+                _playerItemTracker.PickedKey();
                 break;
             case not null when interactable.CompareTag("Lamp"):
             {
                 _lightSource.PickedUpLamp();
                 break;
             }
-            case PickableLampOil oil when _playerObjectHaver.PlayerHasLamp():
+            case PickableLampOil oil when _playerItemTracker.PlayerHasLamp():
                 oil.AddOilToLamp(_lightSource);
                 break;
             case PickableHealthPotion hpPot:

@@ -11,7 +11,6 @@ public class Health : MonoBehaviour
     [SerializeField] private int maxHealthStocks;
     [SerializeField] private Sprite fullHeart;
     [SerializeField] private Sprite emptyHeart;
-    [SerializeField] private GameObject blackBox;
     
     public UnityEvent onDamaged;
 

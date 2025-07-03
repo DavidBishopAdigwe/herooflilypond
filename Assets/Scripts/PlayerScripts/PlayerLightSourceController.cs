@@ -9,11 +9,11 @@ namespace PlayerScripts
     public class PlayerLightSourceController : MonoBehaviour
     {
         private InputAction _playerLightAction;
-        private Lamp _attachedLightSource;
+        private LightSource _attachedLightSource;
 
         private void Start()
         {
-            _attachedLightSource = GetComponentInChildren<Lamp>();
+            _attachedLightSource = GetComponentInChildren<LightSource>();
 
             _playerLightAction = InputManager.Instance.GetLightAction();
             _playerLightAction.Enable();

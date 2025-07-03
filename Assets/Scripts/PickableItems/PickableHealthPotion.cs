@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PickableItems
      {
-         public class PickableHealthPotion: PickableObject
+         public class PickableHealthPotion: PickableItem
          { 
              [SerializeField] private int hpToAdd;
 

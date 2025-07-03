@@ -1,7 +1,9 @@
+using DeprecatedScripts;
 using PlayerScripts;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
@@ -27,10 +29,11 @@ namespace Managers
         [SerializeField] private PlayerPickup playerPickup; 
         [SerializeField] private PlayerDrag playerDrag;
         [SerializeField] private PlayerLayer playerLayer;
-        [SerializeField] private PlayerObjectHaver playerObjectHaver;
+        [FormerlySerializedAs("playerObjectHaver")] [SerializeField] private PlayerItemTracker playerItemTracker;
         
+        [FormerlySerializedAs("lightSource")]
         [Header("Player Children")]
-        [SerializeField] private LightSource lightSource;
+        [SerializeField] private MultiLightSource multiLightSource;
 
         public static AssignmentManager Instance { get; private set; }
 
@@ -47,9 +50,9 @@ namespace Managers
         }
     
     
-        public LightSource GetLightSource() => lightSource;
+        public MultiLightSource GetLightSource() => multiLightSource;
         
-        public PlayerObjectHaver GetPlayerObjectHaver() => playerObjectHaver;
+        public PlayerItemTracker GetPlayerObjectHaver() => playerItemTracker;
         
         public Light2D GetGlobalLight() => globalLight;
         

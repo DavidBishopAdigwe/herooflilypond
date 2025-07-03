@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DeprecatedScripts;
 using PlayerScripts;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;

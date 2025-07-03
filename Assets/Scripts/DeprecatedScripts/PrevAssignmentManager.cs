@@ -1,9 +1,9 @@
 using PlayerScripts;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
-namespace Managers
+namespace DeprecatedScripts
 {
     public class PrevAssignmentManager : MonoBehaviour
     {
@@ -27,10 +27,11 @@ namespace Managers
         [SerializeField] private PlayerPickup playerPickup; 
         [SerializeField] private PlayerDrag playerDrag;
         [SerializeField] private PlayerLayer playerLayer;
-        [SerializeField] private PlayerObjectHaver playerObjectHaver;
+        [FormerlySerializedAs("playerObjectHaver")] [SerializeField] private PlayerItemTracker playerItemTracker;
         
+        [FormerlySerializedAs("lightSource")]
         [Header("Player Children")]
-        [SerializeField] private LightSource lightSource;
+        [SerializeField] private MultiLightSource multiLightSource;
 
         public static PrevAssignmentManager Instance { get; private set; }
 
@@ -47,7 +48,7 @@ namespace Managers
         }
     
     
-        public LightSource GetLightSource() => lightSource;
+        public MultiLightSource GetLightSource() => multiLightSource;
     
         public PlayerLightSourceController GetPlayerLightSourceController() => playerLightSource ;
     
@@ -61,7 +62,7 @@ namespace Managers
     
         public PlayerLayer GetPlayerLayer() => playerLayer;
     
-        public PlayerObjectHaver GetPlayerObjectHaver() => playerObjectHaver;
+        public PlayerItemTracker GetPlayerObjectHaver() => playerItemTracker;
         public Transform[] GetAllMovementPoints() => allMovementPoints;
         
         public Light2D GetGlobalLight() => globalLight;

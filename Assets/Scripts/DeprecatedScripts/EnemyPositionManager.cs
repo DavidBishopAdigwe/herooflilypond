@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using DataPersistence.Data;
-using Interfaces;
 using UnityEngine;
 
-namespace Managers
+namespace DeprecatedScripts
 {
     public class EnemyPositionManager : MonoBehaviour
     {

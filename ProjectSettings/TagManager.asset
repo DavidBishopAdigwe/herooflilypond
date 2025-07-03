@@ -31,8 +31,8 @@ TagManager:
   - Layer2Walkable
   - Obstacles
   - Stair
-  - 
-  - 
+  - Ground
+  - Wall
   - 
   - 
   - Layer 1
@@ -69,14 +69,20 @@ TagManager:
   - name: Layer3B
     uniqueID: 3829733367
     locked: 0
-  - name: Player
-    uniqueID: 3024211433
-    locked: 0
-  - name: EnemySpoT
-    uniqueID: 165762677
-    locked: 0
   - name: UI
     uniqueID: 369482347
+    locked: 0
+  - name: Ground
+    uniqueID: 1701121301
+    locked: 0
+  - name: Walls
+    uniqueID: 2254398315
+    locked: 0
+  - name: Enemy
+    uniqueID: 165762677
+    locked: 0
+  - name: Player
+    uniqueID: 3024211433
     locked: 0
   m_RenderingLayers:
   - Default

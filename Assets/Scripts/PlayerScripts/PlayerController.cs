@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private float maxMovementSpeed;
     [SerializeField] private int playerLayer;
+    [SerializeField] private GameObject[] unflipableObjects;
     
     private Rigidbody2D _rb; 
     private Animator _animator;
@@ -33,7 +34,6 @@ public class PlayerController : MonoBehaviour
     {
         _playerMoveActions = InputManager.Instance.GetMoveAction();
         SubscribeInputs();
-        
     }
     
     
@@ -65,6 +65,10 @@ public class PlayerController : MonoBehaviour
     {
         if (_playerDrag.IsPlayerConnected()) return;
         transform.right = -transform.right;
+        foreach (GameObject unflipable in unflipableObjects)
+        {
+            unflipable.transform.right = -unflipable.transform.right;
+        }
     }
     
 

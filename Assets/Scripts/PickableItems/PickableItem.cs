@@ -7,18 +7,13 @@ using UnityEngine;
 namespace PickableItems
 {
     // Base class for all pickable items.
-    public class PickableObject : MonoBehaviour, IUIDisplayable
+    public class PickableItem : MonoBehaviour, IUIDisplayable
     { 
         [SerializeField] private string objectName;
         [SerializeField] private GameObject interactionUI;
 
         protected bool Hidable;
-        protected PlayerObjectHaver PlayerObjHaver;
-
-        protected virtual void Start()
-        {
-            PlayerObjHaver = AssignmentManager.Instance.GetPlayerObjectHaver();
-        }
+        
 
         public bool IsHidable()
         {

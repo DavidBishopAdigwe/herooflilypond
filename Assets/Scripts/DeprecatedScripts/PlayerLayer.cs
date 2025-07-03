@@ -2,7 +2,7 @@ using Managers;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-namespace PlayerScripts
+namespace DeprecatedScripts
 {
     public class PlayerLayer:MonoBehaviour
     {

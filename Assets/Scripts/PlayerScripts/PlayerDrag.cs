@@ -15,14 +15,14 @@ public class PlayerDrag : MonoBehaviour
     private InputAction _dragAction;
     private bool _attached;
     private PlayerController _playerController;
-    private PlayerObjectHaver _playerObjectHaver;
+    private PlayerItemTracker _playerItemTracker;
     private bool _hasRope;
 
     private void Awake()
     {
         _joint = GetComponent<FixedJoint2D>();
         _playerController = GetComponent<PlayerController>();
-        _playerObjectHaver = GetComponent<PlayerObjectHaver>();
+        _playerItemTracker = GetComponent<PlayerItemTracker>();
     }
 
     private void Start()
@@ -35,7 +35,7 @@ public class PlayerDrag : MonoBehaviour
 
     private void OnDragKeyClicked(InputAction.CallbackContext obj)
     {
-        if (!_playerObjectHaver.PlayerHasRope()) return;
+        if (!_playerItemTracker.PlayerHasRope()) return;
         if (_objectCollider != null && !_attached)
         {
             AttachToObject();

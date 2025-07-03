@@ -2,12 +2,12 @@ using System.Collections;
 using DataPersistence;
 using DataPersistence.Data;
 using Interfaces;
-using Managers;
 using PlayerScripts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class PlayerCheckpoint: MonoBehaviour, IDataPersistence
+namespace DeprecatedScripts
+{
+    public class PlayerCheckpoint: MonoBehaviour, IDataPersistence
     {
         [SerializeField] private GameObject blackBox; 
         [SerializeField]  private CheckPoint spawnPoint;
@@ -88,3 +88,4 @@ public class PlayerCheckpoint: MonoBehaviour, IDataPersistence
             data.playerPosition = new float[] { _checkPointPosition.x, _checkPointPosition.y, _checkPointPosition.z };
         }
     }
+}

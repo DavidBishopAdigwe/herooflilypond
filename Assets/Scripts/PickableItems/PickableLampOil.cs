@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace PickableItems
 {
-    public class PickableLampOil: PickableObject
+    public class PickableLampOil: PickableItem
     {
         [SerializeField] private float oil;
         
         
-        public void AddOilToLamp(Lamp lamp)
+        public void AddOilToLamp(LightSource lightSource)
         {
-            lamp.OilRefill(oil);
+            lightSource.OilRefill(oil);
        
         }
     

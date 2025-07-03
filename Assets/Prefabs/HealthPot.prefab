@@ -193,7 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: HealthPotion
   interactionUI: {fileID: 2095875565531993860}
-  hpToAdd: 0
+  hpToAdd: 1
 --- !u!61 &1914419054857980384
 BoxCollider2D:
   m_ObjectHideFlags: 0
