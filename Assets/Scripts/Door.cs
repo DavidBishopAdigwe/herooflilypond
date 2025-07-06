@@ -9,10 +9,21 @@ public class Door: MonoBehaviour
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Collider2D collider2;
         [SerializeField] private NavMeshObstacle navMeshObstacle;
-        [SerializeField] [Multiline] private string messageOnLocked;
-        [SerializeField] [Multiline] private string messageOnUnlocked;
+        [SerializeField, Multiline]  string messageOnLocked;
+        [SerializeField, Multiline] private string messageOnUnlocked;
+        [SerializeField] private GameObject roomMidPoint;
+        
+        
 
         private bool _open;
+
+        /// <summary>
+        /// Type for where the door leads to.
+        /// </summary>
+        public enum DoorType
+        {
+            Room, Pathway
+        }
 
         private void Awake()
         {
@@ -29,9 +40,9 @@ public class Door: MonoBehaviour
             }
         }
 
-        private void CheckBoxPads()
+        public void CheckBoxPads()
         {
-            bool allPlatesOccupied = padsToOpen.All(plate => plate.ReturnOccupationState());
+            bool allPlatesOccupied = padsToOpen.All(plate => plate.GetOccupationState());
 
             if (allPlatesOccupied)
             {
@@ -51,9 +62,5 @@ public class Door: MonoBehaviour
             }
             
         }
-
-        public void PublicChecker()
-        {
-            CheckBoxPads();
-        }
+        
     }

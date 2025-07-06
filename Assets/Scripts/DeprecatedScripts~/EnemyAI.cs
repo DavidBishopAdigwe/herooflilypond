@@ -252,7 +252,7 @@ namespace DeprecatedScripts
 
         private void DetectPlayerWhileHiding()
         {
-            if (!_playerHide.HidingEffectInProgress()) return;
+            //if (!_playerHide.IsPlayerHidingEffectInProgress()) return;
         
             Vector2 rayOrigin = transform.position;
             Vector2 rayDirection = _agent.velocity.normalized; 
@@ -301,7 +301,7 @@ namespace DeprecatedScripts
                     yield break;
                 }
             
-                if (_playerHide.HidingEffectInProgress() && _playerInRange)
+               // if (_playerHide.IsPlayerHidingEffectInProgress() && _playerInRange)
                 {
                     _playerHide.StopPlayerHiding();
                 }

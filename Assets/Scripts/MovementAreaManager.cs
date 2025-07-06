@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ public class MovementAreaManager : ScriptableObjectSingleton<MovementAreaManager
     {
         foreach (var area in _movementAreas)
         {
-            var enemyClone = Instantiate(enemyPrefab);
+            var enemyClone = Instantiate(enemyPrefab, area.transform.position, quaternion.identity);
             enemyClone.Setup(area);
         }
     }

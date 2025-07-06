@@ -54,20 +54,11 @@ TagManager:
   - name: Layer 1
     uniqueID: 2425651459
     locked: 0
-  - name: Layer1B
-    uniqueID: 2569949857
-    locked: 0
   - name: Layer 2
     uniqueID: 4250941897
     locked: 0
-  - name: Layer2B
-    uniqueID: 3784864299
-    locked: 0
   - name: Layer 3
     uniqueID: 4189426099
-    locked: 0
-  - name: Layer3B
-    uniqueID: 3829733367
     locked: 0
   - name: UI
     uniqueID: 369482347
@@ -83,6 +74,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3024211433
+    locked: 0
+  - name: Items
+    uniqueID: 2117537521
     locked: 0
   m_RenderingLayers:
   - Default

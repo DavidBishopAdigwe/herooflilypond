@@ -13,7 +13,7 @@ Shader "Custom/EnemyComplexLight"
     SubShader
     {
         Tags { "Queue"="Transparent" "RenderType"="Transparent" }
-        Blend One One  // Additive blending
+        Blend One One  
         ZWrite Off
         Cull Off
         
@@ -37,8 +37,7 @@ Shader "Custom/EnemyComplexLight"
                 float2 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
             };
-
-            // Light properties
+            
             uniform half4 _Color;
             uniform half _Intensity;
             uniform half _CircleRadius;
@@ -46,7 +45,6 @@ Shader "Custom/EnemyComplexLight"
             uniform half _ConeLength;
             uniform half _Falloff;
             
-            // Vision mask texture (same as your sprite shader)
             TEXTURE2D(_ShapeLightTexture3);
             SAMPLER(sampler_ShapeLightTexture3);
             
@@ -54,41 +52,32 @@ Shader "Custom/EnemyComplexLight"
             {
                 Varyings o;
                 o.positionCS = TransformObjectToHClip(v.positionOS.xyz);
-                o.uv = v.uv * 2 - 1;  // Convert to -1 to 1 range
+                o.uv = v.uv * 2 - 1;  
                 o.worldPos = TransformObjectToWorld(v.positionOS.xyz);
                 return o;
             }
             
             half4 frag(Varyings i) : SV_Target
             {
-                // Calculate distance from center
                 float distance = length(i.uv);
                 
-                // Calculate angle from forward direction (X-axis)
                 float angle = degrees(atan2(i.uv.y, i.uv.x));
-                angle = abs(angle); // Symmetrical cone
-                
-                // Calculate circle component
+                angle = abs(angle);
                 half circle = smoothstep(_CircleRadius, _CircleRadius * 0.9, distance);
                 circle = 1 - saturate(pow(distance / _CircleRadius, _Falloff));
                 
-                // Calculate cone component
                 half cone = 0;
                 if(angle < _ConeAngle * 0.5 && distance > _CircleRadius)
                 {
-                    // Distance falloff
                     half distFactor = 1 - smoothstep(_CircleRadius, _ConeLength, distance);
                     
-                    // Angular falloff
                     half angleFactor = 1 - pow(angle / (_ConeAngle * 0.5), 2);
                     
                     cone = distFactor * angleFactor;
                 }
                 
-                // Combine shapes with intensity
                 half lightValue = saturate(circle + cone) * _Intensity;
                 
-                // Sample vision mask (same as your sprite shader)
                 float2 screenUV = i.positionCS.xy / _ScreenParams.xy;
                 #if UNITY_UV_STARTS_AT_TOP
                 screenUV.y = 1 - screenUV.y;

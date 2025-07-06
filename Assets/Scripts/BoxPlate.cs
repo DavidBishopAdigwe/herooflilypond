@@ -23,10 +23,10 @@ public class BoxPlate : MonoBehaviour
     private void CheckOccupationState()
     {
         _occupied = _edgeColliders >= 4;
-        connectedObject.PublicChecker();
+        connectedObject.CheckBoxPads();
         
     }
 
-    public bool ReturnOccupationState() => _occupied;
+    public bool GetOccupationState() => _occupied;
 
 }

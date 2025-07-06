@@ -5,19 +5,11 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
    private PlayerItemTracker _playerObject;
-   private MultiLightSource _attachedMultiLightSource;
    private Collider2D _collider;
 
    private void Awake()
    {
       _collider = GetComponent<Collider2D>();
-   }
-   private void Start()
-   {
-      _playerObject = AssignmentManager.Instance.GetPlayerObjectHaver();
-      _attachedMultiLightSource = AssignmentManager.Instance.GetLightSource();
-
-     // _attachedLightSource.OnLightToggled += OnLightStateChanged;
    }
 
    private void OnLightStateChanged(bool lightOn)

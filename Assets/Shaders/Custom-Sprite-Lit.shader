@@ -124,10 +124,18 @@
                 #if USE_SHAPE_LIGHT_TYPE_3
                 visionMask = SAMPLE_TEXTURE2D(_ShapeLightTexture3, sampler_ShapeLightTexture3, i.lightingUV).r;
                 #endif
-
+                half tempMask = 0;
+                if (visionMask >= 0.29)
+                {
+                    tempMask = clamp(visionMask + 0.7, 0,1);
+                }
+                else
+                {
+                    tempMask = visionMask;
+                }
                 half4 finalColor = mainTex;
-                finalColor.rgb *= clamp(visionMask, 0, 1);
-                finalColor.a *= clamp(visionMask, 0,1 ); 
+                finalColor.rgb *= clamp(tempMask, 0, 1);
+                finalColor.a *= clamp(tempMask, 0,1 ); 
 
                 return finalColor;
             }

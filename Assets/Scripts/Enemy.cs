@@ -32,23 +32,12 @@ public class Enemy : MonoBehaviour
     private int _index;
     private Vector3 _currentPoint;
     private Coroutine _currentCoroutine;
-    public bool _chasingPlayer;
+    private bool _chasingPlayer;
     private PlayerHide _playerHide;
     private bool _playerInRange;
     private bool _isSwitchingState;
-    private float _stateSwitchCooldown = 0.5f;
-    public static bool _playerIsHidden;
-    public static bool _playerHidingInProgress;
-    private EnemyState _enemyState;
-    private List<Transform> _movementPoints = new();
-
-    private Transform PlayerSetter
-    {
-        set
-        {
-            if (!_player) _player = value;
-        }
-    }
+    private readonly List<Transform> _movementPoints = new();
+    
     private PlayerHide PlayerHideSetter 
     {
         set
@@ -56,12 +45,7 @@ public class Enemy : MonoBehaviour
             if (!_playerHide) _playerHide = value;
         }
     }
-
-    // <TODO> Converse with closest enemy.
-    private enum EnemyState
-    {
-        Wander, Chase, Converse
-    }
+    
 
     private void Awake()
     {
@@ -77,15 +61,12 @@ public class Enemy : MonoBehaviour
         {
             _movementPoints.Add(child);
         }
-
-        if (_movementPoints.Count <= 0) return;
         
         _numberOfMovementPoints = _movementPoints.Count;
-        gameObject.transform.position = _movementPoints[0].position;
+        Debug.Log(_movementPoints[0].name);
         _agent = GetComponent<NavMeshAgent>();
+        _agent.speed = _currentSpeed;
         StartingNavMeshSettings();
-        _enemyState = EnemyState.Wander;
-        _chasingPlayer = false;
         _currentCoroutine =  StartCoroutine(MoveAbout());
     }
     
@@ -114,15 +95,7 @@ public class Enemy : MonoBehaviour
         _currentCoroutine = StartCoroutine(newRoutine);
     }
 
-    public void PlayerIsHidden()
-    {
-        _playerIsHidden = true;
-    }
-
-    public void PlayerStoppedHiding()
-    {
-        _playerIsHidden = false;
-    }
+   
 
     private IEnumerator MoveAbout()
     {
@@ -144,6 +117,8 @@ public class Enemy : MonoBehaviour
     private void DetectPlayer()
     {
 
+        if (!_chasingPlayer || !_playerHide.IsHidingEffectInProgress()) return;
+
         Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = _agent.velocity.normalized; 
 
@@ -158,7 +133,13 @@ public class Enemy : MonoBehaviour
             Debug.DrawRay(rayOrigin, spreadDirection * rayLength, Color.red); // TODO: Take ts out
             
             Transform playerTransform;
-            
+
+            if (_playerHide.IsHidingEffectInProgress() && hit && hit.collider.CompareTag("Player"))
+            {
+                _playerInRange = true;
+                return;
+            }
+            _playerInRange = false;
             switch (hit.collider)
             {
                 case not null when hit.collider.CompareTag("Player") && 
@@ -193,7 +174,7 @@ public class Enemy : MonoBehaviour
         _chasingPlayer = true;
         while (_chasingPlayer)
         {
-            DetectPlayerWhileHiding();
+            DetectPlayer(); 
             Vector2 direction = _agent.velocity.normalized;
             lightSource.transform.up = direction;
             if (NavMesh.SamplePosition(_player.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
@@ -206,7 +187,7 @@ public class Enemy : MonoBehaviour
                 yield break;
             }
             
-            if (_playerHide.HidingEffectInProgress() && _playerInRange)
+            if (_playerHide.IsHidingEffectInProgress() && _playerInRange)
             {
                 _playerHide.StopPlayerHiding();
             }
@@ -218,44 +199,13 @@ public class Enemy : MonoBehaviour
     }
     
     
-
-    private void DetectPlayerWhileHiding()
-    {
-        if (!_playerHidingInProgress) return;
-        
-        Vector2 rayOrigin = transform.position;
-        Vector2 rayDirection = _agent.velocity.normalized; 
-
-        for (int i = 0; i < numberOfRays; i++)
-        {
-            var raySeparation = coneAngle / (numberOfRays - 1);
-            var overallOffset = -coneAngle / 2 + i * raySeparation; 
-            Vector2 spreadDirection = Quaternion.Euler(0, 0, overallOffset) * rayDirection;
-
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, spreadDirection, rayLength, playerLayer);
-            Debug.DrawRay(rayOrigin, spreadDirection * rayLength, Color.red);
-
-            if (hit.collider  && hit.collider.CompareTag("Player")) // Change back to null check
-            {
-                _playerInRange = true;
-                break;
-            }
-            _playerInRange = false;
-
-        }
-    }
+    
 
     private void UpdateFacingDirection(Vector2 direction)
     {
         _spriteRenderer.flipX = !(direction.x > 0);
     }
-
-
-    private void StopChasingPlayer()
-    {
-        _agent.speed = speed;
-        SwitchCoroutine(MoveAbout());
-    }
+    
 
     private IEnumerator IncreaseSpeed()
     {

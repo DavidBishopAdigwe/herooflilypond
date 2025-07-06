@@ -327,7 +327,7 @@ MonoBehaviour:
   rayLength: 2.5
   speed: 3.25
   numberOfRays: 5
-  coneAngle: 80
+  coneAngle: 60
   lightSource: {fileID: 4815544191110541532}
   sprite: {fileID: 8866417066312373833}
   layer1: Layer 1

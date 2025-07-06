@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using DeprecatedScripts;
 using PlayerScripts;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -41,10 +40,6 @@ namespace Cainos.PixelArtTopDown_Basic
                 } */
             }
 
-            if (other.gameObject.TryGetComponent(out PlayerLayer playerLayer))
-            {
-                playerLayer.CheckPlayerLayer();
-            }
             _srs = other.gameObject.GetComponentsInChildren<SpriteRenderer>(true);
             foreach (SpriteRenderer sr in _srs)
             {

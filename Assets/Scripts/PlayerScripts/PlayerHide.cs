@@ -47,7 +47,7 @@ namespace PlayerScripts
 
         private void OnHideAction(InputAction.CallbackContext context)
         {
-            if (currentState == HideState.CannotHide || HidingEffectInProgress()) return;
+            if (currentState == HideState.CannotHide || IsHidingEffectInProgress()) return;
             if (_hideCoroutine != null)
             {
                 StopCoroutine(_hideCoroutine);
@@ -170,12 +170,12 @@ namespace PlayerScripts
                 _hideCoroutine = null;
             }
 
-            if (HidingEffectInProgress())
+            if (IsHidingEffectInProgress())
             {
                 transform.position = _hideStartPosition;
             }
         
-            if (!HidingEffectInProgress())  return;
+            if (!IsHidingEffectInProgress())  return;
 
             Physics2D.IgnoreCollision(_collider, _currentHidingSpot, false);
             
@@ -199,7 +199,7 @@ namespace PlayerScripts
             currentState = HideState.CannotHide;
         
         }
-        public bool HidingEffectInProgress() => currentState == HideState.Hiding || currentState == HideState.Unhiding;
+        public bool IsHidingEffectInProgress() => currentState == HideState.Hiding || currentState == HideState.Unhiding;
         public bool IsHidden()               => currentState == HideState.Hidden;
 
 
