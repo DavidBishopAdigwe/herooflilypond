@@ -67,11 +67,11 @@ public class PlayerPickup : MonoBehaviour
 
     private void OnLightStateChanged(bool isLightOn)
     {
-        var hidableObjects = _objectsInRange.Where(p => p.IsHidable());
+        var hideableObjects = _objectsInRange.Where(p => p.IsHidable());
         
-        foreach (var hidable in hidableObjects) 
+        foreach (var hideable in hideableObjects) 
         {
-            if (!hidable.TryGetComponent(out IUIDisplayable ui)) continue;
+            if (!hideable.TryGetComponent(out IUIDisplayable ui)) continue;
             
             if (isLightOn) ui.ShowInteractUI();
             else           ui.HideInteractUI();
@@ -136,10 +136,11 @@ public class PlayerPickup : MonoBehaviour
                 break;
             case not null when interactable.CompareTag("Lamp"):
             {
+                _playerItemTracker.PickedLamp();
                 _lightSource.PickedUpLamp();
                 break;
             }
-            case PickableLampOil oil when _playerItemTracker.PlayerHasLamp():
+            case PickableOil oil when _playerItemTracker.PlayerHasLamp():
                 oil.AddOilToLamp(_lightSource);
                 break;
             case PickableHealthPotion hpPot:

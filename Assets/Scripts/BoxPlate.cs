@@ -27,6 +27,6 @@ public class BoxPlate : MonoBehaviour
         
     }
 
-    public bool GetOccupationState() => _occupied;
+    public bool IsPlateOccupied() => _occupied;
 
 }

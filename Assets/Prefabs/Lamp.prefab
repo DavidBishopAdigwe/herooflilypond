@@ -99,9 +99,10 @@ GameObject:
   - component: {fileID: 2375806215273435382}
   - component: {fileID: 6024307327924785484}
   - component: {fileID: 6798211051693567411}
+  - component: {fileID: 8848923694889197911}
   m_Layer: 10
   m_Name: Lamp
-  m_TagString: Untagged
+  m_TagString: Lamp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,3 +224,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8848923694889197911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8826138318224666113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5c7a85ba74786247af0d8a1e56b68a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectName: Lamp
+  interactionUI: {fileID: 1455340210386941685}
+  hideableMaterial: {fileID: 2100000, guid: 31b8bcf5aed71024dad70bee5c308192, type: 2}
+  hideable: 0

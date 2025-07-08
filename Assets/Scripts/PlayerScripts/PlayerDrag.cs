@@ -72,7 +72,7 @@ public class PlayerDrag : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.TryGetComponent(out PushableObject pushableObject))
+        if (other.gameObject.TryGetComponent(out DraggableObject pushableObject))
         {
             _objectCollider = other.collider;
         }
@@ -80,7 +80,7 @@ public class PlayerDrag : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.TryGetComponent(out PushableObject pushableObject))
+        if (other.gameObject.TryGetComponent(out DraggableObject pushableObject))
         {
             _objectCollider = null;
         }

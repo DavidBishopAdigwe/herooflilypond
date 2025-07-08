@@ -5,15 +5,12 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
-  - WalkingPoint
-  - Stairs
-  - StairPoint
   - PlayerLight
   - Checkpoint
-  - PushableBox
   - DraggableBox
-  - Hidable
   - HidingSpot
+  - Lamp
+  - Key
   layers:
   - Default
   - TransparentFX
@@ -33,7 +30,7 @@ TagManager:
   - Stair
   - Ground
   - Wall
-  - 
+  - CameraBounds
   - 
   - Layer 1
   - Layer 2

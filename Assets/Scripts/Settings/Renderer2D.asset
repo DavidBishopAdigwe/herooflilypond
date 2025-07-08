@@ -46,10 +46,10 @@ MonoBehaviour:
   - name: Additive
     maskTextureChannel: 0
     blendMode: 0
-  - name: Additive with Mask
-    maskTextureChannel: 1
-    blendMode: 0
-  - name: Vision
+  - name: Enemy Vision
+    maskTextureChannel: 0
+    blendMode: 1
+  - name: Item Vision
     maskTextureChannel: 0
     blendMode: 1
   m_UseDepthStencilBuffer: 1

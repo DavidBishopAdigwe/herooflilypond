@@ -36,14 +36,22 @@ public class Enemy : MonoBehaviour
     private PlayerHide _playerHide;
     private bool _playerInRange;
     private bool _isSwitchingState;
+    private EnemyState _enemyState;
     private readonly List<Transform> _movementPoints = new();
+
+    private enum EnemyState
+    {
+        Wandering, Chasing
+    }
     
     private PlayerHide PlayerHideSetter 
     {
+        get => _playerHide ? _playerHide : null;
         set
         {
             if (!_playerHide) _playerHide = value;
         }
+
     }
     
 
@@ -100,15 +108,19 @@ public class Enemy : MonoBehaviour
     private IEnumerator MoveAbout()
     {
         _chasingPlayer = false;
+        _enemyState = EnemyState.Wandering;
         ChoosePoint();
         while (!_chasingPlayer)
         {
+            Vector2 direction = _agent.velocity.normalized;
             if (Vector3.Distance(_agent.transform.position, _currentPoint) < 0.1f) 
             {
                 ChoosePoint();
             }
             _agent.SetDestination(_currentPoint);
             DetectPlayer();
+                        
+            UpdateFacingDirection(direction);
             yield return null;
         }
     }
@@ -116,8 +128,9 @@ public class Enemy : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     private void DetectPlayer()
     {
-
-        if (!_chasingPlayer || !_playerHide.IsHidingEffectInProgress()) return;
+        
+        if (_enemyState ==  EnemyState.Chasing && !PlayerHideInProgress()) return; // No point making a 2nd function, nasty if statement though TODO: Remove this later?
+        
 
         Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = _agent.velocity.normalized; 
@@ -134,12 +147,14 @@ public class Enemy : MonoBehaviour
             
             Transform playerTransform;
 
-            if (_playerHide.IsHidingEffectInProgress() && hit && hit.collider.CompareTag("Player"))
+            if (_playerHide && _playerHide.IsHidingInProgress() && hit && hit.collider.CompareTag("Player"))
             {
                 _playerInRange = true;
                 return;
             }
             _playerInRange = false;
+            
+            if(_chasingPlayer) return;
             switch (hit.collider)
             {
                 case not null when hit.collider.CompareTag("Player") && 
@@ -164,17 +179,16 @@ public class Enemy : MonoBehaviour
         PlayerHideSetter = _player.GetComponent<PlayerHide>();
         SwitchCoroutine(ChasePlayer());
        // StartCoroutine(IncreaseSpeed());
-        
-
     }
 
 
     private IEnumerator ChasePlayer()
     {
         _chasingPlayer = true;
+        _enemyState = EnemyState.Chasing;
         while (_chasingPlayer)
         {
-            DetectPlayer(); 
+           DetectPlayer(); 
             Vector2 direction = _agent.velocity.normalized;
             lightSource.transform.up = direction;
             if (NavMesh.SamplePosition(_player.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
@@ -187,10 +201,9 @@ public class Enemy : MonoBehaviour
                 yield break;
             }
             
-            if (_playerHide.IsHidingEffectInProgress() && _playerInRange)
-            {
-                _playerHide.StopPlayerHiding();
-            }
+            if (_playerHide.IsHidingInProgress() && _playerInRange) _playerHide.StopPlayerHiding();
+
+            if (_playerHide.IsHidden()) SwitchCoroutine(MoveAbout());
             
             UpdateFacingDirection(direction);
 
@@ -216,5 +229,10 @@ public class Enemy : MonoBehaviour
             yield return null;
         } 
     }
-    
+
+    bool PlayerHideInProgress()
+    {
+        if (_playerHide) return _playerHide.IsHidingInProgress();
+        return false;
+    }
 }

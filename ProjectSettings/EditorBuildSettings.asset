@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: ef69dd404b1e6e04bb95fe892da742b8
   - enabled: 1
-    path: Assets/Scenes/Level1.unity
+    path: Assets/Scenes/CainosScene.unity
     guid: dd214d87be95f6e45aad760dc0a6966e
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

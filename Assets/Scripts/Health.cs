@@ -3,11 +3,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] private int healthStocks; 
-    [SerializeField] private Image[] healthObjects;
+    [SerializeField] private GameObject[] healthObjects;
     [SerializeField] private int maxHealthStocks;
     [SerializeField] private Sprite fullHeart;
     [SerializeField] private Sprite emptyHeart;
@@ -16,12 +17,12 @@ public class Health : MonoBehaviour
 
     private void Awake()
     {
-        healthStocks = maxHealthStocks;
+        healthStocks = healthObjects.Length;
+        CheckPlayerHealth();
     }
     private void Start()
     {
-        healthStocks = maxHealthStocks;
-        CheckPlayerHealth();
+
     }
 
     public void TakeDamage(int damage)
@@ -37,17 +38,20 @@ public class Health : MonoBehaviour
     }
     public void CheckPlayerHealth()
     {
-        if (healthStocks >= maxHealthStocks) healthStocks = maxHealthStocks;
+
+        if (healthStocks >= maxHealthStocks)
+        {
+            for (int i = maxHealthStocks; i < healthObjects.Length; i++) // 
+            {
+                healthObjects[i].SetActive(false);
+            }
+            healthStocks = maxHealthStocks;
+            
+        }
         for (int i = 0; i < healthObjects.Length; i++)
         {
-            if (i < healthStocks)
-            {
-                healthObjects[i].sprite = fullHeart;
-            }
-            else
-            {
-                healthObjects[i].sprite = emptyHeart;
-            }
+            var healthObjectImage = healthObjects[i].GetComponent<Image>();
+            healthObjectImage.sprite = i < healthStocks ? fullHeart : emptyHeart;
         }
     }
     public void AddHealth(int hp)
