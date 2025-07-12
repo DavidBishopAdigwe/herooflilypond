@@ -13,7 +13,7 @@ namespace PlayerScripts
     public class PlayerHide : MonoBehaviour
     {
         
-        [SerializeField] private float cooldown = 1f; 
+        [SerializeField] private float hideCooldown = 1f; 
         [SerializeField, Tooltip("Takes the player 1/HideSpeed seconds to hide")] private float hideSpeed = 2f;
         [SerializeField] private UnityEvent onHide;
         [SerializeField] private HideState currentState = HideState.NotHiding;
@@ -93,7 +93,7 @@ namespace PlayerScripts
                 yield return null;
             }
             CompleteUnhide();
-            yield return new WaitForSeconds(cooldown);
+            yield return new WaitForSeconds(hideCooldown);
             currentState = HideState.NotHiding;
         }
         
@@ -197,7 +197,12 @@ namespace PlayerScripts
             ResetHideEffect();
             transform.position = _hideStartPosition;
             currentState = HideState.CannotHide;
-        
+            Invoke("PlayerCanHide", 3);
+        }
+
+        private void PlayerCanHide()
+        {
+            currentState = HideState.NotHiding;
         }
         public bool IsHidingInProgress() => currentState == HideState.Hiding || currentState == HideState.Unhiding;
         public bool IsHidden()               => currentState == HideState.Hidden;

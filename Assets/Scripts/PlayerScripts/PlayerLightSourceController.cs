@@ -9,11 +9,11 @@ namespace PlayerScripts
     public class PlayerLightSourceController : MonoBehaviour
     {
         private InputAction _playerLightAction;
-        private LightSource _attachedLightSource;
+        private LightSource _lightSource;
 
         private void Start()
         {
-            _attachedLightSource = GetComponentInChildren<LightSource>();
+            _lightSource = GetComponentInChildren<LightSource>();
 
             _playerLightAction = InputManager.Instance.GetLightAction();
             _playerLightAction.Enable();
@@ -23,11 +23,8 @@ namespace PlayerScripts
 
         private void OnLightKeyClicked(InputAction.CallbackContext obj)
         {
-                _attachedLightSource.ToggleLight();
+            _lightSource.ToggleLight();
         }
-
-
-
     
         private void OnDestroy()
         {

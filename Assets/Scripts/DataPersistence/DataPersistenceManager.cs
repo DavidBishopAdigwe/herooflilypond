@@ -4,10 +4,12 @@ using System.Linq;
 using DataPersistence.Data;
 using Interfaces;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DataPersistence
 {
-    public class DataPersistenceManager: MonoBehaviour
+    [CreateAssetMenu(menuName = "ScriptableObjects/DataManager", fileName = "DataManager")]
+    public class DataPersistenceManager: ScriptableObjectSingleton<DataPersistenceManager>
     {
         [Header("File Storage Config")] [SerializeField]
         private string fileName;
@@ -17,25 +19,32 @@ namespace DataPersistence
         private FileDataHandler _dataHandler;
         
         private List<IDataPersistence> _dataPersistenceObjects = new ();
-        public static DataPersistenceManager Instance { get; private set; }
 
-        private void Awake()
+        private void OnEnable()
+        { }
+
+        void Test()
         {
-            if (Instance == null)
+            if (SceneManager.sceneCountInBuildSettings != 0)
             {
-                Instance = this;
+                return;
             }
-            else
-            {
-                Destroy(gameObject);
-            }
+            SceneManager.sceneUnloaded += QuitGame;
+            SaveGame();
         }
 
-        private void Start()
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= StartGame;
+            SceneManager.sceneUnloaded -= QuitGame;
+        }
+
+        private void StartGame(Scene scene, LoadSceneMode mode)
         {
             _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             _dataPersistenceObjects = FindAllDataPersistenceObjects(); 
             LoadGame();
+            Test();
         }
 
         private List<IDataPersistence> FindAllDataPersistenceObjects()
@@ -53,6 +62,11 @@ namespace DataPersistence
 
         public void LoadGame()
         {
+            if (_dataHandler == null) // data handler nulls for some reason???
+            {
+                _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+            }
+            Debug.Log("Loaded");
             gameData = _dataHandler.Load();
             
             if (gameData == null)
@@ -62,10 +76,7 @@ namespace DataPersistence
             
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
-                if (dataPersistenceObject == null)
-                {
-                    return;
-                }
+                if (dataPersistenceObject == null) return;
                 dataPersistenceObject.LoadData(gameData);
             }
 
@@ -73,15 +84,25 @@ namespace DataPersistence
 
         public void SaveGame()
         {
+            Debug.Log("Saved Game");
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
                 dataPersistenceObject.SaveData(ref gameData);
             }
-            
+
+            if (_dataHandler == null) // data handler nulls for some reason???
+            {
+                _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+            }
+
+            if (gameData == null)
+            {
+                gameData = new GameData();
+            }
             _dataHandler.Save(gameData);
         }
         
-        private void OnApplicationQuit()
+        private void QuitGame(Scene scene)
         {
             SaveGame();
         }

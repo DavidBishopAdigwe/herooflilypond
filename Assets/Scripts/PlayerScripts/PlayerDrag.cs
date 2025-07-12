@@ -9,7 +9,6 @@ using UnityEngine.Serialization;
 public class PlayerDrag : MonoBehaviour
 {
     [SerializeField] private float draggingSpeed;
-    
     private FixedJoint2D _joint;
     private Collider2D _objectCollider;
     private InputAction _dragAction;

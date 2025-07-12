@@ -1,12 +1,17 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
+using DataPersistence;
+using DataPersistence.Data;
+using Interfaces;
 using PlayerScripts;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
+using Debug = UnityEngine.Debug;
 
-public class LightSource : MonoBehaviour
+public class LightSource : MonoBehaviour, IDataPersistence
 {
 
     [Header("Base Settings")] 
@@ -19,11 +24,10 @@ public class LightSource : MonoBehaviour
     [SerializeField] private float minIntensity;
     [SerializeField] private float minRadius;
     [SerializeField] private float minInnerRadius;
-    [SerializeField] private int secondsToRefill;
+    [SerializeField] private int secondsToMaxRefill;
+    [FormerlySerializedAs("_whiteLight")] [SerializeField] private Light2D whiteLight;
     
-    
-    [SerializeField] UnityEvent refillingLamp;
-
+    private static readonly int PlayerLightIntensity = Shader.PropertyToID("_PlayerLightIntensity");
     private CircleCollider2D _lightCollider;
     private Light2D _light;
     private float _timeRemaining;
@@ -31,6 +35,10 @@ public class LightSource : MonoBehaviour
     private Coroutine _currentRoutine;
     private bool _lightOn;
     private PlayerItemTracker _playerItemTracker;
+    private bool _refilling;
+    private float _baseColliderRadius;
+    private float _minColliderRadius;
+    private const int LightToColliderRadiusMultiplier = 3; // Collider radius values scale to 3x of Light2D outer radius values.
 
 
     private void Awake()
@@ -38,13 +46,15 @@ public class LightSource : MonoBehaviour
         _lightCollider = GetComponent<CircleCollider2D>();
         _light = GetComponent<Light2D>();
         _playerItemTracker = GetComponentInParent<PlayerItemTracker>();
-
+        _baseColliderRadius = baseRadius * LightToColliderRadiusMultiplier;
+        _minColliderRadius = minRadius * LightToColliderRadiusMultiplier;
     }
 
     private void Start()
     {
-        ResetLight();
+        DisableLight();
     }
+
 
     public void ToggleLight()
     {
@@ -64,27 +74,39 @@ public class LightSource : MonoBehaviour
     private IEnumerator DecrementLight()
     {
         var intensity               = (baseIntensity - minIntensity) / baseDuration;
-        var radius                  = (baseRadius -minRadius) / baseDuration; // Collider
+        var radius                  = (baseRadius -minRadius) / baseDuration; 
         var innerRadius             = (baseInnerRadius - minInnerRadius)/ baseDuration;
-        
+        var colliderRadius          = (_baseColliderRadius - _minColliderRadius) / baseDuration;
+         
         while (_timeRemaining > 0)
         {
+            
             _light.intensity             = Mathf.Max(minIntensity, _light.intensity - intensity * Time.deltaTime);
-            _lightCollider.radius        = Math.Max(minRadius, _lightCollider.radius - radius * Time.deltaTime);
+            _lightCollider.radius        = Mathf.Max(minRadius, _lightCollider.radius - colliderRadius * Time.deltaTime);
             _light.pointLightOuterRadius = Mathf.Max(minRadius, _light.pointLightOuterRadius - radius * Time.deltaTime);
             _light.pointLightInnerRadius = Mathf.Max(minInnerRadius, _light.pointLightInnerRadius - innerRadius * Time.deltaTime);
+            SetWhiteLight();
             _timeRemaining               = Mathf.Max(0, _timeRemaining - Time.deltaTime);
+
+            if (_timeRemaining <= 0)
+            {
+                DisableLight();
+            }
             yield return null;
         }
+        
     }
     
 
     private void EnableLight()
     {
+        if (_timeRemaining <= 0) return;
         _lightOn = true;
         OnLightToggled?.Invoke(_lightOn);
+        _lightCollider.enabled = true;
         _light.enabled = true;
-        ResetCoroutine(DecrementLight());
+        whiteLight.enabled = true;
+        SwitchCoroutine(DecrementLight());
     }
 
     private void ResetCoroutine(IEnumerator routine)
@@ -96,22 +118,23 @@ public class LightSource : MonoBehaviour
         _currentRoutine = StartCoroutine(routine);
     }
 
-    private void DisableLight()
+    public void DisableLight()
     {
+        if (_refilling) return;
         _lightOn = false;
         OnLightToggled?.Invoke(_lightOn);
-        if (_currentRoutine != null)
-        {
-            StopCoroutine(_currentRoutine);
-        }
+       if(_currentRoutine != null) StopCoroutine(_currentRoutine);
+       _lightCollider.enabled = false;
         _light.enabled = false;
+        whiteLight.enabled = false;
+
     }
 
     private void ResetLight()
     {
         _timeRemaining = baseDuration;
         _light.intensity = baseIntensity;
-        _lightCollider.radius = baseRadius;
+        _lightCollider.radius = _baseColliderRadius;
         _light.pointLightInnerRadius = baseInnerRadius;
         _light.pointLightOuterRadius = baseRadius;
         DisableLight();
@@ -122,25 +145,68 @@ public class LightSource : MonoBehaviour
     {
         return _lightOn;
     }
-    
-    
-    public IEnumerator GraduallyRefillOil(float oil)
+
+    private void SwitchCoroutine(IEnumerator newRoutine)
     {
-        if (!_playerItemTracker.PlayerHasLamp()) yield break;
+        if (_currentRoutine != null)
+        {
+            StopCoroutine(_currentRoutine);
+            _currentRoutine = null;
+        }
+        _currentRoutine = StartCoroutine(newRoutine);
+    }
+    
+
+    public void OilRefillGradual( float oil)
+    {
+        SwitchCoroutine(GraduallyRefillOil(oil));
         
-        refillingLamp.Invoke();
-        var intensity = (baseIntensity / baseDuration) * oil;
-        var radius = (baseRadius / baseDuration) * oil;
-        var innerRad = (baseRadius - 1 / baseDuration) * oil;
+    }
+    private IEnumerator GraduallyRefillOil(float oil)
+    {  
+        if (!_playerItemTracker.PlayerHasLamp()) yield break;
+
+        _refilling = true;
+        _lightOn = true;
+        OnLightToggled?.Invoke(_lightOn);
+        _light.enabled = true;
+        
+        oil = Mathf.Clamp(oil, 0, baseDuration);
+        var intensity      = Mathf.Clamp(_light.intensity             + ((baseIntensity - minIntensity) / baseDuration)             
+                                                                           * oil, 0, baseIntensity);
+        
+        var radius         = Mathf.Clamp(_light.pointLightOuterRadius + ((baseRadius - minRadius) / baseDuration)                  
+                                                                           * oil, 0, baseRadius);
+        
+        var innerRad       = Mathf.Clamp(_light.pointLightInnerRadius +  ((baseInnerRadius - minInnerRadius) / baseDuration)        
+                                                                           * oil, 0, baseInnerRadius);
+        
+        var colliderRadius = Mathf.Clamp(_lightCollider.radius        + ((_baseColliderRadius - _minColliderRadius) / baseDuration) 
+                                                                           * oil, 0, _baseColliderRadius);
+        
         float clampedTime = Mathf.Clamp(_timeRemaining + oil, 0, baseDuration);
         while (_timeRemaining < clampedTime)
         {
-            _light.pointLightInnerRadius = Mathf.Min(_light.pointLightInnerRadius + (innerRad * Time.deltaTime),
-                baseRadius - 1);
-            _light.intensity = Mathf.Min(_light.intensity + (intensity * Time.deltaTime), baseIntensity);
-            _timeRemaining += clampedTime * Time.deltaTime;
+            _light.intensity = Mathf.MoveTowards(_light.intensity, intensity, Time.deltaTime);
+            _light.pointLightOuterRadius = Mathf.MoveTowards(_light.pointLightOuterRadius, radius, Time.deltaTime);
+            _light.pointLightInnerRadius = Mathf.MoveTowards(_light.pointLightInnerRadius, innerRad, Time.deltaTime);
+            _lightCollider.radius = Mathf.MoveTowards(_lightCollider.radius, colliderRadius, Time.deltaTime); 
+            _timeRemaining              += clampedTime * (Time.deltaTime) ;
+            if (_timeRemaining >= clampedTime)
+            {
+                _timeRemaining = clampedTime;
+                _refilling = false;
+                SetWhiteLight();
+                SwitchCoroutine(DecrementLight());
+            }   
             yield return null;
-        }
+        } 
+    }
+
+    private void SetWhiteLight()
+    {
+        whiteLight.pointLightOuterRadius = _light.pointLightOuterRadius;
+        whiteLight.intensity = _light.intensity;
     }
 
     public void OilRefill(float oil)
@@ -164,4 +230,23 @@ public class LightSource : MonoBehaviour
         ResetLight();
         DisableLight();
     }
+
+    public void LoadData(GameData data)
+    {
+        _light.intensity = data.lightIntensity;
+        _lightCollider.radius = data.lightRadius;
+        _light.pointLightOuterRadius = data.lightRadius;
+        _light.pointLightOuterRadius = data.lightInnerRadius;
+        _timeRemaining = data.lightTimeRemaining;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.lightIntensity = _light.intensity;
+        data.lightRadius = _light.pointLightOuterRadius;
+        data.lightInnerRadius = _light.pointLightInnerRadius;
+        data.lightTimeRemaining = _timeRemaining;
+    }
+
+
 }

@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6639348198408477306
 Transform:
   m_ObjectHideFlags: 0
@@ -72,8 +72,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0.5
-  m_PointLightOuterRadius: 0.8
+  m_PointLightInnerRadius: 0.16666667
+  m_PointLightOuterRadius: 0.26666668
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -97,9 +97,10 @@ GameObject:
   - component: {fileID: 4392917531840237674}
   - component: {fileID: 7927375311842782566}
   - component: {fileID: 3397294537776688030}
-  m_Layer: 0
+  - component: {fileID: -7088232882154526638}
+  m_Layer: 11
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,14 +193,16 @@ MonoBehaviour:
   lightSource: {fileID: 4992231996675384013}
   numberOfRays: 5
   coneAngle: 30
-  playerLayer:
+  visionLayers:
     serializedVersion: 2
-    m_Bits: 131584
-  rayLength: 1
+    m_Bits: 131712
+  rayLength: 1.73
   lightRotationSpeed: 5
-  speed: 1
-  maxChaseSpeed: 0
-  speedIncreasePerSecondWhileChasing: 0
+  normalSpeed: 2
+  maxChaseSpeed: 3.5
+  speedIncreasePerSecondWhileChasing: 0.5
+  secondsToStopIfPlayerIsNotSeen: 2
+  damage: 0
 --- !u!195 &7927375311842782566
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -244,6 +247,52 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!61 &-7088232882154526638
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294669746018984567}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 0.2, y: 0.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &4992231996675384013
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2473748576476228589
 Transform:
   m_ObjectHideFlags: 0
@@ -316,8 +365,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 80
   m_PointLightOuterAngle: 90
-  m_PointLightInnerRadius: 1
-  m_PointLightOuterRadius: 2.5
+  m_PointLightInnerRadius: 0.33333334
+  m_PointLightOuterRadius: 0.8333333
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

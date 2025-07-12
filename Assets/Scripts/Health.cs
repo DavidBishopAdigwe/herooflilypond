@@ -7,12 +7,12 @@ using System.Linq;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private int healthStocks; 
+    [SerializeField] private int healthStocks;
     [SerializeField] private GameObject[] healthObjects;
     [SerializeField] private int maxHealthStocks;
     [SerializeField] private Sprite fullHeart;
     [SerializeField] private Sprite emptyHeart;
-    
+
     public UnityEvent onDamaged;
 
     private void Awake()
@@ -20,6 +20,7 @@ public class Health : MonoBehaviour
         healthStocks = healthObjects.Length;
         CheckPlayerHealth();
     }
+
     private void Start()
     {
 
@@ -28,14 +29,15 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damage)
     {
         if (healthStocks < 0) return;
-        healthStocks -= damage;
+        healthStocks -= damage; 
+        onDamaged.Invoke();
+        PlayerDamaged();
         if (healthStocks <= 0)
         {
             Die();
-            return;
-        } 
-        onDamaged.Invoke();
+        }
     }
+
     public void CheckPlayerHealth()
     {
 
@@ -45,28 +47,35 @@ public class Health : MonoBehaviour
             {
                 healthObjects[i].SetActive(false);
             }
+
             healthStocks = maxHealthStocks;
-            
         }
+
+    }
+
+    public void PlayerDamaged()
+    {
         for (int i = 0; i < healthObjects.Length; i++)
         {
-            var healthObjectImage = healthObjects[i].GetComponent<Image>();
-            healthObjectImage.sprite = i < healthStocks ? fullHeart : emptyHeart;
+            if (i == healthStocks && healthObjects[i].TryGetComponent(out HealthObject healthObject))
+            {
+                healthObject.DamagedAnimation();
+            }
         }
     }
-    public void AddHealth(int hp)
+
+public void AddHealth(int hp)
     {
         if (healthStocks >= maxHealthStocks) return;
         healthStocks += hp;
         CheckPlayerHealth();
     }
     
-
-   
-
+    
     private void Die()
     {
-        GameManager.Instance.GameOver();
+        if (GameManager.Instance) 
+            GameManager.Instance.GameOver();
     }
 
     

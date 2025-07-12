@@ -1,11 +1,14 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using PlayerScripts;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
 [SuppressMessage("ReSharper", "Unity.UnknownTag")]
 [SuppressMessage("ReSharper", "ConvertToConstant.Local")]
@@ -18,47 +21,57 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject lightSource;
     [SerializeField] private int numberOfRays;
     [SerializeField] private float coneAngle;
-    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask visionLayers;
     [SerializeField] private float rayLength;
     [SerializeField] private float lightRotationSpeed = 5f;
-    [SerializeField] private float speed;
-    [SerializeField] private float maxChaseSpeed;
+    [SerializeField] private float normalSpeed; // Could ensure this is always less than player speed(outside dragging) doesnt matter now though
+    [SerializeField] private float maxChaseSpeed; 
     [SerializeField] private float speedIncreasePerSecondWhileChasing;
+    [SerializeField] private float secondsToStopIfPlayerIsNotSeen;
+    [SerializeField] private int damage;
+
     private SpriteRenderer _spriteRenderer;
     private float _currentSpeed;
     private Transform _player;
     private MovementArea _movementArea;
     private int _numberOfMovementPoints;
     private int _index;
-    private Vector3 _currentPoint;
-    private Coroutine _currentCoroutine;
-    private bool _chasingPlayer;
+    private Coroutine _stateRoutine;
     private PlayerHide _playerHide;
-    private bool _playerInRange;
     private bool _isSwitchingState;
     private EnemyState _enemyState;
+    private Transform _currentPoint;
+    private readonly RaycastHit2D[] _hitBuffer = new RaycastHit2D[25]; // doubt it's possible to even hit 10 but just incase
     private readonly List<Transform> _movementPoints = new();
+    private Light2D _light;
+    private bool _canDetect = true;
+    private Coroutine _cooldownRoutine;
+    private bool _playerSeen;
+    private float _lastSeenTime;
+    private float _pathCheckTimer;
+    private float _lastRayTime;r
+    private const float PathCheckInterval = 0.5f;
 
+
+    private const int MaxIterations = 1000;
+    private int iterations = 0;
     private enum EnemyState
     {
         Wandering, Chasing
     }
     
-    private PlayerHide PlayerHideSetter 
-    {
-        get => _playerHide ? _playerHide : null;
-        set
-        {
-            if (!_playerHide) _playerHide = value;
-        }
-
-    }
     
 
     private void Awake()
     {
+        _currentSpeed = normalSpeed;
+        _light = lightSource.GetComponent<Light2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _currentSpeed = speed;
+    }
+
+    private void Start()
+    {
+        DisableLightSource();
     }
 
     public void Setup(MovementArea area)
@@ -71,11 +84,10 @@ public class Enemy : MonoBehaviour
         }
         
         _numberOfMovementPoints = _movementPoints.Count;
-        Debug.Log(_movementPoints[0].name);
         _agent = GetComponent<NavMeshAgent>();
         _agent.speed = _currentSpeed;
         StartingNavMeshSettings();
-        _currentCoroutine =  StartCoroutine(MoveAbout());
+        _stateRoutine =  StartCoroutine(MoveAbout());
     }
     
     private void StartingNavMeshSettings() // Navmesh settings to ensure it works in 2D
@@ -85,42 +97,51 @@ public class Enemy : MonoBehaviour
     }
    
 
-    private void ChoosePoint()
-    {
-        _currentPoint = _movementPoints[_index].position;
-        _index++;
-        if (_index == _numberOfMovementPoints) _index = 0; 
-    }
-    
+ 
     
    private void SwitchCoroutine(IEnumerator newRoutine)
     {
-        if (_currentCoroutine != null)
+        if (_stateRoutine != null)
         {
-            if (newRoutine.GetType() == _currentCoroutine.GetType()) return;
-            StopCoroutine(_currentCoroutine);
+            if (newRoutine.GetType() == _stateRoutine.GetType()) return;
+            StopCoroutine(_stateRoutine);
         }
-        _currentCoroutine = StartCoroutine(newRoutine);
+        _stateRoutine = StartCoroutine(newRoutine);
     }
 
-   
+
+    private void ChoosePoint()
+    {
+        _currentPoint = _movementPoints[_index];
+        _index++;
+        if (_index == _numberOfMovementPoints) _index = 0; 
+    }
+
 
     private IEnumerator MoveAbout()
     {
-        _chasingPlayer = false;
+        _agent.speed = normalSpeed;
+        NavMeshPath pathToPoint = new NavMeshPath();
         _enemyState = EnemyState.Wandering;
         ChoosePoint();
-        while (!_chasingPlayer)
+        while (_enemyState == EnemyState.Wandering)
         {
-            Vector2 direction = _agent.velocity.normalized;
-            if (Vector3.Distance(_agent.transform.position, _currentPoint) < 0.1f) 
+            if (Vector3.Distance(_agent.transform.position, _currentPoint.position) < 0.1f) 
             {
                 ChoosePoint();
             }
-            _agent.SetDestination(_currentPoint);
-            DetectPlayer();
+            if (_agent.CalculatePath(_currentPoint.position, pathToPoint) && pathToPoint.status == NavMeshPathStatus.PathComplete)
+            { 
+                _agent.SetDestination(_currentPoint.position);
+                DetectPlayer();
                         
-            UpdateFacingDirection(direction);
+                UpdateFacingDirection();
+            }
+            else
+            {
+                ChoosePoint();
+            }
+
             yield return null;
         }
     }
@@ -128,70 +149,128 @@ public class Enemy : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     private void DetectPlayer()
     {
+        if (!_canDetect)
+        {
+            return;
+        }
         
-        if (_enemyState ==  EnemyState.Chasing && !PlayerHideInProgress()) return; // No point making a 2nd function, nasty if statement though TODO: Remove this later?
-        
+        if (_enemyState ==  EnemyState.Chasing && !_playerHide.IsHidingInProgress()) return;
 
+        _playerSeen = false;
         Vector2 rayOrigin = transform.position;
-        Vector2 rayDirection = _agent.velocity.normalized; 
+        Vector2 rayDirection = _agent.velocity.normalized;
 
         for (int i = 0; i < numberOfRays; i++)
         {
+
             float raySeparation        = coneAngle / (numberOfRays - 1);
             float overallOffset        = -coneAngle / 2 + i * raySeparation; 
             Vector2 spreadDirection = Quaternion.Euler(0, 0, overallOffset) * rayDirection;
 
-            RaycastHit2D hit           = Physics2D.Raycast(rayOrigin, spreadDirection, rayLength, playerLayer);
-            
+            ContactFilter2D contactFilter = new ContactFilter2D
+            {
+                useLayerMask = true,
+                layerMask = visionLayers,
+                useTriggers = true
+            };
+            var hitCount           = Physics2D.Raycast(rayOrigin, spreadDirection, contactFilter, _hitBuffer, rayLength);
             Debug.DrawRay(rayOrigin, spreadDirection * rayLength, Color.red); // TODO: Take ts out
-            
-            Transform playerTransform;
 
-            if (_playerHide && _playerHide.IsHidingInProgress() && hit && hit.collider.CompareTag("Player"))
+            for (int j = 0; j < hitCount; j++)
             {
-                _playerInRange = true;
-                return;
+
+                var hit = _hitBuffer[j];
+                
+                if (hit.collider.CompareTag("Wall")) break;
+
+                if (_playerHide && _playerHide.IsHidingInProgress()
+                                   && hit.collider.CompareTag("Player"))
+                {
+                    _playerSeen = true;
+                    _playerHide.StopPlayerHiding();
+                    break;
+                }
+                
+                Transform playerTransform;
+                switch (hit.collider)
+                {
+                    case not null when hit.collider.CompareTag("Player") && 
+                                       NavMesh.SamplePosition(hit.collider.transform.position, out NavMeshHit hitPlayerMesh, 1f, NavMesh.AllAreas):
+                        
+                        _playerSeen     = true;
+                        _lastSeenTime = Time.time;
+                        playerTransform = hit.collider.transform;
+                        StartChase(ref playerTransform); 
+
+                        return;
+                    case not null when hit.collider.CompareTag("PlayerLight") && 
+                                       NavMesh.SamplePosition(hit.collider.transform.parent.position, out NavMeshHit hitLight, 1f, NavMesh.AllAreas):
+                        
+                        _playerSeen     = true;
+                        _lastSeenTime = Time.time;
+                        playerTransform = hit.collider.transform.parent;
+                        StartChase(ref playerTransform);
+                        return;
+                }
             }
-            _playerInRange = false;
-            
-            if(_chasingPlayer) return;
-            switch (hit.collider)
+
+            if (_enemyState == EnemyState.Chasing && !_playerHide.IsHidingInProgress())
             {
-                case not null when hit.collider.CompareTag("Player") && 
-                                   NavMesh.SamplePosition(hit.collider.transform.position, out NavMeshHit hitPlayerMesh, 1f, NavMesh.AllAreas):
-                    
-                    playerTransform = hit.collider.transform;
-                    StartChase(ref playerTransform);
-                    break;
-                case not null when hit.collider.CompareTag("PlayerLight") && 
-                                   NavMesh.SamplePosition(hit.collider.transform.parent.position, out NavMeshHit hitLight, 1f, NavMesh.AllAreas):
-                    
-                     playerTransform = hit.collider.transform.parent;
-                     StartChase(ref playerTransform);
-                    break;
+                SwitchCoroutine(PlayerHasBeenSeen(), ref _cooldownRoutine);
             }
+
+            _lastRayTime = Time.time;
+        }
+
+        if (Time.time - _lastRayTime > 0.1)
+        {
+            _canDetect = false;
+        }
+        else
+        {
+            _canDetect = true;
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent(out Health health))
+        {
+            health.TakeDamage(damage);
+            Destroy(gameObject);
+        }
+    }
+
+    private void SetPlayerHide(ref Transform player)
+    {
+        if (!_playerHide)
+        {
+            _playerHide = player.GetComponent<PlayerHide>();
+        }
+    }
     private void StartChase( ref Transform player)
     {
         _player = player;
-        PlayerHideSetter = _player.GetComponent<PlayerHide>();
-        SwitchCoroutine(ChasePlayer());
-       // StartCoroutine(IncreaseSpeed());
+        SetPlayerHide(ref player);
+        SwitchCoroutine(ChasePlayer()); 
+        StartCoroutine(IncreaseSpeed());
     }
 
 
     private IEnumerator ChasePlayer()
     {
-        _chasingPlayer = true;
+        _lastSeenTime = Time.time;
         _enemyState = EnemyState.Chasing;
-        while (_chasingPlayer)
+        while (_enemyState == EnemyState.Chasing)
         {
            DetectPlayer(); 
-            Vector2 direction = _agent.velocity.normalized;
-            lightSource.transform.up = direction;
-            if (NavMesh.SamplePosition(_player.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+
+           if (Time.time - _lastSeenTime > secondsToStopIfPlayerIsNotSeen)
+           {
+               SwitchCoroutine(MoveAbout());
+               yield break;
+           } 
+           if (NavMesh.SamplePosition(_player.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
             {
                 _agent.SetDestination(hit.position);
             }
@@ -200,12 +279,16 @@ public class Enemy : MonoBehaviour
                 SwitchCoroutine(MoveAbout());
                 yield break;
             }
-            
-            if (_playerHide.IsHidingInProgress() && _playerInRange) _playerHide.StopPlayerHiding();
+
+            if (_playerHide.IsHidingInProgress())
+            {
+                _canDetect = true;
+                DetectPlayer();
+            }
 
             if (_playerHide.IsHidden()) SwitchCoroutine(MoveAbout());
             
-            UpdateFacingDirection(direction);
+            UpdateFacingDirection();
 
             yield return null;
         }
@@ -214,15 +297,18 @@ public class Enemy : MonoBehaviour
     
     
 
-    private void UpdateFacingDirection(Vector2 direction)
+    private void UpdateFacingDirection()
     {
+        Vector2 direction = _agent.velocity.normalized;
+        lightSource.transform.up = Vector2.Lerp(lightSource.transform.up, direction, 5 * Time.deltaTime);
         _spriteRenderer.flipX = !(direction.x > 0);
     }
-    
+
+
 
     private IEnumerator IncreaseSpeed()
     {
-        while (_chasingPlayer && _agent.speed < maxChaseSpeed)
+        while (_enemyState == EnemyState.Chasing && _agent.speed < maxChaseSpeed)
         {
             _currentSpeed += speedIncreasePerSecondWhileChasing * Time.deltaTime;
             _agent.speed = Mathf.Min(_currentSpeed, maxChaseSpeed);
@@ -230,9 +316,62 @@ public class Enemy : MonoBehaviour
         } 
     }
 
-    bool PlayerHideInProgress()
+    private void SwitchCoroutine(IEnumerator newRoutine, ref Coroutine routineToSwap)
     {
-        if (_playerHide) return _playerHide.IsHidingInProgress();
-        return false;
+        if (routineToSwap != null)
+        {
+            StopCoroutine(routineToSwap);
+            routineToSwap = null;
+        }
+        StartCoroutine(newRoutine);
     }
+
+    private IEnumerator PlayerHasBeenSeen()
+    {
+        _canDetect = false;
+        yield return new WaitForSeconds(2f);
+        _canDetect = true;
+        DetectPlayer();
+        if (!_playerSeen)
+        {
+            SwitchCoroutine(MoveAbout());
+        }
+        else
+        {
+            SwitchCoroutine(PlayerHasBeenSeen(),ref _cooldownRoutine);
+        }
+
+    }
+
+    private IEnumerator RayCooldown()
+    {
+        _canDetect = false;
+        yield return new WaitForSeconds(0.1f);
+        _canDetect = true;
+        yield break;
+    }
+
+    public void ToggleLightSource(bool toggle)
+    {
+        if (toggle)
+        {
+            _light.enabled = true;
+
+        }
+        else
+        {
+            _light.enabled = false;
+
+        }
+    }
+    public void EnableLightSource() // Purely visual
+    {
+        _light.enabled = true;
+    }
+
+    public void DisableLightSource()
+    {
+        _light.enabled = false;
+    }
+    
 }

@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObject/EnemySpawner", fileName = "EnemySpawner")]
+[CreateAssetMenu(menuName = "ScriptableObjects/EnemySpawner", fileName = "EnemySpawner")]
 public class EnemySpawner : ScriptableObjectSingleton<EnemySpawner>
 {
     [SerializeField] private Enemy enemyPrefab;
@@ -24,11 +24,7 @@ public class EnemySpawner : ScriptableObjectSingleton<EnemySpawner>
             _movementAreas.Add(area);
         }
         
-        if (_movementAreas.Count <= 0)
-        {
-            Console.WriteLine("zero");
-            return;
-        }
+        if (_movementAreas.Count <= 0) return;
         SpawnEnemies();
     }
 
@@ -41,5 +37,9 @@ public class EnemySpawner : ScriptableObjectSingleton<EnemySpawner>
             enemyClone.Setup(area);
         }
     }
-    
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= FindMovementAreasInScene;
+    }
 }

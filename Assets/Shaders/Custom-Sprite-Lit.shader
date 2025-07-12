@@ -77,7 +77,7 @@
             CBUFFER_START(UnityPerMaterial)
                 half4 _Color;
             CBUFFER_END
-
+            
             #if USE_SHAPE_LIGHT_TYPE_0
             SHAPE_LIGHT(0)
             #endif
@@ -120,20 +120,24 @@
                 half4 mainTex = i.color * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
                 half4 mask = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, i.uv);
 
-                half visionMask = 1.0;
+                half visionMask = 0;
                 #if USE_SHAPE_LIGHT_TYPE_3
-                visionMask = SAMPLE_TEXTURE2D(_ShapeLightTexture3, sampler_ShapeLightTexture3, i.lightingUV).r;
+                visionMask = SAMPLE_TEXTURE2D(_ShapeLightTexture3, sampler_ShapeLightTexture3, i.lightingUV).b;
                 #endif
+                half4 finalColor = mainTex;
                 half tempMask = 0;
-                if (visionMask >= 0.29)
+                if (visionMask <= 0.4 && visionMask >= 0.1)
                 {
-                    tempMask = clamp(visionMask + 0.7, 0,1);
+                    tempMask = 0.4;
+                }
+                else if (visionMask <= 0.1)
+                {
+                    tempMask = 0;
                 }
                 else
                 {
                     tempMask = visionMask;
                 }
-                half4 finalColor = mainTex;
                 finalColor.rgb *= clamp(tempMask, 0, 1);
                 finalColor.a *= clamp(tempMask, 0,1 ); 
 
@@ -186,6 +190,7 @@
             // NOTE: Do not ifdef the properties here as SRP batcher can not handle different layouts.
             CBUFFER_START( UnityPerMaterial )
                 half4 _Color;
+                half _PlayerLightIntensity;
             CBUFFER_END
 
             Varyings NormalsRenderingVertex(Attributes attributes)

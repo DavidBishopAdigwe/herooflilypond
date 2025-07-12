@@ -78,6 +78,9 @@
                 half4 _Color;
             CBUFFER_END
 
+            float player_light_intensity = 0;
+
+
             #if USE_SHAPE_LIGHT_TYPE_0
             SHAPE_LIGHT(0)
             #endif
@@ -125,9 +128,9 @@
                 visionMask = SAMPLE_TEXTURE2D(_ShapeLightTexture2, sampler_ShapeLightTexture2, i.lightingUV).r;
                 #endif
                 half tempMask = 0;
-                if (visionMask >= 0.09)
+                if (visionMask >= player_light_intensity - 0.01)
                 {
-                    tempMask = clamp(visionMask + 0.9, 0,1);
+                    tempMask = clamp(visionMask + 1 - player_light_intensity, 0,1);
                 }
                 else
                 {
@@ -187,6 +190,7 @@
             CBUFFER_START( UnityPerMaterial )
                 half4 _Color;
             CBUFFER_END
+
 
             Varyings NormalsRenderingVertex(Attributes attributes)
             {

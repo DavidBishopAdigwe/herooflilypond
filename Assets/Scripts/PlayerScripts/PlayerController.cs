@@ -2,17 +2,18 @@ using System.Numerics;
 using Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Vector2 = UnityEngine.Vector2;
 
 
 public class PlayerController : MonoBehaviour
 {
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
-
     
-    [SerializeField] private float maxMovementSpeed;
+    [SerializeField] private float baseMovementSpeed;
     [SerializeField] private int playerLayer;
     [SerializeField] private GameObject[] unflipableObjects;
+    
     
     private Rigidbody2D _rb; 
     private Animator _animator;
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
         _rb           = GetComponent<Rigidbody2D>();
         _animator     = GetComponent<Animator>();
         _playerDrag   = GetComponent<PlayerDrag>();
-        _currentSpeed = maxMovementSpeed;
+        _currentSpeed = baseMovementSpeed;
     }
     private void Start()
     {
@@ -78,7 +79,8 @@ public class PlayerController : MonoBehaviour
 
     public void ResetMovementSpeed()
     {
-        _currentSpeed = maxMovementSpeed;
+        _rb.linearVelocity = Vector2.zero;
+        _currentSpeed = baseMovementSpeed;
     }
 
     public void UnsubscribeInputs()

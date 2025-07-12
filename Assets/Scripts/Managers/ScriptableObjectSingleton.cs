@@ -1,8 +1,12 @@
 using System;
 using UnityEngine;
 
-// Base class for all singletons that are also scriptable objects
-public class ScriptableObjectSingleton<T> : ScriptableObject where T: ScriptableObject
+/// <summary>
+/// Base class for all scriptable objects which are also singletons
+/// </summary>
+/// <typeparam name="T"></typeparam>
+
+public class ScriptableObjectSingleton<T> : ScriptableObject where T: ScriptableObject // Might swap to unity's variant? But i think this performs it's purpose
 {
     private static T _instance;
     public static T Instance

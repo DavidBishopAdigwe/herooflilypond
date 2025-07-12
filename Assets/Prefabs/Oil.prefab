@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 369482347
-  m_SortingLayer: 9
+  m_SortingLayerID: -754398583
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 8885839255511970297, guid: 6edcf081ca244874599ba6d4fbc2c182,
     type: 3}
@@ -117,8 +117,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.09, y: 0.13, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8383438337816003305}
   m_Father: {fileID: 0}
@@ -164,8 +164,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 165762677
-  m_SortingLayer: 8
+  m_SortingLayerID: 2117537521
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: -5328104982336953044, guid: 6958a855020e8334aab7d55b24a59e5d,
     type: 3}
@@ -239,4 +239,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Oil
   interactionUI: {fileID: 4468270587024321858}
+  hideableMaterial: {fileID: 2100000, guid: 31b8bcf5aed71024dad70bee5c308192, type: 2}
+  hideable: 0
   oil: 15

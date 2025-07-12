@@ -42,14 +42,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ColorResponse: 1.2
     - _EnableExternalAlpha: 0
     - _Glossiness: 0.5
+    - _IntensityResponse: 2
+    - _LightBoostFactor: 1.8
     - _Metallic: 0
+    - _MinVisibility: 0.017
     - _PlayerLightRadius: 2.5
     - _UseSceneLighting: 1
+    - _VisionMaskBoost: 1.5
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorCompensation: {r: 1, g: 1, b: 1, a: 1}
     - _PlayerLightPos: {r: 0, g: 0, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

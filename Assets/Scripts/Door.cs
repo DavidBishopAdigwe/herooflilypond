@@ -10,10 +10,9 @@ public class Door: MonoBehaviour
     {
         [SerializeField] private BoxPlate[] padsToOpen;
         [SerializeField, Multiline]  string messageOnLocked;
-        [SerializeField, Multiline] private string messageOnUnlocked;
-        [SerializeField] private GameObject roomMidPoint;
-        [SerializeField, Tooltip("Only for door connected to rooms")] private DoorEntrance doorEntrance = DoorEntrance.NotConnectedToRoom;
-        [SerializeField] private Transform cameraPoint;
+        [SerializeField, Multiline] private string messageOnUnlocked; 
+        [SerializeField, Tooltip("Mainly for door connected to rooms")] private DoorEntrance doorEntrance = DoorEntrance.NotConnectedToRoom;
+        [SerializeField, Range(0, 10)] private float distanceToMoveCameraIntoRoom;
 
         private SpriteRenderer _spriteRenderer;
         private Collider2D _collider2D;
@@ -70,26 +69,26 @@ public class Door: MonoBehaviour
                 {
                     case DoorEntrance.Up:
                         _playerInside = direction.y > 0;
-                        OffsetCamera(ref _playerInside, ref cameraComposer, 0.3f, false);
+                        OffsetCamera(_playerInside, ref cameraComposer, distanceToMoveCameraIntoRoom, false);
                         break;
                     case DoorEntrance.Left:
                         _playerInside = direction.x < 0;
-                        OffsetCamera(ref _playerInside, ref cameraComposer, 0.3f, true);
+                        OffsetCamera(_playerInside, ref cameraComposer, distanceToMoveCameraIntoRoom, true);
                         break;
                     case DoorEntrance.Down:
                         _playerInside = direction.y < 0;
-                        OffsetCamera(ref _playerInside, ref cameraComposer, -0.3f, false);
+                        OffsetCamera(_playerInside, ref cameraComposer, -distanceToMoveCameraIntoRoom, false);
                         break;
                     case DoorEntrance.Right:
                         _playerInside = direction.x > 0;
-                        OffsetCamera(ref _playerInside, ref cameraComposer, -0.3f, true);
+                        OffsetCamera(_playerInside, ref cameraComposer, -distanceToMoveCameraIntoRoom, true);
                         break;
                 }
                 
             }
         }
 
-        private void OffsetCamera(ref bool playerInside, ref CinemachinePositionComposer cameraComposer,  float offsetAmount, bool entranceOnXAxis)
+        private void OffsetCamera( bool playerInside, ref CinemachinePositionComposer cameraComposer,  float offsetAmount, bool entranceOnXAxis)
         {
             if (entranceOnXAxis)
             {
