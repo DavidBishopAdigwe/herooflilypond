@@ -9,11 +9,15 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 public class LightSource : MonoBehaviour, IDataPersistence
 {
-
+    
+    [SerializeField] private Light2D whiteLight;
+    [SerializeField] private Sprite lampSprite;
+    [SerializeField] private Image lightUIImage;
     [Header("Base Settings")] 
     [SerializeField] private float baseDuration;
     [SerializeField] private float baseIntensity;
@@ -25,9 +29,14 @@ public class LightSource : MonoBehaviour, IDataPersistence
     [SerializeField] private float minRadius;
     [SerializeField] private float minInnerRadius;
     [SerializeField] private int secondsToMaxRefill;
-    [FormerlySerializedAs("_whiteLight")] [SerializeField] private Light2D whiteLight;
+
+    [Header("UI Objects")] 
+    [SerializeField] private Image lampFuelRenderer;
+    [SerializeField] private Sprite[] lampFuelFrames;
+    [SerializeField] private Sprite[] lampIconFrames;
     
-    private static readonly int PlayerLightIntensity = Shader.PropertyToID("_PlayerLightIntensity");
+    
+    
     private CircleCollider2D _lightCollider;
     private Light2D _light;
     private float _timeRemaining;
@@ -38,6 +47,7 @@ public class LightSource : MonoBehaviour, IDataPersistence
     private bool _refilling;
     private float _baseColliderRadius;
     private float _minColliderRadius;
+    private float _lightProgress;
     private const int LightToColliderRadiusMultiplier = 3; // Collider radius values scale to 3x of Light2D outer radius values.
 
 
@@ -87,7 +97,8 @@ public class LightSource : MonoBehaviour, IDataPersistence
             _light.pointLightInnerRadius = Mathf.Max(minInnerRadius, _light.pointLightInnerRadius - innerRadius * Time.deltaTime);
             SetWhiteLight();
             _timeRemaining               = Mathf.Max(0, _timeRemaining - Time.deltaTime);
-
+            
+            SetLampProgressSprites();
             if (_timeRemaining <= 0)
             {
                 DisableLight();
@@ -96,7 +107,14 @@ public class LightSource : MonoBehaviour, IDataPersistence
         }
         
     }
-    
+
+    private void SetLampProgressSprites()
+    {
+        _lightProgress = 1 - (_timeRemaining / baseDuration);
+        var fuelIndex = Mathf.FloorToInt(_lightProgress * (lampFuelFrames.Length - 1));
+        fuelIndex = Mathf.Clamp(fuelIndex, 0, lampFuelFrames.Length - 1);
+        lampFuelRenderer.sprite = lampFuelFrames[fuelIndex];
+    }
 
     private void EnableLight()
     {
@@ -107,15 +125,6 @@ public class LightSource : MonoBehaviour, IDataPersistence
         _light.enabled = true;
         whiteLight.enabled = true;
         SwitchCoroutine(DecrementLight());
-    }
-
-    private void ResetCoroutine(IEnumerator routine)
-    {
-        if (_currentRoutine != null)
-        {
-            StopCoroutine(_currentRoutine);
-        }
-        _currentRoutine = StartCoroutine(routine);
     }
 
     public void DisableLight()
@@ -137,6 +146,7 @@ public class LightSource : MonoBehaviour, IDataPersistence
         _lightCollider.radius = _baseColliderRadius;
         _light.pointLightInnerRadius = baseInnerRadius;
         _light.pointLightOuterRadius = baseRadius;
+        SetLampProgressSprites();
         DisableLight();
 
     }
@@ -192,6 +202,7 @@ public class LightSource : MonoBehaviour, IDataPersistence
             _light.pointLightInnerRadius = Mathf.MoveTowards(_light.pointLightInnerRadius, innerRad, Time.deltaTime);
             _lightCollider.radius = Mathf.MoveTowards(_lightCollider.radius, colliderRadius, Time.deltaTime); 
             _timeRemaining              += clampedTime * (Time.deltaTime) ;
+            SetLampProgressSprites();
             if (_timeRemaining >= clampedTime)
             {
                 _timeRemaining = clampedTime;
@@ -228,7 +239,6 @@ public class LightSource : MonoBehaviour, IDataPersistence
     public void PickedUpLamp()
     {
         ResetLight();
-        DisableLight();
     }
 
     public void LoadData(GameData data)

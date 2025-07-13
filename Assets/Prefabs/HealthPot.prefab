@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 369482347
-  m_SortingLayer: 7
+  m_SortingLayerID: -754398583
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 8885839255511970297, guid: 6edcf081ca244874599ba6d4fbc2c182,
     type: 3}
@@ -164,8 +164,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -44025399
-  m_SortingLayer: 3
+  m_SortingLayerID: 2117537521
+  m_SortingLayer: 7
   m_SortingOrder: 1
   m_Sprite: {fileID: 2696053523697678261, guid: 5df33697a5e6b6843bbdd2ba2774f268,
     type: 3}
@@ -193,6 +193,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: HealthPotion
   interactionUI: {fileID: 2095875565531993860}
+  hideableMaterial: {fileID: 0}
+  hideable: 0
   hpToAdd: 1
 --- !u!61 &1914419054857980384
 BoxCollider2D:

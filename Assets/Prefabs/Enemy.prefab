@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 0000000003819490a1522e99c93960fd2b7298e1b391b5f9f71745e46bda0516150d65656b635f867556e109e9cd41b4
+  m_ApplyToSortingLayers: 0000000003819490c93960fdb391b5f96bda0516150d65657556e109e9cd41b4f10e377e
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -164,7 +164,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 165762677
-  m_SortingLayer: 7
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: -6367560908665664636, guid: 40de9a8703e2e5a47882b0b86451c741,
     type: 3}
@@ -202,7 +202,7 @@ MonoBehaviour:
   maxChaseSpeed: 3.5
   speedIncreasePerSecondWhileChasing: 0.5
   secondsToStopIfPlayerIsNotSeen: 2
-  damage: 0
+  damage: 1
 --- !u!195 &7927375311842782566
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 0000000003819490a1522e99c93960fd2b7298e1b391b5f9f71745e46bda0516150d65656b635f867556e109e9cd41b4
+  m_ApplyToSortingLayers: 0000000003819490c93960fdb391b5f96bda0516150d65657556e109e9cd41b4f10e377e
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0

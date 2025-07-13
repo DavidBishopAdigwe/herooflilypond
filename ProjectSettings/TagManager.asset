@@ -13,6 +13,7 @@ TagManager:
   - Key
   - Rope
   - Wall
+  - Hidable
   layers:
   - Default
   - TransparentFX
@@ -68,17 +69,20 @@ TagManager:
   - name: Walls
     uniqueID: 2254398315
     locked: 0
-  - name: Enemy
-    uniqueID: 165762677
-    locked: 0
-  - name: Player
-    uniqueID: 3024211433
-    locked: 0
   - name: Items
     uniqueID: 2117537521
     locked: 0
   - name: ItemsUI
     uniqueID: 3540568713
+    locked: 0
+  - name: Player
+    uniqueID: 3024211433
+    locked: 0
+  - name: Enemy
+    uniqueID: 165762677
+    locked: 0
+  - name: Door
+    uniqueID: 2217867899
     locked: 0
   m_RenderingLayers:
   - Default

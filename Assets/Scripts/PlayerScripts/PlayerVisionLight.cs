@@ -24,11 +24,11 @@ public class PlayerVisionLight : MonoBehaviour
 
         if (hit.collider == null)
         {
-            enemy.EnableLightSource();
+            enemy.ToggleLightSource(true);
         }
         else
         {
-            enemy.DisableLightSource();
+            enemy.ToggleLightSource(false);
         }
     }
 
@@ -52,7 +52,7 @@ public class PlayerVisionLight : MonoBehaviour
     {
         if (other.CompareTag("Enemy") && other.TryGetComponent(out Enemy enemy))
         {
-            enemy.DisableLightSource();
+            enemy.ToggleLightSource(false);
         }
     }
 }

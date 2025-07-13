@@ -43,13 +43,13 @@ public class Enemy : MonoBehaviour
     private Transform _currentPoint;
     private readonly RaycastHit2D[] _hitBuffer = new RaycastHit2D[25]; // doubt it's possible to even hit 10 but just incase
     private readonly List<Transform> _movementPoints = new();
-    private Light2D _light;
+    private Light2D[] _visionLights;
     private bool _canDetect = true;
     private Coroutine _cooldownRoutine;
     private bool _playerSeen;
     private float _lastSeenTime;
     private float _pathCheckTimer;
-    private float _lastRayTime;r
+    private float _lastRayTime;
     private const float PathCheckInterval = 0.5f;
 
 
@@ -65,13 +65,13 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _currentSpeed = normalSpeed;
-        _light = lightSource.GetComponent<Light2D>();
+        _visionLights = GetComponentsInChildren<Light2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
     {
-        DisableLightSource();
+        ToggleLightSource(false);
     }
 
     public void Setup(MovementArea area)
@@ -155,7 +155,7 @@ public class Enemy : MonoBehaviour
         }
         
         if (_enemyState ==  EnemyState.Chasing && !_playerHide.IsHidingInProgress()) return;
-
+        SwitchCoroutine(RayCooldown(), ref _cooldownRoutine);
         _playerSeen = false;
         Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = _agent.velocity.normalized;
@@ -163,8 +163,8 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < numberOfRays; i++)
         {
 
-            float raySeparation        = coneAngle / (numberOfRays - 1);
-            float overallOffset        = -coneAngle / 2 + i * raySeparation; 
+            float raySeparation = coneAngle / (numberOfRays - 1);
+            float overallOffset = -coneAngle / 2 + i * raySeparation;
             Vector2 spreadDirection = Quaternion.Euler(0, 0, overallOffset) * rayDirection;
 
             ContactFilter2D contactFilter = new ContactFilter2D
@@ -173,62 +173,39 @@ public class Enemy : MonoBehaviour
                 layerMask = visionLayers,
                 useTriggers = true
             };
-            var hitCount           = Physics2D.Raycast(rayOrigin, spreadDirection, contactFilter, _hitBuffer, rayLength);
+            var hitCount = Physics2D.Raycast(rayOrigin, spreadDirection, contactFilter, _hitBuffer, rayLength);
             Debug.DrawRay(rayOrigin, spreadDirection * rayLength, Color.red); // TODO: Take ts out
 
             for (int j = 0; j < hitCount; j++)
             {
 
                 var hit = _hitBuffer[j];
-                
+
                 if (hit.collider.CompareTag("Wall")) break;
 
                 if (_playerHide && _playerHide.IsHidingInProgress()
-                                   && hit.collider.CompareTag("Player"))
+                                && hit.collider.CompareTag("Player"))
                 {
                     _playerSeen = true;
                     _playerHide.StopPlayerHiding();
                     break;
                 }
-                
-                Transform playerTransform;
-                switch (hit.collider)
-                {
-                    case not null when hit.collider.CompareTag("Player") && 
-                                       NavMesh.SamplePosition(hit.collider.transform.position, out NavMeshHit hitPlayerMesh, 1f, NavMesh.AllAreas):
-                        
-                        _playerSeen     = true;
-                        _lastSeenTime = Time.time;
-                        playerTransform = hit.collider.transform;
-                        StartChase(ref playerTransform); 
 
-                        return;
-                    case not null when hit.collider.CompareTag("PlayerLight") && 
-                                       NavMesh.SamplePosition(hit.collider.transform.parent.position, out NavMeshHit hitLight, 1f, NavMesh.AllAreas):
-                        
-                        _playerSeen     = true;
-                        _lastSeenTime = Time.time;
-                        playerTransform = hit.collider.transform.parent;
+                if (hit.collider.CompareTag("Player") || hit.collider.CompareTag("PlayerLight"))
+                {
+                    _playerSeen = true;
+                    _lastSeenTime = Time.time;
+
+                    Transform playerTransform = hit.collider.CompareTag("Player") ? hit.collider.transform : hit.collider.transform.parent;
+                    
+                    if (_enemyState != EnemyState.Chasing)
+                    {
                         StartChase(ref playerTransform);
-                        return;
+                    }
+
+                    return;
                 }
             }
-
-            if (_enemyState == EnemyState.Chasing && !_playerHide.IsHidingInProgress())
-            {
-                SwitchCoroutine(PlayerHasBeenSeen(), ref _cooldownRoutine);
-            }
-
-            _lastRayTime = Time.time;
-        }
-
-        if (Time.time - _lastRayTime > 0.1)
-        {
-            _canDetect = false;
-        }
-        else
-        {
-            _canDetect = true;
         }
     }
 
@@ -326,22 +303,6 @@ public class Enemy : MonoBehaviour
         StartCoroutine(newRoutine);
     }
 
-    private IEnumerator PlayerHasBeenSeen()
-    {
-        _canDetect = false;
-        yield return new WaitForSeconds(2f);
-        _canDetect = true;
-        DetectPlayer();
-        if (!_playerSeen)
-        {
-            SwitchCoroutine(MoveAbout());
-        }
-        else
-        {
-            SwitchCoroutine(PlayerHasBeenSeen(),ref _cooldownRoutine);
-        }
-
-    }
 
     private IEnumerator RayCooldown()
     {
@@ -353,25 +314,12 @@ public class Enemy : MonoBehaviour
 
     public void ToggleLightSource(bool toggle)
     {
-        if (toggle)
-        {
-            _light.enabled = true;
-
-        }
-        else
-        {
-            _light.enabled = false;
-
-        }
-    }
-    public void EnableLightSource() // Purely visual
-    {
-        _light.enabled = true;
+            foreach (var l in _visionLights)
+            {
+                l.enabled = toggle;
+            }
+            
     }
 
-    public void DisableLightSource()
-    {
-        _light.enabled = false;
-    }
     
 }
