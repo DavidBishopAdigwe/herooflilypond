@@ -4,6 +4,7 @@ using Managers;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 
 public class Door: MonoBehaviour
@@ -14,6 +15,7 @@ public class Door: MonoBehaviour
         [SerializeField, Tooltip("Mainly for door connected to rooms")] private DoorEntrance doorEntrance = DoorEntrance.NotConnectedToRoom;
         [SerializeField, Range(0, 10)] private float distanceToMoveCameraIntoRoom;
 
+        private ShadowCaster2D _shadowCaster;
         private SpriteRenderer _spriteRenderer;
         private Collider2D _collider2D;
         private NavMeshObstacle _navMeshObstacle;
@@ -34,6 +36,7 @@ public class Door: MonoBehaviour
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _collider2D = GetComponent<Collider2D>();
             _navMeshObstacle = GetComponent<NavMeshObstacle>();
+            _shadowCaster = GetComponent<ShadowCaster2D>();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -125,6 +128,7 @@ public class Door: MonoBehaviour
             _spriteRenderer.enabled = false;
             _collider2D.isTrigger = true;
             _navMeshObstacle.enabled = false;
+            _shadowCaster.enabled = false;
             _open = true;
             //MessageManager.Instance.ShowMessage(messageOnUnlocked);
         }
