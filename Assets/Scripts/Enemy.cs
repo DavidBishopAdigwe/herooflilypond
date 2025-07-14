@@ -117,31 +117,25 @@ public class Enemy : MonoBehaviour
         if (_index == _numberOfMovementPoints) _index = 0; 
     }
 
-
     private IEnumerator MoveAbout()
     {
         _agent.speed = normalSpeed;
-        NavMeshPath pathToPoint = new NavMeshPath();
         _enemyState = EnemyState.Wandering;
         ChoosePoint();
+        _agent.SetDestination(_currentPoint.position);
+
         while (_enemyState == EnemyState.Wandering)
         {
-            if (Vector3.Distance(_agent.transform.position, _currentPoint.position) < 0.1f) 
+            // only pick a new point once the agent has actually arrived
+            if (!_agent.pathPending 
+                && _agent.remainingDistance <= _agent.stoppingDistance)
             {
                 ChoosePoint();
-            }
-            if (_agent.CalculatePath(_currentPoint.position, pathToPoint) && pathToPoint.status == NavMeshPathStatus.PathComplete)
-            { 
                 _agent.SetDestination(_currentPoint.position);
-                DetectPlayer();
-                        
-                UpdateFacingDirection();
-            }
-            else
-            {
-                ChoosePoint();
             }
 
+            DetectPlayer();
+            UpdateFacingDirection();
             yield return null;
         }
     }
@@ -213,8 +207,10 @@ public class Enemy : MonoBehaviour
     {
         if (other.TryGetComponent(out Health health))
         {
+            _canDetect = false;
             health.TakeDamage(damage);
-            Destroy(gameObject);
+            SwitchCoroutine(MoveAbout());
+            _canDetect = true;
         }
     }
 
@@ -285,10 +281,16 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator IncreaseSpeed()
     {
-        while (_enemyState == EnemyState.Chasing && _agent.speed < maxChaseSpeed)
+        while (_enemyState == EnemyState.Chasing && _agent.speed < maxChaseSpeed - 0.3f)
         {
             _currentSpeed += speedIncreasePerSecondWhileChasing * Time.deltaTime;
-            _agent.speed = Mathf.Min(_currentSpeed, maxChaseSpeed);
+            _agent.speed = Mathf.Min(_currentSpeed, maxChaseSpeed-0.3f);
+            if (_agent.speed >= maxChaseSpeed)
+            {
+                _agent.speed = (maxChaseSpeed - 0.1f);
+                yield return new WaitForSeconds(5f);
+                _agent.speed = maxChaseSpeed + 0.5f;
+            }
             yield return null;
         } 
     }

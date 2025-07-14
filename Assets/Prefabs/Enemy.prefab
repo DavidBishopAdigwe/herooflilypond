@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 0000000003819490c93960fdb391b5f96bda0516150d65657556e109e9cd41b4f10e377e
+  m_ApplyToSortingLayers: 0000000003819490c93960fdb391b5f96bda0516150d65657556e109e9cd41b4f10e377e6546f311
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -164,7 +164,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 165762677
-  m_SortingLayer: 10
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: -6367560908665664636, guid: 40de9a8703e2e5a47882b0b86451c741,
     type: 3}
@@ -196,11 +196,11 @@ MonoBehaviour:
   visionLayers:
     serializedVersion: 2
     m_Bits: 131712
-  rayLength: 1.73
+  rayLength: 1.5
   lightRotationSpeed: 5
   normalSpeed: 2
-  maxChaseSpeed: 3.5
-  speedIncreasePerSecondWhileChasing: 0.5
+  maxChaseSpeed: 2.5
+  speedIncreasePerSecondWhileChasing: 0.175
   secondsToStopIfPlayerIsNotSeen: 2
   damage: 1
 --- !u!195 &7927375311842782566
@@ -224,7 +224,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!95 &3397294537776688030
 Animator:
   serializedVersion: 7
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 0000000003819490c93960fdb391b5f96bda0516150d65657556e109e9cd41b4f10e377e
+  m_ApplyToSortingLayers: 0000000003819490c93960fdb391b5f96bda0516150d65657556e109e9cd41b4f10e377e6546f311
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0

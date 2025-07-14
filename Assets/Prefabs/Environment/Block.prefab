@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6593700843135759964}
   - component: {fileID: 6896128569159452854}
   - component: {fileID: 7152509058955022720}
-  - component: {fileID: 8113729772071822878}
   m_Layer: 17
   m_Name: Block
   m_TagString: Untagged
@@ -167,60 +166,6 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 1977578343348463044}
---- !u!114 &8113729772071822878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977578343348463044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_Priority: 0
-  m_ComponentVersion: 5
-  m_HasRenderer: 0
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: 0000000003819490c93960fdb391b5f96bda0516150d65656b635f86f10e377e89ca08d3e9cd41b47556e1097bfa3184
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  m_ShapePathHash: 0
-  m_InstanceId: 0
-  m_ShadowShape2DComponent: {fileID: 7152509058955022720}
-  m_ShadowShape2DProvider:
-    rid: 1857140321041252451
-  m_ShadowCastingSource: 2
-  m_ShadowMesh:
-    m_Mesh: {fileID: 0}
-    m_LocalBounds:
-      m_Center: {x: 2.3996735, y: -3.827797, z: 0}
-      m_Extent: {x: 0.50401306, y: 0.5438919, z: 0}
-    m_EdgeProcessing: 1
-    m_TrimEdge: 0
-    m_FlipX: 0
-    m_FlipY: 0
-    m_InitialTrim: 0
-  m_CastingOption: 2
-  m_PreviousTrimEdge: 0
-  m_PreviousEdgeProcessing: 1
-  m_PreviousShadowCastingSource: 1
-  m_PreviousShadowShape2DSource: {fileID: 7152509058955022720}
-  references:
-    version: 2
-    RefIds:
-    - rid: 1857140321041252451
-      type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal,
-        asm: Unity.RenderPipelines.Universal.2D.Runtime}
-      data: 
 --- !u!1001 &1238219282521349963
 PrefabInstance:
   m_ObjectHideFlags: 0

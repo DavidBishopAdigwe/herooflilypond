@@ -1,5 +1,6 @@
 
 using System;
+using Interfaces;
 using Managers;
 using PlayerScripts;
 using UnityEngine;
@@ -34,7 +35,11 @@ public class PlayerDrag : MonoBehaviour
 
     private void OnDragKeyClicked(InputAction.CallbackContext obj)
     {
-        if (!_playerItemTracker.PlayerHasRope()) return;
+        if (!_playerItemTracker.PlayerHasRope())
+        {
+            Messages.Instance.DisplayMessage("Locate a rope to drag boxes", 2);
+            return;
+        }
         if (_objectCollider != null && !_attached)
         {
             AttachToObject();
@@ -71,19 +76,23 @@ public class PlayerDrag : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.TryGetComponent(out DraggableObject pushableObject))
+        if (other.gameObject.TryGetComponent(out DraggableObject pushableObject) && other.gameObject.TryGetComponent(out IUIDisplayable ui))
         {
             _objectCollider = other.collider;
+            ui.ShowInteractUI();
         }
     }
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.TryGetComponent(out DraggableObject pushableObject))
+        if (other.gameObject.TryGetComponent(out DraggableObject pushableObject) && other.gameObject.TryGetComponent(out IUIDisplayable ui))
         {
             _objectCollider = null;
+            ui.HideInteractUI();
         }
     }
+    
+    
     
     public bool IsPlayerConnected() => _attached;
     

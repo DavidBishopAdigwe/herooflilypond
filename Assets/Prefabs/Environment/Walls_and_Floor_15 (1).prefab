@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3525222931870598933}
   - component: {fileID: 1354701821388753504}
   - component: {fileID: -2751349583776669368}
-  - component: {fileID: -2323713400433583548}
   m_Layer: 17
   m_Name: Walls_and_Floor_15 (1)
   m_TagString: Untagged
@@ -122,9 +121,9 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_CompositeOperation: 0
+  m_CompositeOperation: 1
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.32216668}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -134,59 +133,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.25391975, y: 0.88281256}
+  m_Size: {x: 0.25391975, y: 0.23847914}
   m_EdgeRadius: 0
---- !u!114 &-2323713400433583548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3314643314669435771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_Priority: 0
-  m_ComponentVersion: 5
-  m_HasRenderer: 0
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: 0000000003819490c93960fdb391b5f96bda0516150d65656b635f86f10e377e89ca08d3e9cd41b47556e1097bfa3184
-  m_ShapePath:
-  - {x: -0.1269598, y: -0.44140625, z: 0}
-  - {x: -0.1269598, y: 0.44140625, z: 0}
-  - {x: 0.1269598, y: 0.44140625, z: 0}
-  - {x: 0.1269598, y: -0.44140625, z: 0}
-  m_ShapePathHash: 0
-  m_InstanceId: 0
-  m_ShadowShape2DComponent: {fileID: -2751349583776669368}
-  m_ShadowShape2DProvider:
-    rid: 1857140321041252436
-  m_ShadowCastingSource: 2
-  m_ShadowMesh:
-    m_Mesh: {fileID: 0}
-    m_LocalBounds:
-      m_Center: {x: 0.0023040771, y: 0.0008468628, z: 0}
-      m_Extent: {x: 0.119400024, y: 0.43279266, z: 0}
-    m_EdgeProcessing: 1
-    m_TrimEdge: 0.01
-    m_FlipX: 0
-    m_FlipY: 0
-    m_InitialTrim: 0.01
-  m_CastingOption: 2
-  m_PreviousTrimEdge: 0
-  m_PreviousEdgeProcessing: -1
-  m_PreviousShadowCastingSource: -1
-  m_PreviousShadowShape2DSource: {fileID: 0}
-  references:
-    version: 2
-    RefIds:
-    - rid: 1857140321041252436
-      type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal,
-        asm: Unity.RenderPipelines.Universal.2D.Runtime}
-      data: 

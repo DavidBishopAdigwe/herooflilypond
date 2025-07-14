@@ -1,5 +1,6 @@
 using System.Numerics;
 using Managers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float baseMovementSpeed;
     [SerializeField] private int playerLayer;
     [SerializeField] private GameObject[] unflipableObjects;
-    
+    [SerializeField] public static TMP_Text messageObject;
     
     private Rigidbody2D _rb; 
     private Animator _animator;

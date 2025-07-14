@@ -29,13 +29,27 @@ namespace Managers
 
         public void GameOver()
         {
+            Messages.Instance.DisplayMessage("GAME OVER", 1);
+            Invoke("ReloadScene", 1);
+        }
+
+        private void ReloadScene()
+        {
             SceneManager.LoadScene(0);
+            Invoke("MM", 0.3f);
+        }
+
+        private void MM()
+        {
+            UIScreenManager.Instance.MainMenuButton();
+
         }
 
         public void WinGame()
         {
-            MessageManager.Instance.ShowMessage("CONGRATS");
-           // Invoke("StartGame", timeToEndGame);
+            MessageManager.Instance.ShowMessage("CONGRATS, You Win");
+            Invoke("ReloadScene", 1.5f);
+
         }
 
         public void LoadNewScene(int index)
@@ -49,11 +63,7 @@ namespace Managers
             SceneManager.LoadScene(sceneName);
             _enemiesInScene.Clear();
         }
-
-        public void AddEnemy(Enemy enemy)
-        {
-            _enemiesInScene.Add(enemy);
-        }
+        
 
         private void OnApplicationQuit()
         {

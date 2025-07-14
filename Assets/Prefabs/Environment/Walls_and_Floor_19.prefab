@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1910272616060655552}
   - component: {fileID: 5122721070996053449}
   - component: {fileID: 8456656308798844154}
-  - component: {fileID: -169429320259015038}
   m_Layer: 17
   m_Name: Walls_and_Floor_19
   m_TagString: Untagged
@@ -76,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2117537521
-  m_SortingLayer: 8
+  m_SortingLayer: 7
   m_SortingOrder: 4
   m_Sprite: {fileID: 3924766662085200988, guid: e0a8c7a30b9d91240b22e09b40a3d05c,
     type: 3}
@@ -122,7 +121,7 @@ PolygonCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_CompositeOperation: 0
+  m_CompositeOperation: 1
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -143,57 +142,3 @@ PolygonCollider2D:
       - {x: -0.25177577, y: 0.54973584}
       - {x: -0.25177577, y: -0.54208857}
   m_UseDelaunayMesh: 0
---- !u!114 &-169429320259015038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8700931946980358805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_Priority: 0
-  m_ComponentVersion: 5
-  m_HasRenderer: 0
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: 0000000003819490c93960fdb391b5f96bda0516150d65656b635f86f10e377e89ca08d3e9cd41b47556e1097bfa3184
-  m_ShapePath:
-  - {x: -0.25196648, y: -0.5419922, z: 0}
-  - {x: -0.25196648, y: 0.5419922, z: 0}
-  - {x: 0.2519665, y: 0.5419922, z: 0}
-  - {x: 0.2519665, y: -0.5419922, z: 0}
-  m_ShapePathHash: 0
-  m_InstanceId: 0
-  m_ShadowShape2DComponent: {fileID: 5122721070996053449}
-  m_ShadowShape2DProvider:
-    rid: 1857140321041252438
-  m_ShadowCastingSource: 2
-  m_ShadowMesh:
-    m_Mesh: {fileID: 0}
-    m_LocalBounds:
-      m_Center: {x: 0.0009613037, y: 0.0038223267, z: 0}
-      m_Extent: {x: 0.23272705, y: 0.5259018, z: 0}
-    m_EdgeProcessing: 1
-    m_TrimEdge: 0.02
-    m_FlipX: 0
-    m_FlipY: 0
-    m_InitialTrim: 0.02
-  m_CastingOption: 2
-  m_PreviousTrimEdge: 0
-  m_PreviousEdgeProcessing: -1
-  m_PreviousShadowCastingSource: -1
-  m_PreviousShadowShape2DSource: {fileID: 0}
-  references:
-    version: 2
-    RefIds:
-    - rid: 1857140321041252438
-      type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal,
-        asm: Unity.RenderPipelines.Universal.2D.Runtime}
-      data: 

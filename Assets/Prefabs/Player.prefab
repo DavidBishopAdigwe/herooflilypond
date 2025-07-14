@@ -552,6 +552,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a281196f2424a39b9790dcb33a7c62f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whiteLight: {fileID: 0}
+  lampSprite: {fileID: 0}
+  lightUIImage: {fileID: 0}
   baseDuration: 30
   baseIntensity: 1
   baseRadius: 0.7
@@ -560,7 +563,9 @@ MonoBehaviour:
   minRadius: 0.2
   minInnerRadius: 0.15
   secondsToMaxRefill: 3
-  _whiteLight: {fileID: 0}
+  lampFuelRenderer: {fileID: 0}
+  lampFuelFrames: []
+  lampIconFrames: []
 --- !u!1 &8279181138107738943
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,7 +738,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1270755863
-  m_SortingLayer: 8
+  m_SortingLayer: 7
   m_SortingOrder: 3
   m_Sprite: {fileID: -6367560908665664636, guid: cd947491a13509945aa1b644f9db3ef2,
     type: 3}
@@ -873,7 +878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ff12c1c39595748a9bc0000144ce70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMovementSpeed: 0
+  baseMovementSpeed: 3
   playerLayer: 9
   unflipableObjects:
   - {fileID: 2073661215260796536}

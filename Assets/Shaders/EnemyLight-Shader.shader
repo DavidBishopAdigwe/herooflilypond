@@ -123,14 +123,14 @@
                 half4 mainTex = i.color * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
                 half4 mask = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, i.uv);
 
-                half visionMask = 1.0;
+                half visionMask = 0;
                 #if USE_SHAPE_LIGHT_TYPE_2
                 visionMask = SAMPLE_TEXTURE2D(_ShapeLightTexture2, sampler_ShapeLightTexture2, i.lightingUV).r;
                 #endif
                 half tempMask = 0;
-                if (visionMask >= player_light_intensity - 0.01)
+                if (visionMask >= 0.1 - 0.01)
                 {
-                    tempMask = clamp(visionMask + 1 - player_light_intensity, 0,1);
+                    tempMask = clamp(visionMask + (1 - 0.1), 0,1);
                 }
                 else
                 {

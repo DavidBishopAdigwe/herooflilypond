@@ -33,7 +33,7 @@ namespace PickableItems
         
         public virtual void Pickup()
         {
-            MessageManager.Instance.ShowMessage("Picked up " + objectName);
+            Messages.Instance.DisplayMessage($"Picked up: {objectName}", 1);
             Destroy(gameObject);
         }
 

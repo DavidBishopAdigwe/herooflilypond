@@ -34,7 +34,7 @@ TagManager:
   - Ground
   - Wall
   - CameraBounds
-  - 
+  - PassaableWall
   - Layer 1
   - Layer 2
   - Layer 3
@@ -66,14 +66,11 @@ TagManager:
   - name: Ground
     uniqueID: 1701121301
     locked: 0
-  - name: Walls
-    uniqueID: 2254398315
+  - name: Additives
+    uniqueID: 2650030097
     locked: 0
-  - name: Items
-    uniqueID: 2117537521
-    locked: 0
-  - name: ItemsUI
-    uniqueID: 3540568713
+  - name: ITEM
+    uniqueID: 301155941
     locked: 0
   - name: Player
     uniqueID: 3024211433
@@ -81,8 +78,29 @@ TagManager:
   - name: Enemy
     uniqueID: 165762677
     locked: 0
+  - name: DoorBbB
+    uniqueID: 624986859
+    locked: 0
+  - name: Walls
+    uniqueID: 2254398315
+    locked: 0
+  - name: Items
+    uniqueID: 2117537521
+    locked: 0
+  - name: Pillar
+    uniqueID: 808982645
+    locked: 0
+  - name: ItemsUI
+    uniqueID: 3540568713
+    locked: 0
+  - name: WallOverlay
+    uniqueID: 248937507
+    locked: 0
   - name: Door
     uniqueID: 2217867899
+    locked: 0
+  - name: Map
+    uniqueID: 3030910735
     locked: 0
   m_RenderingLayers:
   - Default
