@@ -1,32 +1,49 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BoxPlate : MonoBehaviour
 {
-    private float _edgeColliders;
-    private bool _occupied;
     [SerializeField] private Door connectedObject;
-
-    public void BoxEnterEdge()
+    
+    private Collider2D _currentBox;
+    public bool _occupied;
+    private Collider2D _collider;
+    private void Awake()
     {
-        _edgeColliders++;
-        CheckOccupationState();
-    }
-
-    public void BoxExitEdge()
-    {
-        _edgeColliders--;
-        CheckOccupationState();
+        _collider = GetComponent<Collider2D>();
     }
     
-    private void CheckOccupationState()
+
+    private void OnTriggerStay2D(Collider2D other)
     {
-        _occupied = _edgeColliders >= 4;
-        connectedObject.CheckBoxPads();
+        if (!other.CompareTag("DraggableBox")) return;
         
+        _currentBox = other;
+        
+        var plateBounds = _collider.bounds;
+        var boxBounds = other.bounds;
+
+        bool boxOverlap = 
+            (boxBounds.min.x >= plateBounds.min.x && boxBounds.max.x <= plateBounds.max.x &&
+             boxBounds.min.y >= plateBounds.min.y && boxBounds.max.y <= plateBounds.max.y) ||
+            (plateBounds.min.x >= boxBounds.min.x && plateBounds.max.x <= boxBounds.max.x &&
+             plateBounds.min.y >= boxBounds.min.y && plateBounds.max.y <= boxBounds.max.y);
+
+        if (boxOverlap != _occupied)
+        {
+            _occupied = boxOverlap;
+            connectedObject.CheckBoxPads();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other == _currentBox)
+        {
+            _occupied = false;
+            _currentBox = null;
+            connectedObject.CheckBoxPads();
+        }
     }
 
     public bool IsPlateOccupied() => _occupied;
-
 }

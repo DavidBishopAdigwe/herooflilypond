@@ -66,11 +66,11 @@ TagManager:
   - name: Ground
     uniqueID: 1701121301
     locked: 0
-  - name: Additives
+  - name: GroundAdditions
     uniqueID: 2650030097
     locked: 0
-  - name: ITEM
-    uniqueID: 301155941
+  - name: SideDoorBack
+    uniqueID: 3600129133
     locked: 0
   - name: Player
     uniqueID: 3024211433
@@ -78,26 +78,26 @@ TagManager:
   - name: Enemy
     uniqueID: 165762677
     locked: 0
-  - name: DoorBbB
-    uniqueID: 624986859
+  - name: Item
+    uniqueID: 2117537521
+    locked: 0
+  - name: SideDoorFront
+    uniqueID: 1139490805
     locked: 0
   - name: Walls
     uniqueID: 2254398315
     locked: 0
-  - name: Items
-    uniqueID: 2117537521
+  - name: TopOfWall
+    uniqueID: 3659561709
     locked: 0
-  - name: Pillar
+  - name: WallAdditions
+    uniqueID: 4056328005
+    locked: 0
+  - name: Door
     uniqueID: 808982645
     locked: 0
   - name: ItemsUI
     uniqueID: 3540568713
-    locked: 0
-  - name: WallOverlay
-    uniqueID: 248937507
-    locked: 0
-  - name: Door
-    uniqueID: 2217867899
     locked: 0
   - name: Map
     uniqueID: 3030910735

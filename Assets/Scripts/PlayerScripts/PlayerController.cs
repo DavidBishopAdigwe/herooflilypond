@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float baseMovementSpeed;
     [SerializeField] private int playerLayer;
     [SerializeField] private GameObject[] unflipableObjects;
-    [SerializeField] public static TMP_Text messageObject;
     
     private Rigidbody2D _rb; 
     private Animator _animator;
@@ -34,8 +33,8 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
-        _playerMoveActions = InputManager.Instance.GetMoveAction();
-        SubscribeInputs();
+        InputReader.Instance.MovePerformed += OnMoveKeysClicked;
+        InputReader.Instance.MoveCanceled += OnMoveKeysReleased;
     }
     
     
@@ -86,11 +85,14 @@ public class PlayerController : MonoBehaviour
 
     public void UnsubscribeInputs()
     {
-        _playerMoveActions.performed -= OnMoveKeysClicked;
+        
+        InputReader.Instance.MovePerformed -= OnMoveKeysClicked;
+        InputReader.Instance.MoveCanceled -= OnMoveKeysReleased;
+        /*_playerMoveActions.performed -= OnMoveKeysClicked;
         StopMovement();
         _playerMoveActions.canceled -= OnMoveKeysReleased;
         
-        _playerMoveActions.Disable();
+        _playerMoveActions.Disable();*/
     }
 
     private void StopMovement()

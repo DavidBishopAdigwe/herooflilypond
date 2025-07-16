@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 
 namespace PlayerScripts
 {
-    public class PlayerHide : MonoBehaviour
+    public class PlayerHide : Interactor
     {
         
         [SerializeField] private float hideCooldown = 1f; 
@@ -19,7 +19,6 @@ namespace PlayerScripts
         [SerializeField] private HideState currentState = HideState.NotHiding;
         
         private PlayerController _playerController;
-        private InputAction _hideAction;
         private SpriteRenderer _spriteRenderer;
         private Collider2D _collider;
     
@@ -37,15 +36,9 @@ namespace PlayerScripts
             _playerController = GetComponent<PlayerController>();
         }
 
-        private void Start()
-        {
-            _hideAction = InputManager.Instance.GetHideAction();
-            _hideAction.Enable();
-            _hideAction.performed += OnHideAction;
-        
-        }
 
-        private void OnHideAction(InputAction.CallbackContext context)
+
+        protected override void Interact()
         {
             if (currentState == HideState.CannotHide || IsHidingInProgress()) return;
             if (_hideCoroutine != null)
@@ -105,6 +98,10 @@ namespace PlayerScripts
             _hideStartPosition    = transform.position;
             _originalSortingLayer = _spriteRenderer.sortingLayerName;
             Physics2D.IgnoreCollision(_collider, _currentHidingSpot, true);
+            if (_currentHidingSpot.TryGetComponent(out HidingSpot hidingSpot))
+            {
+                hidingSpot.HideAnimation();
+            }
         }
 
         private void CompleteHide()
@@ -115,6 +112,11 @@ namespace PlayerScripts
             _spriteRenderer.sortingLayerName = "Hiding";
             currentState                     = HideState.Hidden;
             _hideCoroutine                   = null;
+            
+            if (_currentHidingSpot.TryGetComponent(out HidingSpot hidingSpot))
+            {
+                hidingSpot.HideAnimation();
+            }
         }
 
         private void StartUnhide()
@@ -122,6 +124,10 @@ namespace PlayerScripts
             currentState = HideState.Unhiding;
             _spriteRenderer.enabled = true;
             _collider.enabled = true;
+            if (_currentHidingSpot.TryGetComponent(out HidingSpot hidingSpot))
+            {
+                hidingSpot.HideAnimation();
+            }
         }
 
         private void CompleteUnhide()
@@ -129,6 +135,7 @@ namespace PlayerScripts
             _spriteRenderer.sortingLayerName = _originalSortingLayer;
             Physics2D.IgnoreCollision(_collider, _currentHidingSpot, false);
             transform.position = _hideStartPosition;
+            
             _playerController.SubscribeInputs();
             _currentHidingSpot = null;
             _hideCoroutine = null;
@@ -136,26 +143,18 @@ namespace PlayerScripts
             
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
+        protected override void OnCollisionEnter2D(Collision2D other)
         {
             if (!other.gameObject.CompareTag("HidingSpot")) return;
-            
-            if (other.collider.TryGetComponent(out IUIDisplayable spot))
-            {
-                spot.ShowInteractUI();
-            }
+            base.OnCollisionEnter2D(other);
             _currentHidingSpot = other.collider;
         }
 
-        private void OnCollisionExit2D(Collision2D other)
+        protected override void OnCollisionExit2D(Collision2D other)
         {
             if (!other.gameObject.CompareTag("HidingSpot")) return;
-            
-            if (other.collider.TryGetComponent(out IUIDisplayable spot))
-            {
-                spot.HideInteractUI();
-            }
-            if (currentState is HideState.NotHiding or HideState.CannotHide )
+            base.OnCollisionExit2D(other);
+            if (currentState == HideState.NotHiding || currentState == HideState.CannotHide )
             {
                 _currentHidingSpot = null;
                 
@@ -208,13 +207,8 @@ namespace PlayerScripts
         public bool IsHidden()               => currentState == HideState.Hidden;
 
 
-
-        private void OnDestroy()
-        {
-            _hideAction.performed -= OnHideAction;
-            _hideAction.Disable();
         
-        }
-    
+
+
     }
 }

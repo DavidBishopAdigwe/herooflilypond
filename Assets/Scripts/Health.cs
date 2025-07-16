@@ -18,6 +18,14 @@ public class Health : MonoBehaviour
     private void Awake()
     {
         healthStocks = healthObjects.Length;
+
+        foreach (var hp in healthObjects)
+        {
+            if (hp.TryGetComponent(out HealthObject hpO))
+            {
+                hpO.SetHeartToFull();
+            }
+        }
         CheckPlayerHealth();
     }
 
@@ -68,14 +76,20 @@ public void AddHealth(int hp)
     {
         if (healthStocks >= maxHealthStocks) return;
         healthStocks += hp;
+        for (int i = 0; i < healthObjects.Length; i++)
+        {
+            if (i == healthStocks - 1 && healthObjects[i].TryGetComponent(out HealthObject healthObject))
+            {
+                healthObject.HealedAnimation();
+            }
+        }
         CheckPlayerHealth();
     }
     
     
     private void Die()
     {
-        if (GameManager.Instance) 
-            GameManager.Instance.GameOver();
+        GameManager.Instance.GameOver();
     }
 
     

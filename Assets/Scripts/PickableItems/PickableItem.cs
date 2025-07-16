@@ -3,6 +3,7 @@ using Interfaces;
 using Managers;
 using PlayerScripts;
 using UnityEngine;
+using Enums;
 
 namespace PickableItems
 {
@@ -33,7 +34,7 @@ namespace PickableItems
         
         public virtual void Pickup()
         {
-            Messages.Instance.DisplayMessage($"Picked up: {objectName}", 1);
+            MessageMaster.Instance.ShowMessage($"Picked up: {objectName}", MessageType.Success);
             Destroy(gameObject);
         }
 

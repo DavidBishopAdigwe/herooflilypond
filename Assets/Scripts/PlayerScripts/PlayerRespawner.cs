@@ -7,7 +7,8 @@ public class PlayerRespawner : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private CinemachineCamera playerCam;
     [SerializeField] private CinemachinePositionComposer playerComposer;
-    [SerializeField] private LensSettings _lens;
+    
+    private LensSettings _lens;
 
     private void Awake()
     {

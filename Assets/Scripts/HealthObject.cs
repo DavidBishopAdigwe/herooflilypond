@@ -21,9 +21,19 @@ public class HealthObject: MonoBehaviour
         _animator.SetTrigger("Damaged");
     }
 
+    public void HealedAnimation()
+    {
+        _animator.SetTrigger("Healed");
+    }
+
     public void SetHeartToEmpty()
     {
         _image.sprite = emptySprite;
+    }
+
+    public void SetHeartToFull()
+    {
+        _image.sprite = fullSprite;
     }
 } 
 

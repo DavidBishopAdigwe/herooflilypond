@@ -152,7 +152,7 @@ public class Enemy : MonoBehaviour
         SwitchCoroutine(RayCooldown(), ref _cooldownRoutine);
         _playerSeen = false;
         Vector2 rayOrigin = transform.position;
-        Vector2 rayDirection = _agent.velocity.normalized;
+        Vector2 rayDirection = _agent.desiredVelocity.normalized;
 
         for (int i = 0; i < numberOfRays; i++)
         {
@@ -207,10 +207,8 @@ public class Enemy : MonoBehaviour
     {
         if (other.TryGetComponent(out Health health))
         {
-            _canDetect = false;
             health.TakeDamage(damage);
-            SwitchCoroutine(MoveAbout());
-            _canDetect = true;
+            SwitchCoroutine(StopChasingPlayerCD());
         }
     }
 
@@ -227,6 +225,13 @@ public class Enemy : MonoBehaviour
         SetPlayerHide(ref player);
         SwitchCoroutine(ChasePlayer()); 
         StartCoroutine(IncreaseSpeed());
+    }
+
+    private IEnumerator StopChasingPlayerCD()
+    {
+        gameObject.transform.position = _movementPoints[0].position;
+        yield return new WaitForSeconds(0.5f);
+        SwitchCoroutine(MoveAbout());
     }
 
 
@@ -272,7 +277,7 @@ public class Enemy : MonoBehaviour
 
     private void UpdateFacingDirection()
     {
-        Vector2 direction = _agent.velocity.normalized;
+        Vector2 direction = _agent.desiredVelocity.normalized;
         lightSource.transform.up = Vector2.Lerp(lightSource.transform.up, direction, 5 * Time.deltaTime);
         _spriteRenderer.flipX = !(direction.x > 0);
     }

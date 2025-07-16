@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using Enums;
 using UnityEngine.AI;
 
 namespace Managers
@@ -29,25 +30,24 @@ namespace Managers
 
         public void GameOver()
         {
-            Messages.Instance.DisplayMessage("GAME OVER", 1);
+            MessageMaster.Instance.ShowMessage("GAME OVER", MessageType.Error);
             Invoke("ReloadScene", 1);
         }
 
         private void ReloadScene()
         {
             SceneManager.LoadScene(0);
-            Invoke("MM", 0.3f);
         }
 
         private void MM()
         {
-            UIScreenManager.Instance.MainMenuButton();
+            MenuManager.Instance.MainMenuButton();
 
         }
 
         public void WinGame()
         {
-            MessageManager.Instance.ShowMessage("CONGRATS, You Win");
+            MessageMaster.Instance.ShowMessage("CONGRATS, You Win");
             Invoke("ReloadScene", 1.5f);
 
         }

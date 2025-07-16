@@ -16,7 +16,6 @@ public class LightSource : MonoBehaviour, IDataPersistence
 {
     
     [SerializeField] private Light2D whiteLight;
-    [SerializeField] private Sprite lampSprite;
     [SerializeField] private Image lightUIImage;
     [Header("Base Settings")] 
     [SerializeField] private float baseDuration;
@@ -32,8 +31,9 @@ public class LightSource : MonoBehaviour, IDataPersistence
 
     [Header("UI Objects")] 
     [SerializeField] private Image lampFuelRenderer;
+    [SerializeField] private Image lampIconRenderer;
     [SerializeField] private Sprite[] lampFuelFrames;
-    [SerializeField] private Sprite[] lampIconFrames;
+    [SerializeField] private Sprite lampSprite;
     
     
     
@@ -98,7 +98,7 @@ public class LightSource : MonoBehaviour, IDataPersistence
             SetWhiteLight();
             _timeRemaining               = Mathf.Max(0, _timeRemaining - Time.deltaTime);
             
-            SetLampProgressSprites();
+            SetFuelProgressSprites();
             if (_timeRemaining <= 0)
             {
                 DisableLight();
@@ -108,7 +108,7 @@ public class LightSource : MonoBehaviour, IDataPersistence
         
     }
 
-    private void SetLampProgressSprites()
+    private void SetFuelProgressSprites()
     {
         _lightProgress = 1 - (_timeRemaining / baseDuration);
         var fuelIndex = Mathf.FloorToInt(_lightProgress * (lampFuelFrames.Length - 1));
@@ -146,15 +146,17 @@ public class LightSource : MonoBehaviour, IDataPersistence
         _lightCollider.radius = _baseColliderRadius;
         _light.pointLightInnerRadius = baseInnerRadius;
         _light.pointLightOuterRadius = baseRadius;
-        SetLampProgressSprites();
+        lampIconRenderer.sprite = lampSprite;
+        
+        var spriteColour = lampFuelRenderer.color;
+        spriteColour.a = 1f;
+        lampIconRenderer.color = spriteColour;
+        lampFuelRenderer.color = spriteColour;
+        SetFuelProgressSprites();
         DisableLight();
 
     }
-
-    public bool IsLightOn()
-    {
-        return _lightOn;
-    }
+    
 
     private void SwitchCoroutine(IEnumerator newRoutine)
     {
@@ -202,7 +204,7 @@ public class LightSource : MonoBehaviour, IDataPersistence
             _light.pointLightInnerRadius = Mathf.MoveTowards(_light.pointLightInnerRadius, innerRad, Time.deltaTime);
             _lightCollider.radius = Mathf.MoveTowards(_lightCollider.radius, colliderRadius, Time.deltaTime); 
             _timeRemaining              += clampedTime * (Time.deltaTime) ;
-            SetLampProgressSprites();
+            SetFuelProgressSprites();
             if (_timeRemaining >= clampedTime)
             {
                 _timeRemaining = clampedTime;

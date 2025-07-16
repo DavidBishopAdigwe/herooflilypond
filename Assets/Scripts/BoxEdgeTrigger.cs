@@ -12,7 +12,7 @@ using UnityEngine;
         {
             if (other.CompareTag("DraggableBox"))
             {
-                _plate.BoxEnterEdge();
+               // _plate.BoxEnterEdge();
             }
         }
 
@@ -20,7 +20,7 @@ using UnityEngine;
         {
             if (other.CompareTag("DraggableBox"))
             {
-                _plate.BoxExitEdge();
+                //_plate.BoxExitEdge();
             }
         }
         

@@ -5,8 +5,7 @@ using Managers;
 using PlayerScripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
-
+using Enums;
 public class PlayerDrag : MonoBehaviour
 {
     [SerializeField] private float draggingSpeed;
@@ -17,6 +16,7 @@ public class PlayerDrag : MonoBehaviour
     private PlayerController _playerController;
     private PlayerItemTracker _playerItemTracker;
     private bool _hasRope;
+    private DraggableObject _currentDraggableObject;
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class PlayerDrag : MonoBehaviour
 
     private void Start()
     {
-        _dragAction = InputManager.Instance.GetDragAction();
+        _dragAction = InputManager.Instance.GetInteractAction();
         SubscribeInputs(); 
         DetachFromObject();
     }
@@ -35,9 +35,9 @@ public class PlayerDrag : MonoBehaviour
 
     private void OnDragKeyClicked(InputAction.CallbackContext obj)
     {
-        if (!_playerItemTracker.PlayerHasRope())
+        if (!_playerItemTracker.PlayerHasRope() && _objectCollider != null)
         {
-            Messages.Instance.DisplayMessage("Locate a rope to drag boxes", 2);
+            MessageMaster.Instance.ShowMessage("Locate a rope to drag boxes", MessageType.Error);
             return;
         }
         if (_objectCollider != null && !_attached)
@@ -56,13 +56,23 @@ public class PlayerDrag : MonoBehaviour
         _joint.connectedBody = _objectCollider.GetComponent<Rigidbody2D>();
         _joint.connectedBody.bodyType = RigidbodyType2D.Dynamic;
         _joint.connectedBody.constraints = RigidbodyConstraints2D.None;
+
+        if (_joint.connectedBody.gameObject.TryGetComponent(out DraggableObject draggable))
+        {
+            _currentDraggableObject = draggable;
+            _currentDraggableObject.PlayAttachAnimation();
+
+        }
+        
         _playerController.ChangeMovementSpeed(draggingSpeed);
         _attached = true;
     }
     
     
     public void DetachFromObject()
-    {
+    { 
+        if (_currentDraggableObject) _currentDraggableObject.ResetToIdle();
+        
         _joint.enabled = false;
         _playerController.ResetMovementSpeed();
         _attached = false;
@@ -76,7 +86,7 @@ public class PlayerDrag : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.TryGetComponent(out DraggableObject pushableObject) && other.gameObject.TryGetComponent(out IUIDisplayable ui))
+        if (other.gameObject.TryGetComponent(out DraggableObject draggable) && other.gameObject.TryGetComponent(out IUIDisplayable ui))
         {
             _objectCollider = other.collider;
             ui.ShowInteractUI();
@@ -85,7 +95,7 @@ public class PlayerDrag : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.TryGetComponent(out DraggableObject pushableObject) && other.gameObject.TryGetComponent(out IUIDisplayable ui))
+        if (other.gameObject.CompareTag("DraggableBox") && other.gameObject.TryGetComponent(out IUIDisplayable ui))
         {
             _objectCollider = null;
             ui.HideInteractUI();
