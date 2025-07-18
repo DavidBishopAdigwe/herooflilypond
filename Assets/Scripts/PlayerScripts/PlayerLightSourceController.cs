@@ -13,12 +13,10 @@ namespace PlayerScripts
 
         private void Start()
         {
+            InputReader.Instance.LightPerformed += OnLightKeyClicked;
+            
             _lightSource = GetComponentInChildren<LightSource>();
-
-            _playerLightAction = InputManager.Instance.GetLightAction();
-            _playerLightAction.Enable();
-
-            _playerLightAction.performed += OnLightKeyClicked;
+            
         }
 
         private void OnLightKeyClicked(InputAction.CallbackContext obj)
@@ -28,9 +26,7 @@ namespace PlayerScripts
     
         private void OnDestroy()
         {
-            _playerLightAction.performed -= OnLightKeyClicked;
-      
-            _playerLightAction.Disable();
+            InputReader.Instance.LightPerformed -= OnLightKeyClicked;
         }
     }
 }

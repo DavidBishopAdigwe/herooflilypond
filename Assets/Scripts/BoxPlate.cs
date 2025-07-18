@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BoxPlate : MonoBehaviour
 {
-    [SerializeField] private Door connectedObject;
+    [SerializeField] private Door connectedDoor;
     
     private Collider2D _currentBox;
-    public bool _occupied;
+    private bool _occupied;
     private Collider2D _collider;
     private void Awake()
     {
@@ -22,16 +23,13 @@ public class BoxPlate : MonoBehaviour
         var plateBounds = _collider.bounds;
         var boxBounds = other.bounds;
 
-        bool boxOverlap = 
-            (boxBounds.min.x >= plateBounds.min.x && boxBounds.max.x <= plateBounds.max.x &&
-             boxBounds.min.y >= plateBounds.min.y && boxBounds.max.y <= plateBounds.max.y) ||
-            (plateBounds.min.x >= boxBounds.min.x && plateBounds.max.x <= boxBounds.max.x &&
+        bool boxOverlap = (plateBounds.min.x >= boxBounds.min.x && plateBounds.max.x <= boxBounds.max.x &&
              plateBounds.min.y >= boxBounds.min.y && plateBounds.max.y <= boxBounds.max.y);
 
         if (boxOverlap != _occupied)
         {
             _occupied = boxOverlap;
-            connectedObject.CheckBoxPads();
+            connectedDoor.CheckBoxPads();
         }
     }
 
@@ -41,7 +39,7 @@ public class BoxPlate : MonoBehaviour
         {
             _occupied = false;
             _currentBox = null;
-            connectedObject.CheckBoxPads();
+            connectedDoor.CheckBoxPads();
         }
     }
 

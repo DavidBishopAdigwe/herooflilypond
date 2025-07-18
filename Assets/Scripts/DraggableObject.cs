@@ -1,18 +1,25 @@
 using Interfaces;
 using UnityEngine;
 
-    public class DraggableObject : MonoBehaviour, IUIDisplayable
+    public class DraggableObject : UIDisplayableObject
     {
         
-        [SerializeField] private GameObject interactionUI;
         
-        public void ShowInteractUI()
+        private Animator _animator;
+
+        private void Awake()
         {
-            interactionUI.SetActive(true);
+            _animator = GetComponent<Animator>();
         }
 
-        public void HideInteractUI()
+        public void PlayAttachAnimation()
         {
-            interactionUI.SetActive(false);
+            _animator.SetTrigger("Attach");
         }
+
+        public void ResetToIdle()
+        {
+            _animator.SetTrigger("Detach");
+        }
+        
     }

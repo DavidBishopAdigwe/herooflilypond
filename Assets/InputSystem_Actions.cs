@@ -1478,7 +1478,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <summary>
         /// Provides access to the underlying input action "Player/Pause".
         /// </summary>
-        public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction Back => m_Wrapper.m_Player_Pause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1547,9 +1547,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SwapLight.started += instance.OnSwapLight;
             @SwapLight.performed += instance.OnSwapLight;
             @SwapLight.canceled += instance.OnSwapLight;
-            @Pause.started += instance.OnPause;
-            @Pause.performed += instance.OnPause;
-            @Pause.canceled += instance.OnPause;
+            Back.started += instance.OnBack;
+            Back.performed += instance.OnBack;
+            Back.canceled += instance.OnBack;
         }
 
         /// <summary>
@@ -1603,9 +1603,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SwapLight.started -= instance.OnSwapLight;
             @SwapLight.performed -= instance.OnSwapLight;
             @SwapLight.canceled -= instance.OnSwapLight;
-            @Pause.started -= instance.OnPause;
-            @Pause.performed -= instance.OnPause;
-            @Pause.canceled -= instance.OnPause;
+            Back.started -= instance.OnBack;
+            Back.performed -= instance.OnBack;
+            Back.canceled -= instance.OnBack;
         }
 
         /// <summary>
@@ -2010,7 +2010,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnPause(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

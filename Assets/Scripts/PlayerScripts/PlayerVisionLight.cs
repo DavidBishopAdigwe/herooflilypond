@@ -3,9 +3,11 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerVisionLight : MonoBehaviour
 {
+    [SerializeField] private LayerMask wallMask;
+    
     private static readonly int PlayerLightIntensity = Shader.PropertyToID("player_light_intensity");
-    [SerializeField] private LayerMask wallMask; // LayerMask for walls ONLY
     private Light2D _light;
+    
 
     private void Awake()
     {
@@ -19,9 +21,7 @@ public class PlayerVisionLight : MonoBehaviour
         float distance = direction.magnitude;
         
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, distance, wallMask);
-
-        Debug.DrawRay(transform.position, direction, hit.collider ? Color.red : Color.green);
-
+        
         if (hit.collider == null)
         {
             enemy.ToggleLightSource(true);

@@ -5,10 +5,13 @@ namespace PickableItems
          public class PickableHealthPotion: PickableItem
          { 
              [SerializeField] private int hpToAdd;
+             
 
-             public void AddHp(ref Health hp)
+             public void AddHp(Health hp)
              {
+                 if (hp.IsMax()) return;
                  hp.AddHealth(hpToAdd);
              }
+             
          }
      }

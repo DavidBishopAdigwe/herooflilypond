@@ -1,6 +1,8 @@
+using System;
 using System.Numerics;
 using Managers;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -13,6 +15,8 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private float baseMovementSpeed;
     [SerializeField] private int playerLayer;
+    [SerializeField] private AudioClip movementSound;
+    [SerializeField] private AudioClip draggingMovementSound;
     [SerializeField] private GameObject[] unflipableObjects;
     
     private Rigidbody2D _rb; 
@@ -21,29 +25,52 @@ public class PlayerController : MonoBehaviour
     private Vector2 _inputValue;
     private Vector2 _pickupDirection;
     private PlayerDrag _playerDrag;
+    private AudioSource _audioSource;
     private bool _isMoving;
     private float _currentSpeed;
+    private bool _movedInTutorial;
+
+    public event Action PlayerMoved;
 
     private void Awake()
     {
-        _rb           = GetComponent<Rigidbody2D>();
-        _animator     = GetComponent<Animator>();
-        _playerDrag   = GetComponent<PlayerDrag>();
-        _currentSpeed = baseMovementSpeed;
+        _rb            = GetComponent<Rigidbody2D>();
+        _animator      = GetComponent<Animator>();
+        _playerDrag    = GetComponent<PlayerDrag>();
+        _audioSource = GetComponent<AudioSource>();
+        _currentSpeed  = baseMovementSpeed;
     }
     private void Start()
     {
         InputReader.Instance.MovePerformed += OnMoveKeysClicked;
         InputReader.Instance.MoveCanceled += OnMoveKeysReleased;
+        InputReader.Instance.UnsubscribeMove += UnsubscribeInputs;
+        InputReader.Instance.SubscribeMove += SubscribeInputs;
+
     }
+    
     
     
 
     private void OnMoveKeysClicked(InputAction.CallbackContext obj)
     {
+        PlayerMoved?.Invoke();
         _inputValue = obj.ReadValue<Vector2>();
         _inputValue = Vector2.ClampMagnitude(_inputValue, 1);
         _isMoving   = true;
+        
+        if (_audioSource.isPlaying) _audioSource.Stop();
+        
+        if (!_playerDrag.IsPlayerAttached())
+        {
+            _audioSource.clip = movementSound;
+            _audioSource.Play();
+        }
+        else
+        {
+            _audioSource.clip = draggingMovementSound;
+            _audioSource.Play();
+        }
         _animator.SetBool(IsMoving, true);
         
         if (!Mathf.Approximately(Mathf.Sign(_inputValue.x), Mathf.Sign(transform.right.x)))
@@ -64,7 +91,7 @@ public class PlayerController : MonoBehaviour
     
     private void Flip()
     {
-        if (_playerDrag.IsPlayerConnected()) return;
+        if (_playerDrag.IsPlayerAttached()) return;
         transform.right = -transform.right;
         foreach (GameObject unflipable in unflipableObjects)
         {
@@ -85,18 +112,15 @@ public class PlayerController : MonoBehaviour
 
     public void UnsubscribeInputs()
     {
-        
         InputReader.Instance.MovePerformed -= OnMoveKeysClicked;
         InputReader.Instance.MoveCanceled -= OnMoveKeysReleased;
-        /*_playerMoveActions.performed -= OnMoveKeysClicked;
         StopMovement();
-        _playerMoveActions.canceled -= OnMoveKeysReleased;
-        
-        _playerMoveActions.Disable();*/
     }
 
     private void StopMovement()
     {
+        _audioSource.Stop();
+
         _isMoving = false;
         _animator.SetBool(IsMoving, false);
         _rb.linearVelocity = Vector2.zero;
@@ -104,15 +128,17 @@ public class PlayerController : MonoBehaviour
 
     public void SubscribeInputs()
     {
-        _playerMoveActions.Enable();
-        
-        _playerMoveActions.performed += OnMoveKeysClicked;
-        _playerMoveActions.canceled += OnMoveKeysReleased;
+        InputReader.Instance.MovePerformed += OnMoveKeysClicked;
+        InputReader.Instance.MoveCanceled += OnMoveKeysReleased;
+
     }
+    
 
     private void OnDestroy()
     {
         UnsubscribeInputs();
+        InputReader.Instance.UnsubscribeMove -= UnsubscribeInputs;
+        InputReader.Instance.SubscribeMove -= SubscribeInputs;
     }
 
 

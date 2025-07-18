@@ -34,10 +34,10 @@ TagManager:
   - Ground
   - Wall
   - CameraBounds
-  - PassaableWall
-  - Layer 1
-  - Layer 2
-  - Layer 3
+  - Postprocessing
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -72,13 +72,16 @@ TagManager:
   - name: SideDoorBack
     uniqueID: 3600129133
     locked: 0
+  - name: ItemBelowWall
+    uniqueID: 910660219
+    locked: 0
   - name: Player
     uniqueID: 3024211433
     locked: 0
   - name: Enemy
     uniqueID: 165762677
     locked: 0
-  - name: Item
+  - name: ObjectBelowWall
     uniqueID: 2117537521
     locked: 0
   - name: SideDoorFront
@@ -87,8 +90,17 @@ TagManager:
   - name: Walls
     uniqueID: 2254398315
     locked: 0
+  - name: InfrontOfWall
+    uniqueID: 2412784039
+    locked: 0
+  - name: ObjectInfrontOfWa
+    uniqueID: 143957
+    locked: 0
   - name: TopOfWall
     uniqueID: 3659561709
+    locked: 0
+  - name: ItemAboveWall
+    uniqueID: 364916247
     locked: 0
   - name: WallAdditions
     uniqueID: 4056328005

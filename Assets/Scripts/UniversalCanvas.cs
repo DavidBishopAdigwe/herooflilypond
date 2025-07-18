@@ -1,21 +1,8 @@
+using Managers;
+using Managers.BaseManagers;
 
-using System;
-using UnityEngine;
-
-public class UniversalCanvas: MonoBehaviour
+public class UniversalCanvas: MonoBehaviourSingleton<UniversalCanvas>
 {
     
-    public static UniversalCanvas Instance { get; private set; }
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 } 
 

@@ -3,10 +3,9 @@
     using Interfaces;
     using UnityEngine;
 
-    public class HidingSpot: MonoBehaviour, IUIDisplayable
+    public class HidingSpot: UIDisplayableObject
     {
         
-        [SerializeField] private GameObject interactionUI;
         private bool _playerCannotInteract;
         private Animator _animator;
 
@@ -26,13 +25,5 @@
             _animator.SetTrigger("Hiding");
         }
 
-        public void ShowInteractUI()
-        {
-            interactionUI.SetActive(true);
-        }
-
-        public void HideInteractUI()
-        {
-            interactionUI.SetActive(false);
-        }
+        
     }

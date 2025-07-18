@@ -8,7 +8,7 @@ namespace PickableItems
         [SerializeField] private float oil;
         
         
-        public void AddOilToLamp(ref LightSource lightSource)
+        public void AddOilToLamp( LightSource lightSource)
         {
             lightSource.OilRefillGradual( oil);
         }

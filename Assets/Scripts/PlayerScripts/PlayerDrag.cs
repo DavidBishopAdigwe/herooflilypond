@@ -6,40 +6,45 @@ using PlayerScripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Enums;
-public class PlayerDrag : MonoBehaviour
+public class PlayerDrag : CollisionInteractor
 {
     [SerializeField] private float draggingSpeed;
+    
     private FixedJoint2D _joint;
     private Collider2D _objectCollider;
-    private InputAction _dragAction;
     private bool _attached;
     private PlayerController _playerController;
     private PlayerItemTracker _playerItemTracker;
     private bool _hasRope;
     private DraggableObject _currentDraggableObject;
+    private AudioClip _dragClip;
+
+    public event Action TryDragWithoutRope;
 
     private void Awake()
     {
-        _joint = GetComponent<FixedJoint2D>();
-        _playerController = GetComponent<PlayerController>();
+        _joint             = GetComponent<FixedJoint2D>();
+        _playerController  = GetComponent<PlayerController>();
         _playerItemTracker = GetComponent<PlayerItemTracker>();
     }
 
-    private void Start()
+    protected override void Start()
     {
-        _dragAction = InputManager.Instance.GetInteractAction();
-        SubscribeInputs(); 
+        base.Start();
         DetachFromObject();
     }
     
+    
 
-    private void OnDragKeyClicked(InputAction.CallbackContext obj)
+    protected override void OnInteractKeyClicked(InputAction.CallbackContext obj)
     {
         if (!_playerItemTracker.PlayerHasRope() && _objectCollider != null)
         {
-            MessageMaster.Instance.ShowMessage("Locate a rope to drag boxes", MessageType.Error);
+            MessageManager.Instance.ShowMessage("Locate a rope to drag boxes", MessageType.Error);
+            TryDragWithoutRope?.Invoke();
             return;
         }
+        
         if (_objectCollider != null && !_attached)
         {
             AttachToObject();
@@ -55,7 +60,7 @@ public class PlayerDrag : MonoBehaviour
         _joint.enabled = true;
         _joint.connectedBody = _objectCollider.GetComponent<Rigidbody2D>();
         _joint.connectedBody.bodyType = RigidbodyType2D.Dynamic;
-        _joint.connectedBody.constraints = RigidbodyConstraints2D.None;
+        _joint.connectedBody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         if (_joint.connectedBody.gameObject.TryGetComponent(out DraggableObject draggable))
         {
@@ -76,51 +81,39 @@ public class PlayerDrag : MonoBehaviour
         _joint.enabled = false;
         _playerController.ResetMovementSpeed();
         _attached = false;
-        if (_joint.connectedBody == null) return;
-        _joint.connectedBody.bodyType = RigidbodyType2D.Kinematic;
-        _joint.connectedBody.constraints = RigidbodyConstraints2D.FreezePosition;
-        _joint.connectedBody = null;
+        
+        if (_joint.connectedBody)
+        {
+            _joint.connectedBody.bodyType = RigidbodyType2D.Kinematic;
+            _joint.connectedBody.constraints = RigidbodyConstraints2D.FreezePosition;
+            _joint.connectedBody = null;
+        }
+
         
     }
-    
 
-    private void OnCollisionEnter2D(Collision2D other)
+
+    protected override void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.TryGetComponent(out DraggableObject draggable) && other.gameObject.TryGetComponent(out IUIDisplayable ui))
+        if (other.gameObject.CompareTag("DraggableBox"))
         {
+            base.OnCollisionEnter2D(other);
             _objectCollider = other.collider;
-            ui.ShowInteractUI();
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other)
+    protected override void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("DraggableBox") && other.gameObject.TryGetComponent(out IUIDisplayable ui))
+        if (other.gameObject.CompareTag("DraggableBox"))
         {
+            base.OnCollisionExit2D(other);
             _objectCollider = null;
-            ui.HideInteractUI();
         }
     }
     
     
     
-    public bool IsPlayerConnected() => _attached;
+    public bool IsPlayerAttached() => _attached;
     
-    private void OnDestroy()
-    {
-        UnsubscribeInputs();
-    }
-
-    public void SubscribeInputs()
-    {
-        _dragAction.Enable();
-
-        _dragAction.performed += OnDragKeyClicked;
-    }
-
-    public void UnsubscribeInputs()
-    {
-        _dragAction.performed -= OnDragKeyClicked;
-        _dragAction.Disable();
-    }
+    
 }

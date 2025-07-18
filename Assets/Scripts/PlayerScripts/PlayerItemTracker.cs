@@ -5,37 +5,20 @@
 
  namespace PlayerScripts
  {
-     public class PlayerItemTracker: MonoBehaviour, IDataPersistence
+     public class PlayerItemTracker: MonoBehaviour
      {
-         // To control and know what objects the player currently has
         
-         private bool _hasKey;
          private bool _hasLamp;
          private bool _hasRope;
 
-         public void PickedLamp()
-         {
-             _hasLamp = true;
-         }
-         public void PickedKey() => _hasKey = true;
+         public void PickedLamp() => _hasLamp = true;
          public void PickedRope() => _hasRope = true;
-        
-         public bool PlayerHasKey() =>_hasKey;
-        
+         
          public bool PlayerHasLamp() =>_hasLamp;
          
          public bool PlayerHasRope() =>_hasRope;
 
 
-         public void LoadData(GameData data)
-         {
-             Debug.Log("Mink");
-             _hasLamp = data.playerHasLamp;
-         }
-
-         public void SaveData(ref GameData data)
-         {
-             data.playerHasLamp = _hasLamp;
-         }
+    
      }
  }

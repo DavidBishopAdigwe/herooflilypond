@@ -13,37 +13,39 @@ using UnityEngine.Serialization;
 /// <summary>
 /// 
 /// </summary>
-public class PlayerPickup : MonoBehaviour
+public class PlayerPickup : Interactor
 {
+    
+    [FormerlySerializedAs("_healthPickupSound")] [SerializeField] private AudioClip _pickupSound;
+    
     private PlayerController _player;
     private LightSource _lightSource;
     private PlayerItemTracker _playerItemTracker; 
     private Health _playerHealth;
-    private InputAction _interactAction;
     private PickableItem _bestItem;
     private bool _lightOn;
     private readonly List<PickableItem> _objectsInRange = new ();
+    private AudioSource _audioSource;
+
+    public event Action PickedHealthPotion; // Tutorial event
 
     private void Awake()
     {
         _player = GetComponentInParent<PlayerController>();
+        _audioSource = GetComponentInParent<AudioSource>();
         _playerItemTracker = _player.GetComponent<PlayerItemTracker>();
         _playerHealth = _player.GetComponent<Health>();
         _lightSource = _player.GetComponentInChildren<LightSource>();
-    }   
+    }
 
-    private void Start()
+    protected override void Start()
     {
-        _interactAction = InputManager.Instance.GetInteractAction();
-        _interactAction.Enable();
-        
-        _interactAction.performed += OnInteractKeyClicked;
+        base.Start();
         _lightSource.OnLightToggled += OnLightStateChanged;
     }
 
 
-
-    private void OnInteractKeyClicked(InputAction.CallbackContext obj)
+    protected override void OnInteractKeyClicked(InputAction.CallbackContext obj)
     {
         {
     
@@ -77,21 +79,19 @@ public class PlayerPickup : MonoBehaviour
         
         foreach (var hideable in hideableObjects) 
         {
-            if (!hideable.TryGetComponent(out IUIDisplayable ui)) continue;
+            if (!hideable.TryGetComponent(out UIDisplayableObject ui)) continue;
             
             if (isLightOn) ui.ShowInteractUI();
             else           ui.HideInteractUI();
         }
     }
-    
 
-    private void OnDestroy()
+
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         _lightSource.OnLightToggled -= OnLightStateChanged;
         
-        _interactAction.performed -= OnInteractKeyClicked;
-      
-        _interactAction.Disable();
     }
 
 
@@ -103,7 +103,7 @@ public class PlayerPickup : MonoBehaviour
             _objectsInRange.Add(pickableObject);
         }
 
-        if (pickableObject && pickableObject.TryGetComponent(out IUIDisplayable ui))
+        if (pickableObject && pickableObject.TryGetComponent(out UIDisplayableObject ui))
         {
     
             if (pickableObject.IsHidable() && !_lightOn)
@@ -121,7 +121,7 @@ public class PlayerPickup : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent(out IUIDisplayable ui) && other.TryGetComponent(out PickableItem pickableObject))
+        if (other.TryGetComponent(out UIDisplayableObject ui) && other.TryGetComponent(out PickableItem pickableObject))
         {
             ui.HideInteractUI();
             _objectsInRange.Remove(pickableObject);
@@ -131,13 +131,11 @@ public class PlayerPickup : MonoBehaviour
     private void PickupObject(PickableItem interactable)
     {
         interactable.Pickup();
+        _audioSource.PlayOneShot(_pickupSound);
         switch (interactable) 
         {
             case not null when interactable.CompareTag("Rope"):
                 _playerItemTracker.PickedRope();
-                break;
-            case not null when interactable.CompareTag("Key"):
-                _playerItemTracker.PickedKey();
                 break;
             case not null when interactable.CompareTag("Lamp"):
             {
@@ -146,13 +144,16 @@ public class PlayerPickup : MonoBehaviour
                 break;
             }
             case PickableOil oil when _playerItemTracker.PlayerHasLamp():
-                oil.AddOilToLamp(ref _lightSource);
+                oil.AddOilToLamp(_lightSource);
                 break;
             case PickableHealthPotion hpPot:
-                hpPot.AddHp(ref _playerHealth);
+                PickedHealthPotion?.Invoke();
+                hpPot.AddHp(_playerHealth);
                 break;
         }
     }
+    
+    
     
 }
 

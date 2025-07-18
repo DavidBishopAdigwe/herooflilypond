@@ -60,6 +60,8 @@ public class Health : MonoBehaviour
         }
 
     }
+    
+    public bool IsMax() => healthStocks >= maxHealthStocks;
 
     public void PlayerDamaged()
     {

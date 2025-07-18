@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: f0fe8dbf353adcc498b14adb7d392378
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CainosScene.unity
     guid: dd214d87be95f6e45aad760dc0a6966e
   m_configObjects: {}

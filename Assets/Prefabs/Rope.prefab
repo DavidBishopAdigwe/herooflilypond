@@ -76,8 +76,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2117537521
-  m_SortingLayer: 10
+  m_SortingLayerID: 910660219
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: -7266593204248964789, guid: 8233f81bcba5e694db3c95f04410bbe1,
     type: 3}
@@ -149,8 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c7a85ba74786247af0d8a1e56b68a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: Rope
   interactionUI: {fileID: 8636765685215463977}
+  objectName: Rope
   hideableMaterial: {fileID: 2100000, guid: 31b8bcf5aed71024dad70bee5c308192, type: 2}
   hideable: 1
 --- !u!1 &8636765685215463977
@@ -227,7 +227,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -754398583
-  m_SortingLayer: 15
+  m_SortingLayer: 17
   m_SortingOrder: 0
   m_Sprite: {fileID: 8885839255511970297, guid: 6edcf081ca244874599ba6d4fbc2c182,
     type: 3}

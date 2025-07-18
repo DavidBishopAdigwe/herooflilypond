@@ -10,10 +10,9 @@ namespace PickableItems
     /// <summary>
     /// Base class for all pickable items
     /// </summary>
-    public class PickableItem : MonoBehaviour, IUIDisplayable
+    public class PickableItem : UIDisplayableObject
     { 
         [SerializeField] private string objectName;
-        [SerializeField] private GameObject interactionUI;
         [SerializeField] private Material hideableMaterial;
         [SerializeField] private bool hideable;
         private SpriteRenderer _spriteRenderer;
@@ -34,19 +33,11 @@ namespace PickableItems
         
         public virtual void Pickup()
         {
-            MessageMaster.Instance.ShowMessage($"Picked up: {objectName}", MessageType.Success);
+            MessageManager.Instance.ShowMessage($"Picked up: {objectName}", MessageType.Success);
             Destroy(gameObject);
         }
 
-        public void ShowInteractUI()
-        { 
-            interactionUI.SetActive(true);
-        }
-
-        public void HideInteractUI()
-        {
-            interactionUI.SetActive(false);
-        }
+ 
         
     }
 }

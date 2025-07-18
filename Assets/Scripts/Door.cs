@@ -13,8 +13,6 @@ using UnityEngine.Serialization;
 public class Door : MonoBehaviour
 {
     [SerializeField] private BoxPlate[] platesToOpen;
-    [SerializeField, Multiline] string messageOnLocked;
-    [SerializeField, Multiline] private string messageOnUnlocked;
     [SerializeField] private SeperatedDoorObject[] doorParts;
 
     [SerializeField, Tooltip("Mainly for door connected to rooms")]
@@ -23,47 +21,31 @@ public class Door : MonoBehaviour
     [SerializeField, Range(0, 1)] private float distanceToMoveCameraIntoRoom;
     [SerializeField] private float zoomAmount = 1.5f;
     
-    [SerializeField, Tooltip("Some doors may have different plates but need a certain amount to unlock it. This and the {unlockWithLess} boolean are applicable here")] 
-    private float platesToUnlockCount;
-
-    [SerializeField] private bool unlockWithLess;
     [SerializeField] private bool panPlayerCamera;
     [SerializeField] private float panTime = 1.5f;
     [SerializeField] private bool startOpen;
     
-    private enum DoorState
-    {
-        Opened, Closed
-    }
-    
+    [SerializeField] private AudioClip openSound;
+    [SerializeField] private AudioClip closeSound;
     
     private ShadowCaster2D _shadowCaster;
     private SpriteRenderer _spriteRenderer;
     private Collider2D _collider;
     private NavMeshObstacle _navMeshObstacle;
+    private AudioSource _audioSource;
     private bool _playerInside;
-    public bool _open;
-    public bool _cameraHasBeenOffset = false;
+    private bool _doorOpen;
+    private bool _cameraHasBeenOffset = false;
     private bool _entranceIsOnXAxis;
-    public bool alternate;
     private const float BaseLensSize = 1.5f;
-    /// <summary>
-    /// Type for where the door leads to.
-    /// </summary>
-    private enum DoorEntrance
-    {
-        Up,
-        Down,
-        Left,
-        Right,
-        NotConnectedToRoom
-    }
+
 
     private void Awake()
     {
         _collider = GetComponent<Collider2D>();
         _shadowCaster = GetComponent<ShadowCaster2D>();
         _navMeshObstacle = GetComponent<NavMeshObstacle>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -78,45 +60,35 @@ public class Door : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            MessageMaster.Instance.ShowMessage("Door locked.");
+            MessageManager.Instance.ShowMessage("Door locked.", MessageType.Default);
         }
     }
 
     public void CheckBoxPads()
     {
-        if (unlockWithLess)
-        {
-            int activePlates = platesToOpen.Count(plate => plate.IsPlateOccupied());
+        int activePlates = platesToOpen.Count(plate => plate.IsPlateOccupied());
+        bool allPlatesOccupied = platesToOpen.All(plate => plate.IsPlateOccupied());
         
-            if (activePlates >= platesToUnlockCount && !_open)
-            {
-                OpenDoor();
-            }
-            else if (activePlates < platesToUnlockCount && _open)
-            {
-                CloseDoor();
-            }
-        }
-        else
+        if (allPlatesOccupied && !_doorOpen)
         {
-            bool allPlatesOccupied = platesToOpen.All(plate => plate.IsPlateOccupied());
-
-            if (allPlatesOccupied && !_open)
-            {
-                OpenDoor();
-            }
-            else if (!allPlatesOccupied && _open)
-            {
-                CloseDoor();
-            }
+            OpenDoor();
         }
+        else if (!allPlatesOccupied && _doorOpen)
+        {
+            CloseDoor();
+        }
+        if (platesToOpen.Count() > 1 && activePlates < platesToOpen.Count())
+        {
+            MessageManager.Instance.ShowMessage($"{activePlates}/{platesToOpen.Length} plates remain");
+            StartCoroutine(PanSystem.Instance.PanToDoor(transform, 0.5f)); // Reduced time for player QOL
+        }
+        
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("PlayerPassed");
             Vector2 direction = (other.transform.position - transform.position).normalized;
             var cameraComposer = other.GetComponentInChildren<CinemachinePositionComposer>();
             var cinemachineCamera = other.GetComponentInChildren<CinemachineCamera>();
@@ -196,30 +168,23 @@ public class Door : MonoBehaviour
 
     public void OpenDoor()
     {
-        foreach (var part in doorParts)
-        {
-            part.DoorOpened();
-        }
-        _open = true;
-        _collider.isTrigger = true;
-        if (_shadowCaster) _shadowCaster.enabled = false;
-        _navMeshObstacle.enabled = false;
-       MessageMaster.Instance.ShowMessage("Door Opened", MessageType.Success);
-       DoorSystems.Instance.OnDoorOpened();
-       if (panPlayerCamera) StartCoroutine(DoorSystems.Instance.PanToDoor(this.transform, panTime));
+        StartOpen();
+       MessageManager.Instance.ShowMessage("Door Opened", MessageType.Success);
+       PanSystem.Instance.OnDoorOpened();
+       if (panPlayerCamera) StartCoroutine(PanSystem.Instance.PanToDoor(this.transform, panTime));
     }
 
-    private void StartOpen()
+    public void StartOpen()
     {
         foreach (var part in doorParts)
         {
             part.DoorOpened();
         }
-
+        _audioSource.PlayOneShot(openSound);
         _collider.isTrigger = true; 
-        if (_shadowCaster) _shadowCaster.enabled = false; // Front facing doors lack a shadow caster atm, 
+        if (_shadowCaster) _shadowCaster.enabled = false;
         _navMeshObstacle.enabled = false;
-        _open = true;
+        _doorOpen = true;
     }
 
 
@@ -230,13 +195,16 @@ public class Door : MonoBehaviour
         {
             part.DoorClosed();
         }
+        _audioSource.PlayOneShot(closeSound);
         _collider.isTrigger = false; 
         if (_shadowCaster) _shadowCaster.enabled = true;
         _navMeshObstacle.enabled = true;
-        MessageMaster.Instance.ShowMessage("Door Closed", MessageType.Error);
+        MessageManager.Instance.ShowMessage("Door Closed", MessageType.Error);
         gameObject.layer = LayerMask.NameToLayer("Wall");
-        _open = false;
+        _doorOpen = false;
 
     }
+
+    public bool IsDoorOpened() => _doorOpen;
 }
 

@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 
 namespace PlayerScripts
 {
-    public class PlayerHide : Interactor
+    public class PlayerHide : CollisionInteractor
     {
         
         [SerializeField] private float hideCooldown = 1f; 
@@ -38,8 +38,9 @@ namespace PlayerScripts
 
 
 
-        protected override void Interact()
+        protected override void OnInteractKeyClicked(InputAction.CallbackContext obj)
         {
+
             if (currentState == HideState.CannotHide || IsHidingInProgress()) return;
             if (_hideCoroutine != null)
             {
@@ -92,7 +93,7 @@ namespace PlayerScripts
         
         private void StartHide()
         {
-            _playerController.UnsubscribeInputs();
+            InputReader.Instance.UnsubscribeMoveAction();
             currentState          = HideState.Hiding;
             onHide.Invoke();
             _hideStartPosition    = transform.position;
@@ -136,7 +137,7 @@ namespace PlayerScripts
             Physics2D.IgnoreCollision(_collider, _currentHidingSpot, false);
             transform.position = _hideStartPosition;
             
-            _playerController.SubscribeInputs();
+            InputReader.Instance.SubscribeMoveAction();
             _currentHidingSpot = null;
             _hideCoroutine = null;
             currentState = HideState.CannotHide;
@@ -186,7 +187,8 @@ namespace PlayerScripts
             color.a                          = 1;
             _spriteRenderer.color            = color;
             
-            _playerController.SubscribeInputs();
+            InputReader.Instance.SubscribeMoveAction();
+
             
             currentState = HideState.NotHiding;
         }

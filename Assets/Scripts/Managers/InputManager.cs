@@ -12,37 +12,16 @@ namespace Managers
         private void OnEnable()
         {
             _inputSystem = new InputSystem_Actions();
-        }
+        } 
+        
+        
+    public InputAction GetMoveAction() => _inputSystem.Player.Move;
 
-        public InputAction GetMoveAction()
-    {
-        return _inputSystem.Player.Move;
-    }
-
-    public InputAction GetLightAction()
-    {
-        return _inputSystem.Player.Light;
-    }
-
-    public InputAction GetDragAction()
-    {
-        return _inputSystem.Player.Drag;
-    }
-
-    public InputAction GetInteractAction()
-    {
-        return _inputSystem.Player.Pick;
-    }
-
-    public InputAction GetHideAction()
-    {
-        return _inputSystem.Player.Hide;
-    }
-
-    public InputAction GetPauseAction()
-    {
-        return _inputSystem.Player.Pause;
-    }
+    public InputAction GetLightAction() => _inputSystem.Player.Light;
+    
+    public InputAction GetInteractAction() => _inputSystem.Player.Pick;
+    
+    public InputAction GetBackAction() => _inputSystem.Player.Back;
     
 
     }

@@ -22,16 +22,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int numberOfRays;
     [SerializeField] private float coneAngle;
     [SerializeField] private LayerMask visionLayers;
+    [SerializeField] private Transform rayOrigin;
     [SerializeField] private float rayLength;
-    [SerializeField] private float lightRotationSpeed = 5f;
-    [SerializeField] private float normalSpeed; // Could ensure this is always less than player speed(outside dragging) doesnt matter now though
+    [SerializeField] private float lightRotationSpeed;
+    [SerializeField] private float normalSpeed;
     [SerializeField] private float maxChaseSpeed; 
     [SerializeField] private float speedIncreasePerSecondWhileChasing;
     [SerializeField] private float secondsToStopIfPlayerIsNotSeen;
     [SerializeField] private int damage;
 
-    private SpriteRenderer _spriteRenderer;
     private float _currentSpeed;
+    private AudioSource _audioSource;
     private Transform _player;
     private MovementArea _movementArea;
     private int _numberOfMovementPoints;
@@ -46,15 +47,12 @@ public class Enemy : MonoBehaviour
     private Light2D[] _visionLights;
     private bool _canDetect = true;
     private Coroutine _cooldownRoutine;
-    private bool _playerSeen;
     private float _lastSeenTime;
     private float _pathCheckTimer;
     private float _lastRayTime;
-    private const float PathCheckInterval = 0.5f;
-
+    private int _iterations = 0;
 
     private const int MaxIterations = 1000;
-    private int iterations = 0;
     private enum EnemyState
     {
         Wandering, Chasing
@@ -66,7 +64,7 @@ public class Enemy : MonoBehaviour
     {
         _currentSpeed = normalSpeed;
         _visionLights = GetComponentsInChildren<Light2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -87,6 +85,7 @@ public class Enemy : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _agent.speed = _currentSpeed;
         StartingNavMeshSettings();
+        _audioSource.Play();
         _stateRoutine =  StartCoroutine(MoveAbout());
     }
     
@@ -123,17 +122,20 @@ public class Enemy : MonoBehaviour
         _enemyState = EnemyState.Wandering;
         ChoosePoint();
         _agent.SetDestination(_currentPoint.position);
+        var path = new NavMeshPath();
 
         while (_enemyState == EnemyState.Wandering)
         {
-            // only pick a new point once the agent has actually arrived
-            if (!_agent.pathPending 
-                && _agent.remainingDistance <= _agent.stoppingDistance)
+            if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance + 0.05f ||
+                !_agent.CalculatePath(_currentPoint.position, path) && path.status != NavMeshPathStatus.PathComplete)
             {
+                _iterations++;
+                if (_iterations == MaxIterations) yield break;
                 ChoosePoint();
                 _agent.SetDestination(_currentPoint.position);
             }
 
+            _iterations = 0;
             DetectPlayer();
             UpdateFacingDirection();
             yield return null;
@@ -148,10 +150,11 @@ public class Enemy : MonoBehaviour
             return;
         }
         
+        NavMeshPath path = new NavMeshPath();
+        
         if (_enemyState ==  EnemyState.Chasing && !_playerHide.IsHidingInProgress()) return;
+        
         SwitchCoroutine(RayCooldown(), ref _cooldownRoutine);
-        _playerSeen = false;
-        Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = _agent.desiredVelocity.normalized;
 
         for (int i = 0; i < numberOfRays; i++)
@@ -167,9 +170,8 @@ public class Enemy : MonoBehaviour
                 layerMask = visionLayers,
                 useTriggers = true
             };
-            var hitCount = Physics2D.Raycast(rayOrigin, spreadDirection, contactFilter, _hitBuffer, rayLength);
-            Debug.DrawRay(rayOrigin, spreadDirection * rayLength, Color.red); // TODO: Take ts out
-
+            var hitCount = Physics2D.Raycast(rayOrigin.position, spreadDirection, contactFilter, _hitBuffer, rayLength);
+            
             for (int j = 0; j < hitCount; j++)
             {
 
@@ -178,27 +180,27 @@ public class Enemy : MonoBehaviour
                 if (hit.collider.CompareTag("Wall")) break;
 
                 if (_playerHide && _playerHide.IsHidingInProgress()
-                                && hit.collider.CompareTag("Player"))
+                                   && hit.collider.CompareTag("Player"))
                 {
-                    _playerSeen = true;
                     _playerHide.StopPlayerHiding();
                     break;
                 }
 
-                if (hit.collider.CompareTag("Player") || hit.collider.CompareTag("PlayerLight"))
+                if (!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("PlayerLight")) continue;
+                
+                _lastSeenTime = Time.time;
+
+                Transform playerTransform = hit.collider.CompareTag("Player") ? hit.collider.transform : hit.collider.transform.parent;
+
+                if (_agent.CalculatePath(playerTransform.position, path) &&
+                           path.status == NavMeshPathStatus.PathComplete && 
+                           _enemyState != EnemyState.Chasing)
                 {
-                    _playerSeen = true;
-                    _lastSeenTime = Time.time;
-
-                    Transform playerTransform = hit.collider.CompareTag("Player") ? hit.collider.transform : hit.collider.transform.parent;
-                    
-                    if (_enemyState != EnemyState.Chasing)
-                    {
-                        StartChase(ref playerTransform);
-                    }
-
-                    return;
+                    StartChase( playerTransform);
                 }
+                
+
+                return;
             }
         }
     }
@@ -208,27 +210,29 @@ public class Enemy : MonoBehaviour
         if (other.TryGetComponent(out Health health))
         {
             health.TakeDamage(damage);
-            SwitchCoroutine(StopChasingPlayerCD());
+            SwitchCoroutine(StopChasingPlayer());
         }
     }
 
-    private void SetPlayerHide(ref Transform player)
+    private void SetPlayerHide( Transform player)
     {
         if (!_playerHide)
         {
             _playerHide = player.GetComponent<PlayerHide>();
         }
     }
-    private void StartChase( ref Transform player)
+    private void StartChase( Transform player)
     {
         _player = player;
-        SetPlayerHide(ref player);
+        SetPlayerHide( player);
         SwitchCoroutine(ChasePlayer()); 
         StartCoroutine(IncreaseSpeed());
     }
 
-    private IEnumerator StopChasingPlayerCD()
+    private IEnumerator StopChasingPlayer()
     {
+        _currentSpeed = normalSpeed;
+        _agent.speed = _currentSpeed;
         gameObject.transform.position = _movementPoints[0].position;
         yield return new WaitForSeconds(0.5f);
         SwitchCoroutine(MoveAbout());
@@ -248,27 +252,27 @@ public class Enemy : MonoBehaviour
                SwitchCoroutine(MoveAbout());
                yield break;
            } 
-           if (NavMesh.SamplePosition(_player.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
-            {
-                _agent.SetDestination(hit.position);
-            }
-            else
-            {
+           if (NavMesh.SamplePosition(_player.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas)) 
+           {
+                _agent.SetDestination(hit.position); 
+           }
+           else 
+           {
                 SwitchCoroutine(MoveAbout());
                 yield break;
-            }
+           }
 
-            if (_playerHide.IsHidingInProgress())
-            {
-                _canDetect = true;
-                DetectPlayer();
-            }
+           if (_playerHide.IsHidingInProgress())
+           {
+               _canDetect = true;
+               DetectPlayer();
+           }
 
-            if (_playerHide.IsHidden()) SwitchCoroutine(MoveAbout());
+           if (_playerHide.IsHidden()) SwitchCoroutine(MoveAbout());
             
-            UpdateFacingDirection();
+           UpdateFacingDirection();
 
-            yield return null;
+           yield return null;
         }
     }
     
@@ -278,23 +282,23 @@ public class Enemy : MonoBehaviour
     private void UpdateFacingDirection()
     {
         Vector2 direction = _agent.desiredVelocity.normalized;
-        lightSource.transform.up = Vector2.Lerp(lightSource.transform.up, direction, 5 * Time.deltaTime);
-        _spriteRenderer.flipX = !(direction.x > 0);
+        lightSource.transform.up = Vector2.Lerp(lightSource.transform.up, direction, lightRotationSpeed * Time.deltaTime);
+        var scale = transform.localScale;
+        scale.x = direction.x > 0 ? 1 : -1;
+        transform.localScale = scale;
     }
 
 
 
     private IEnumerator IncreaseSpeed()
     {
-        while (_enemyState == EnemyState.Chasing && _agent.speed < maxChaseSpeed - 0.3f)
+        while (_enemyState == EnemyState.Chasing && _agent.speed < maxChaseSpeed)
         {
             _currentSpeed += speedIncreasePerSecondWhileChasing * Time.deltaTime;
-            _agent.speed = Mathf.Min(_currentSpeed, maxChaseSpeed-0.3f);
+            _agent.speed = Mathf.Min(_currentSpeed, maxChaseSpeed);
             if (_agent.speed >= maxChaseSpeed)
             {
-                _agent.speed = (maxChaseSpeed - 0.1f);
-                yield return new WaitForSeconds(5f);
-                _agent.speed = maxChaseSpeed + 0.5f;
+                _agent.speed = (maxChaseSpeed);
             }
             yield return null;
         } 
@@ -316,7 +320,6 @@ public class Enemy : MonoBehaviour
         _canDetect = false;
         yield return new WaitForSeconds(0.1f);
         _canDetect = true;
-        yield break;
     }
 
     public void ToggleLightSource(bool toggle)
@@ -325,8 +328,10 @@ public class Enemy : MonoBehaviour
             {
                 l.enabled = toggle;
             }
-            
     }
 
-    
+    private void OnDestroy()
+    {
+        _audioSource.Stop();
+    }
 }

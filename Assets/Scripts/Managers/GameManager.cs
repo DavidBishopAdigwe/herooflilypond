@@ -3,71 +3,53 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Enums;
+using Managers.BaseManagers;
 using UnityEngine.AI;
 
 namespace Managers
 {
-    public class GameManager: MonoBehaviour
+    public class GameManager: MonoBehaviourSingleton<GameManager>
     {
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
-
         [SerializeField] private int timeToEndGame = 1;
-        private List<Enemy> _enemiesInScene = new();
-        public static GameManager Instance { get; private set; }
+
+        private bool _inTutorial;
 
 
-
-
-        public void GameOver()
-        {
-            MessageMaster.Instance.ShowMessage("GAME OVER", MessageType.Error);
-            Invoke("ReloadScene", 1);
-        }
-
-        private void ReloadScene()
+        private void LoadMainMenu()
         {
             SceneManager.LoadScene(0);
         }
 
-        private void MM()
+        public void StartTutorial()
         {
-            MenuManager.Instance.MainMenuButton();
-
+            _inTutorial = true;
         }
+
+        public void EndTutorial()
+        {
+            _inTutorial = false;
+        }
+        
+        public bool PlayerInTutorial() => _inTutorial;
+        
 
         public void WinGame()
         {
-            MessageMaster.Instance.ShowMessage("CONGRATS, You Win");
-            Invoke("ReloadScene", 1.5f);
+            MessageManager.Instance.ShowMessage("Congratulations. The first ingredient for the cure has been found",
+                                                                                              MessageType.Success);
+            
+            MessageManager.Instance.ShowMessage("You are one step closer to becoming our Hero of Lilypond.", 
+                                                                                      MessageType.Success);
+            Invoke("LoadMainMenu", timeToEndGame);
 
-        }
-
-        public void LoadNewScene(int index)
-        {
-            SceneManager.LoadScene(index);
-            _enemiesInScene.Clear();
-        }
-
-        public void LoadNewScene(string sceneName)
-        {
-            SceneManager.LoadScene(sceneName);
-            _enemiesInScene.Clear();
         }
         
-
-        private void OnApplicationQuit()
+        public void GameOver()
         {
-            SceneManager.LoadScene(2);
+            MessageManager.Instance.ShowMessage("GAME OVER", MessageType.Error);
+            Invoke("LoadMainMenu", timeToEndGame);
         }
+
+         
     }
 }
