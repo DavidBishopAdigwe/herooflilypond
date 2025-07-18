@@ -5,8 +5,8 @@ public class PlayerVisionLight : MonoBehaviour
 {
     [SerializeField] private LayerMask wallMask;
     
-    private static readonly int PlayerLightIntensity = Shader.PropertyToID("player_light_intensity");
     private Light2D _light;
+    private static readonly int PlayerLightIntensity = Shader.PropertyToID("player_light_intensity");
     
 
     private void Awake()

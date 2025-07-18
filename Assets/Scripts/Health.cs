@@ -1,4 +1,4 @@
-using Managers;
+using Singletons;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -21,25 +21,21 @@ public class Health : MonoBehaviour
 
         foreach (var hp in healthObjects)
         {
-            if (hp.TryGetComponent(out HealthObject hpO))
+            if (hp.TryGetComponent(out HealthObject health))
             {
-                hpO.SetHeartToFull();
+                health.SetHeartToFull();
             }
         }
         CheckPlayerHealth();
     }
-
-    private void Start()
-    {
-
-    }
+    
 
     public void TakeDamage(int damage)
     {
         if (healthStocks < 0) return;
         healthStocks -= damage; 
         onDamaged.Invoke();
-        PlayerDamaged();
+        PlayerDamaged(); // Subscribe to this
         if (healthStocks <= 0)
         {
             Die();
@@ -51,12 +47,20 @@ public class Health : MonoBehaviour
 
         if (healthStocks >= maxHealthStocks)
         {
-            for (int i = maxHealthStocks; i < healthObjects.Length; i++) // 
+            for (int i = maxHealthStocks; i < healthObjects.Length; i++) 
             {
                 healthObjects[i].SetActive(false);
             }
 
             healthStocks = maxHealthStocks;
+        }
+        
+        for (int i = 0; i < healthObjects.Length; i++)
+        {
+            if (i == healthStocks && healthObjects[i].TryGetComponent(out HealthObject healthObject))
+            {
+                healthObject.DamagedAnimation();
+            }
         }
 
     }
@@ -65,13 +69,7 @@ public class Health : MonoBehaviour
 
     public void PlayerDamaged()
     {
-        for (int i = 0; i < healthObjects.Length; i++)
-        {
-            if (i == healthStocks && healthObjects[i].TryGetComponent(out HealthObject healthObject))
-            {
-                healthObject.DamagedAnimation();
-            }
-        }
+       
     }
 
 public void AddHealth(int hp)

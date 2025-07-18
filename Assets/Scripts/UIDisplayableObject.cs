@@ -1,5 +1,3 @@
-using System;
-using Interfaces;
 using UnityEngine;
 
 public class UIDisplayableObject: MonoBehaviour

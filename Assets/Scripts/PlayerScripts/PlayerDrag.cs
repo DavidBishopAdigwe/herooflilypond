@@ -1,11 +1,12 @@
 
 using System;
-using Interfaces;
-using Managers;
+using Singletons;
 using PlayerScripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Enums;
+using PlayerScripts.PlayerInteractor;
+
 public class PlayerDrag : CollisionInteractor
 {
     [SerializeField] private float draggingSpeed;
@@ -61,16 +62,20 @@ public class PlayerDrag : CollisionInteractor
         _joint.connectedBody = _objectCollider.GetComponent<Rigidbody2D>();
         _joint.connectedBody.bodyType = RigidbodyType2D.Dynamic;
         _joint.connectedBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        
+        PlayAudio();
+        
+        _playerController.ChangeMovementSpeed(draggingSpeed);
+        _attached = true;
+    }
 
+    private void PlayAudio()
+    {
         if (_joint.connectedBody.gameObject.TryGetComponent(out DraggableObject draggable))
         {
             _currentDraggableObject = draggable;
             _currentDraggableObject.PlayAttachAnimation();
-
-        }
-        
-        _playerController.ChangeMovementSpeed(draggingSpeed);
-        _attached = true;
+        } 
     }
     
     

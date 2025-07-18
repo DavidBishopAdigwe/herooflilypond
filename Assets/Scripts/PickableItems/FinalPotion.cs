@@ -1,5 +1,5 @@
 
-using Managers;
+using Singletons;
 using PickableItems;
 using UnityEngine;
 

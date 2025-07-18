@@ -23,8 +23,8 @@ public class BoxPlate : MonoBehaviour
         var plateBounds = _collider.bounds;
         var boxBounds = other.bounds;
 
-        bool boxOverlap = (plateBounds.min.x >= boxBounds.min.x && plateBounds.max.x <= boxBounds.max.x &&
-             plateBounds.min.y >= boxBounds.min.y && plateBounds.max.y <= boxBounds.max.y);
+        bool boxOverlap = (plateBounds.min.x >= boxBounds.min.x && plateBounds.max.x <= boxBounds.max.x && 
+                           plateBounds.min.y >= boxBounds.min.y && plateBounds.max.y <= boxBounds.max.y);
 
         if (boxOverlap != _occupied)
         {

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using Enums;
-using Managers;
+using Singletons;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
@@ -80,7 +80,7 @@ public class Door : MonoBehaviour
         if (platesToOpen.Count() > 1 && activePlates < platesToOpen.Count())
         {
             MessageManager.Instance.ShowMessage($"{activePlates}/{platesToOpen.Length} plates remain");
-            StartCoroutine(PanSystem.Instance.PanToDoor(transform, 0.5f)); // Reduced time for player QOL
+            StartCoroutine(PanSystem.Instance.PanToDoor(transform, panTime)); 
         }
         
     }
@@ -122,8 +122,6 @@ public class Door : MonoBehaviour
     private void OffsetCamera(bool playerInside, ref CinemachinePositionComposer cameraComposer, float offsetAmount,
         bool entranceOnXAxis, ref CinemachineCamera cinemachineCamera, ref LensSettings lens)
     {
-        Debug.Log("OffsetCamera");
-        if (playerInside) {Debug.Log("Inside");}
         if (entranceOnXAxis)
         {
             switch (playerInside)
@@ -132,13 +130,11 @@ public class Door : MonoBehaviour
                     cameraComposer.Composition.ScreenPosition.x = offsetAmount;
                     _cameraHasBeenOffset = true;
                     lens.OrthographicSize = zoomAmount;
-                    Debug.Log("OffsetCameraPlayerInsideX");
                     break;
                 case false:
                     _cameraHasBeenOffset = false;
                     lens.OrthographicSize = BaseLensSize;
                     cameraComposer.Composition.ScreenPosition.x = 0;
-                    Debug.Log("ResetToBase");
                     
                     break;
             }
@@ -151,13 +147,11 @@ public class Door : MonoBehaviour
                     cameraComposer.Composition.ScreenPosition.y = offsetAmount;
                     lens.OrthographicSize = zoomAmount;
                     _cameraHasBeenOffset = true;
-                    Debug.Log("OffsetCameraPlayerInsideY");
                     break;
                 case false:
                     _cameraHasBeenOffset = false;
                     cameraComposer.Composition.ScreenPosition.y = 0;
                     lens.OrthographicSize = BaseLensSize;
-                    Debug.Log("ResetToBase");
 
                     break;
             }
@@ -171,7 +165,7 @@ public class Door : MonoBehaviour
         StartOpen();
        MessageManager.Instance.ShowMessage("Door Opened", MessageType.Success);
        PanSystem.Instance.OnDoorOpened();
-       if (panPlayerCamera) StartCoroutine(PanSystem.Instance.PanToDoor(this.transform, panTime));
+       StartCoroutine(PanSystem.Instance.PanToDoor(this.transform, panTime));
     }
 
     public void StartOpen()

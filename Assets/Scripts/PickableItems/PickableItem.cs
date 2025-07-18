@@ -1,9 +1,7 @@
-using System;
-using Interfaces;
-using Managers;
-using PlayerScripts;
+
 using UnityEngine;
 using Enums;
+using Singletons;
 
 namespace PickableItems
 {

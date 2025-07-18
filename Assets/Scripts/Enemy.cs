@@ -42,9 +42,9 @@ public class Enemy : MonoBehaviour
     private bool _isSwitchingState;
     private EnemyState _enemyState;
     private Transform _currentPoint;
-    private readonly RaycastHit2D[] _hitBuffer = new RaycastHit2D[25]; // doubt it's possible to even hit 10 but just incase
+    private readonly RaycastHit2D[] _hitBuffer = new RaycastHit2D[25]; // doubt it's possible to even hit 10 but for safety
     private readonly List<Transform> _movementPoints = new();
-    private Light2D[] _visionLights;
+    private Light2D _visionLight;
     private bool _canDetect = true;
     private Coroutine _cooldownRoutine;
     private float _lastSeenTime;
@@ -58,12 +58,10 @@ public class Enemy : MonoBehaviour
         Wandering, Chasing
     }
     
-    
-
     private void Awake()
     {
         _currentSpeed = normalSpeed;
-        _visionLights = GetComponentsInChildren<Light2D>();
+        _visionLight = GetComponentInChildren<Light2D>();
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -71,6 +69,8 @@ public class Enemy : MonoBehaviour
     {
         ToggleLightSource(false);
     }
+    
+    
 
     public void Setup(MovementArea area)
     {
@@ -324,10 +324,7 @@ public class Enemy : MonoBehaviour
 
     public void ToggleLightSource(bool toggle)
     {
-            foreach (var l in _visionLights)
-            {
-                l.enabled = toggle;
-            }
+        _visionLight.enabled = toggle;
     }
 
     private void OnDestroy()

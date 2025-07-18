@@ -1,4 +1,4 @@
-using Managers;
+using Singletons;
 using UnityEngine;
 
 namespace PickableItems

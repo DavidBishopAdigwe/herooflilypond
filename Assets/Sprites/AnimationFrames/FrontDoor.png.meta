@@ -1,0 +1,520 @@
+fileFormatVersion: 2
+guid: ee1eab823d8bff941bd524f5be468400
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8957861085520819248
+    second: FrontDoor_0
+  - first:
+      213: 5556779760214722539
+    second: FrontDoor_1
+  - first:
+      213: -7436086027753620068
+    second: FrontDoor_2
+  - first:
+      213: -232803317206247648
+    second: FrontDoor_3
+  - first:
+      213: -702063569394204674
+    second: FrontDoor_4
+  - first:
+      213: 452353640087172403
+    second: FrontDoor_5
+  - first:
+      213: -1487669094613312636
+    second: FrontDoor_6
+  - first:
+      213: 7959474693744684406
+    second: FrontDoor_7
+  - first:
+      213: 6404113863495654904
+    second: FrontDoor_8
+  - first:
+      213: -2773002455712195717
+    second: FrontDoor_9
+  - first:
+      213: -8243405964482214945
+    second: FrontDoor_10
+  - first:
+      213: 3022984618071343282
+    second: FrontDoor_11
+  - first:
+      213: 1057973255075967391
+    second: FrontDoor_12
+  - first:
+      213: -1876812060112374327
+    second: FrontDoor_13
+  - first:
+      213: 1093744398563564667
+    second: FrontDoor_14
+  - first:
+      213: -1158152197495304677
+    second: FrontDoor_15
+  - first:
+      213: 2969518398803864358
+    second: FrontDoor_16
+  - first:
+      213: -558608912520290113
+    second: FrontDoor_17
+  - first:
+      213: 5984373532435952053
+    second: FrontDoor_18
+  - first:
+      213: -7283222772407052089
+    second: FrontDoor_19
+  - first:
+      213: 4129653164337731998
+    second: FrontDoor_20
+  - first:
+      213: -3783457074000907903
+    second: FrontDoor_21
+  - first:
+      213: -143576068673990380
+    second: FrontDoor_22
+  - first:
+      213: 2989285182082329677
+    second: FrontDoor_23
+  - first:
+      213: 2794319525364867749
+    second: FrontDoor_24
+  - first:
+      213: -712763808175116432
+    second: FrontDoor_25
+  - first:
+      213: -7516131533743659360
+    second: FrontDoor_26
+  - first:
+      213: 7206608419442885765
+    second: FrontDoor_27
+  - first:
+      213: -2369318040378400811
+    second: FrontDoor_28
+  - first:
+      213: 8796638201799771
+    second: FrontDoor_29
+  - first:
+      213: 4460899533431401758
+    second: FrontDoor_30
+  - first:
+      213: 4183737776553588882
+    second: FrontDoor_31
+  - first:
+      213: -3560671860962380152
+    second: FrontDoor_32
+  - first:
+      213: 7963713944598239779
+    second: FrontDoor_33
+  - first:
+      213: 2587554654935184020
+    second: FrontDoor_34
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 512
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FrontDoor_29
+      rect:
+        serializedVersion: 2
+        x: 1415
+        y: 149
+        width: 114
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b546c3fee704f1000800000000000000
+      internalID: 8796638201799771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_32
+      rect:
+        serializedVersion: 2
+        x: 3027
+        y: 151
+        width: 76
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 886bb95cec3f59ec0800000000000000
+      internalID: -3560671860962380152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_5
+      rect:
+        serializedVersion: 2
+        x: 2439
+        y: 147
+        width: 32
+        height: 319
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e193cd23cfc7c4d47ba0102062334c9c
+      internalID: 452353640087172403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_6
+      rect:
+        serializedVersion: 2
+        x: 2669
+        y: 147
+        width: 33
+        height: 319
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68a3d2bc27d38614a97122b0fc68dc8f
+      internalID: -1487669094613312636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_24
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 175
+        width: 132
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8be016b65a6ba44cbeb32f8c21c9f2d
+      internalID: 2794319525364867749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_25
+      rect:
+        serializedVersion: 2
+        x: 678
+        y: 158
+        width: 132
+        height: 279
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec5176636aeb7874d9e25a1ff50bd147
+      internalID: -712763808175116432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_28
+      rect:
+        serializedVersion: 2
+        x: 1266
+        y: 149
+        width: 112
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 670349099e149ac46a66439789746c44
+      internalID: -2369318040378400811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_30
+      rect:
+        serializedVersion: 2
+        x: 1852
+        y: 151
+        width: 77
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05698865c4c426342ab90dfeb8b34dac
+      internalID: 4460899533431401758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_31
+      rect:
+        serializedVersion: 2
+        x: 2037
+        y: 151
+        width: 78
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f52235ad184d844b90a75607b203e36
+      internalID: 4183737776553588882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_33
+      rect:
+        serializedVersion: 2
+        x: 3313
+        y: 151
+        width: 77
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21ebbb87753593541a092fac5d61cc4e
+      internalID: 7963713944598239779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_0
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 175
+        width: 130
+        height: 266
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: baf022119c1b49545806fd2c5e240153
+      internalID: 8957861085520819248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrontDoor_1
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 156
+        width: 132
+        height: 281
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0782f9630e56a0d4c8391f3b0c2692a0
+      internalID: 5556779760214722539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: fbbf44b75723a3b429605fbeac4043b8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      FrontDoor_0: 8957861085520819248
+      FrontDoor_1: 5556779760214722539
+      FrontDoor_10: -8243405964482214945
+      FrontDoor_11: 3022984618071343282
+      FrontDoor_12: 1057973255075967391
+      FrontDoor_13: -1876812060112374327
+      FrontDoor_14: 1093744398563564667
+      FrontDoor_15: -1158152197495304677
+      FrontDoor_16: 2969518398803864358
+      FrontDoor_17: -558608912520290113
+      FrontDoor_18: 5984373532435952053
+      FrontDoor_19: -7283222772407052089
+      FrontDoor_2: -7436086027753620068
+      FrontDoor_20: 4129653164337731998
+      FrontDoor_21: -3783457074000907903
+      FrontDoor_22: -143576068673990380
+      FrontDoor_23: 2989285182082329677
+      FrontDoor_24: 2794319525364867749
+      FrontDoor_25: -712763808175116432
+      FrontDoor_26: -7516131533743659360
+      FrontDoor_27: 7206608419442885765
+      FrontDoor_28: -2369318040378400811
+      FrontDoor_29: 8796638201799771
+      FrontDoor_3: -232803317206247648
+      FrontDoor_30: 4460899533431401758
+      FrontDoor_31: 4183737776553588882
+      FrontDoor_32: -3560671860962380152
+      FrontDoor_33: 7963713944598239779
+      FrontDoor_4: -702063569394204674
+      FrontDoor_5: 452353640087172403
+      FrontDoor_6: -1487669094613312636
+      FrontDoor_7: 7959474693744684406
+      FrontDoor_8: 6404113863495654904
+      FrontDoor_9: -2773002455712195717
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

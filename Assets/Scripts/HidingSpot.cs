@@ -1,7 +1,5 @@
-
-    using System;
-    using Interfaces;
-    using UnityEngine;
+using System;
+using UnityEngine;
 
     public class HidingSpot: UIDisplayableObject
     {
@@ -14,16 +12,11 @@
         {
             _animator = GetComponent<Animator>();
         }
-
-        private void Start()
-        {
-            HideInteractUI();
-        }
+        
 
         public void HideAnimation()
         {
             _animator.SetTrigger("Hiding");
         }
-
         
     }

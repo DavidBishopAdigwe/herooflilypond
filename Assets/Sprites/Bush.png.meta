@@ -1,0 +1,629 @@
+fileFormatVersion: 2
+guid: fbbcc15031a42db4b864a137c6b05dc2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4296193443984631328
+    second: Bush_0
+  - first:
+      213: -2770932246066905560
+    second: Bush_1
+  - first:
+      213: -8304077115233230222
+    second: Bush_2
+  - first:
+      213: -8663683955189347131
+    second: Bush_3
+  - first:
+      213: 8806556967682631439
+    second: Bush_4
+  - first:
+      213: -128224018499578198
+    second: Bush_5
+  - first:
+      213: -6592894847292831164
+    second: Bush_6
+  - first:
+      213: -5560952714569976523
+    second: Bush_7
+  - first:
+      213: -3059043393212727673
+    second: Bush_8
+  - first:
+      213: -4030060161196363777
+    second: Bush_9
+  - first:
+      213: -1319362557057053838
+    second: Bush_10
+  - first:
+      213: -752204895765698589
+    second: Bush_11
+  - first:
+      213: 765601927131512949
+    second: Bush_12
+  - first:
+      213: -6537794838370415218
+    second: Bush_13
+  - first:
+      213: 1959484262110174510
+    second: Bush_14
+  - first:
+      213: 3834715587431984081
+    second: Bush_15
+  - first:
+      213: 9195377205761361555
+    second: Bush_16
+  - first:
+      213: -7933063816233435266
+    second: Bush_17
+  - first:
+      213: -889960457759243319
+    second: Bush_18
+  - first:
+      213: 3500719040804890184
+    second: Bush_19
+  - first:
+      213: -5475844548191541413
+    second: Bush_20
+  - first:
+      213: -188862396739039094
+    second: Bush_21
+  - first:
+      213: -4257315802630729741
+    second: Bush_22
+  - first:
+      213: -5915337918624839303
+    second: Bush_23
+  - first:
+      213: 688018899951720957
+    second: Bush_24
+  - first:
+      213: 2388313829062532414
+    second: Bush_25
+  - first:
+      213: -7669333864757351048
+    second: Bush_26
+  - first:
+      213: 149001249906669023
+    second: Bush_27
+  - first:
+      213: 872039427565985949
+    second: Bush_28
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 600
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Bush_4
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 119
+        width: 572
+        height: 506
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f07e6f827ec273a70800000000000000
+      internalID: 8806556967682631439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_5
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 119
+        width: 572
+        height: 489
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa6d8ad3fe4783ef0800000000000000
+      internalID: -128224018499578198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_9
+      rect:
+        serializedVersion: 2
+        x: 4793
+        y: 119
+        width: 572
+        height: 489
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fffef64b2a95218c0800000000000000
+      internalID: -4030060161196363777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_10
+      rect:
+        serializedVersion: 2
+        x: 5452
+        y: 119
+        width: 572
+        height: 506
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27bc9a0aebea0bde0800000000000000
+      internalID: -1319362557057053838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_11
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 119
+        width: 572
+        height: 459
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e76395f1a1af85f0800000000000000
+      internalID: -752204895765698589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_13
+      rect:
+        serializedVersion: 2
+        x: 2020
+        y: 119
+        width: 572
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8d8c84bb361545a0800000000000000
+      internalID: -6537794838370415218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_15
+      rect:
+        serializedVersion: 2
+        x: 2768
+        y: 119
+        width: 572
+        height: 412
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1db69837285a73530800000000000000
+      internalID: 3834715587431984081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_16
+      rect:
+        serializedVersion: 2
+        x: 3475
+        y: 119
+        width: 572
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 396412579da8c9f70800000000000000
+      internalID: 9195377205761361555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_17
+      rect:
+        serializedVersion: 2
+        x: 4134
+        y: 119
+        width: 572
+        height: 459
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7fb6e48d7818e190800000000000000
+      internalID: -7933063816233435266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_20
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 119
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b57a8cb4564e104b0800000000000000
+      internalID: -5475844548191541413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_21
+      rect:
+        serializedVersion: 2
+        x: 972
+        y: 119
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a80d0fa96a6016df0800000000000000
+      internalID: -188862396739039094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_22
+      rect:
+        serializedVersion: 2
+        x: 1631
+        y: 119
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ffc98f65d9fae4c0800000000000000
+      internalID: -4257315802630729741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_23
+      rect:
+        serializedVersion: 2
+        x: 2307
+        y: 119
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 979c7f9f08f78eda0800000000000000
+      internalID: -5915337918624839303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_24
+      rect:
+        serializedVersion: 2
+        x: 3055
+        y: 119
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df990625b855c8900800000000000000
+      internalID: 688018899951720957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_25
+      rect:
+        serializedVersion: 2
+        x: 3762
+        y: 119
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3ddc6116cef42120800000000000000
+      internalID: 2388313829062532414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_26
+      rect:
+        serializedVersion: 2
+        x: 4421
+        y: 119
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87da34fdb7d019590800000000000000
+      internalID: -7669333864757351048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_27
+      rect:
+        serializedVersion: 2
+        x: 5080
+        y: 119
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd5b6cbe8db511200800000000000000
+      internalID: 149001249906669023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bush_28
+      rect:
+        serializedVersion: 2
+        x: 5739
+        y: 119
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d90a4363d3b1a1c00800000000000000
+      internalID: 872039427565985949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ae803a0b59752984194e77cd5bee49e6
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Bush_0: 4296193443984631328
+      Bush_1: -2770932246066905560
+      Bush_10: -1319362557057053838
+      Bush_11: -752204895765698589
+      Bush_12: 765601927131512949
+      Bush_13: -6537794838370415218
+      Bush_14: 1959484262110174510
+      Bush_15: 3834715587431984081
+      Bush_16: 9195377205761361555
+      Bush_17: -7933063816233435266
+      Bush_18: -889960457759243319
+      Bush_19: 3500719040804890184
+      Bush_2: -8304077115233230222
+      Bush_20: -5475844548191541413
+      Bush_21: -188862396739039094
+      Bush_22: -4257315802630729741
+      Bush_23: -5915337918624839303
+      Bush_24: 688018899951720957
+      Bush_25: 2388313829062532414
+      Bush_26: -7669333864757351048
+      Bush_27: 149001249906669023
+      Bush_28: 872039427565985949
+      Bush_3: -8663683955189347131
+      Bush_4: 8806556967682631439
+      Bush_5: -128224018499578198
+      Bush_6: -6592894847292831164
+      Bush_7: -5560952714569976523
+      Bush_8: -3059043393212727673
+      Bush_9: -4030060161196363777
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

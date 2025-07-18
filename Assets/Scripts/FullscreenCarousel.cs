@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using Managers;
+using Singletons;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class FullscreenCarousel: Carousel
 {
 
-    [SerializeField] private UnityEvent<bool> onValChanged;
     [SerializeField] private List<string> options;
     private bool _fullScreen;
 
@@ -22,7 +21,7 @@ public class FullscreenCarousel: Carousel
     {
         currentText = options[OptionIndex];
         _fullScreen = OptionIndex == 1;
-        onValChanged.Invoke(_fullScreen);
+        ScreenController.Instance.SetFullScreen(_fullScreen);
         base.OnValueChanged();
     }
     

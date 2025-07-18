@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using Managers;
+using Singletons;
 using PlayerScripts;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -27,7 +27,6 @@ public class LightSource : MonoBehaviour
     [SerializeField] private Sprite lampSprite;
 
     [SerializeField] private AudioClip turnOnSound;
-    [SerializeField] private AudioClip turnOffSound;
 
     private Animator _animator;
     private CircleCollider2D _lightCollider;

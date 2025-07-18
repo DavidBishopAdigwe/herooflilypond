@@ -1,6 +1,6 @@
 using System;
 using System.Numerics;
-using Managers;
+using Singletons;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,14 +21,11 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody2D _rb; 
     private Animator _animator;
-    private InputAction _playerMoveActions;
     private Vector2 _inputValue;
-    private Vector2 _pickupDirection;
     private PlayerDrag _playerDrag;
     private AudioSource _audioSource;
     private bool _isMoving;
     private float _currentSpeed;
-    private bool _movedInTutorial;
 
     public event Action PlayerMoved;
 
@@ -55,10 +52,20 @@ public class PlayerController : MonoBehaviour
     private void OnMoveKeysClicked(InputAction.CallbackContext obj)
     {
         PlayerMoved?.Invoke();
-        _inputValue = obj.ReadValue<Vector2>();
-        _inputValue = Vector2.ClampMagnitude(_inputValue, 1);
+        _inputValue = obj.ReadValue<Vector2>().normalized;
         _isMoving   = true;
         
+        PlayAudio();
+        _animator.SetBool(IsMoving, true);
+        
+        if (!Mathf.Approximately(Mathf.Sign(_inputValue.x), Mathf.Sign(transform.right.x)))
+        {
+            Flip();
+        }
+    }
+
+    private void PlayAudio()
+    {
         if (_audioSource.isPlaying) _audioSource.Stop();
         
         if (!_playerDrag.IsPlayerAttached())
@@ -70,12 +77,6 @@ public class PlayerController : MonoBehaviour
         {
             _audioSource.clip = draggingMovementSound;
             _audioSource.Play();
-        }
-        _animator.SetBool(IsMoving, true);
-        
-        if (!Mathf.Approximately(Mathf.Sign(_inputValue.x), Mathf.Sign(transform.right.x)))
-        {
-            Flip();
         }
     }
     private void OnMoveKeysReleased(InputAction.CallbackContext obj)

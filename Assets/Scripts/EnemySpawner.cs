@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Managers;
+using Singletons;
 using Unity.Mathematics;
 using UnityEngine.SceneManagement;
 using UnityEngine;

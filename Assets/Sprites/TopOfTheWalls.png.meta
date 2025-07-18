@@ -1,0 +1,455 @@
+fileFormatVersion: 2
+guid: aae7c5ed78428364d81243f1f4dec592
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7074691994916472096
+    second: TopOfTheWalls_0
+  - first:
+      213: 8341022447474197821
+    second: TopOfTheWalls_1
+  - first:
+      213: 775863288454214616
+    second: TopOfTheWalls_2
+  - first:
+      213: -7134254366401812736
+    second: TopOfTheWalls_3
+  - first:
+      213: -4264696627061658574
+    second: TopOfTheWalls_4
+  - first:
+      213: -22545274124673211
+    second: TopOfTheWalls_5
+  - first:
+      213: 2989316788815842468
+    second: TopOfTheWalls_6
+  - first:
+      213: -7992260450382422180
+    second: TopOfTheWalls_7
+  - first:
+      213: 7051464617923144507
+    second: TopOfTheWalls_8
+  - first:
+      213: -5575446273550756007
+    second: TopOfTheWalls_9
+  - first:
+      213: 7023517559965486993
+    second: TopOfTheWalls_10
+  - first:
+      213: -1947984538045488532
+    second: TopOfTheWalls_11
+  - first:
+      213: -4852998622121340841
+    second: TopOfTheWalls_12
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 512
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TopOfTheWalls_0
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 1439
+        width: 386
+        height: 260
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ea34bb2d15a1dd90800000000000000
+      internalID: -7074691994916472096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_1
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 1422
+        width: 386
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d35424d29b341c370800000000000000
+      internalID: 8341022447474197821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_2
+      rect:
+        serializedVersion: 2
+        x: 1744
+        y: 1405
+        width: 130
+        height: 155
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d37496dc8b64ca00800000000000000
+      internalID: 775863288454214616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_3
+      rect:
+        serializedVersion: 2
+        x: 1919
+        y: 1405
+        width: 130
+        height: 155
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0072751e3790efc90800000000000000
+      internalID: -7134254366401812736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_4
+      rect:
+        serializedVersion: 2
+        x: 2086
+        y: 1405
+        width: 130
+        height: 155
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23cee255301c0d4c0800000000000000
+      internalID: -4264696627061658574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_5
+      rect:
+        serializedVersion: 2
+        x: 2261
+        y: 1405
+        width: 130
+        height: 155
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54f5f605137efaff0800000000000000
+      internalID: -22545274124673211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_6
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 835
+        width: 258
+        height: 260
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4acca7608cf2c7920800000000000000
+      internalID: 2989316788815842468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_7
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 835
+        width: 386
+        height: 366
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5f5d861779c51190800000000000000
+      internalID: -7992260450382422180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_8
+      rect:
+        serializedVersion: 2
+        x: 1226
+        y: 835
+        width: 258
+        height: 260
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3b6b81b5b5dbd160800000000000000
+      internalID: 7051464617923144507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_9
+      rect:
+        serializedVersion: 2
+        x: 1999
+        y: 549
+        width: 130
+        height: 470
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9575bb8772900a2b0800000000000000
+      internalID: -5575446273550756007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_10
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 180
+        width: 258
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19f0673320c887160800000000000000
+      internalID: 7023517559965486993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_11
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 209
+        width: 514
+        height: 155
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6268dd226e57f4e0800000000000000
+      internalID: -1947984538045488532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TopOfTheWalls_12
+      rect:
+        serializedVersion: 2
+        x: 1239
+        y: 180
+        width: 258
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7505ff8277fa6acb0800000000000000
+      internalID: -4852998622121340841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      TopOfTheWalls_0: -7074691994916472096
+      TopOfTheWalls_1: 8341022447474197821
+      TopOfTheWalls_10: 7023517559965486993
+      TopOfTheWalls_11: -1947984538045488532
+      TopOfTheWalls_12: -4852998622121340841
+      TopOfTheWalls_2: 775863288454214616
+      TopOfTheWalls_3: -7134254366401812736
+      TopOfTheWalls_4: -4264696627061658574
+      TopOfTheWalls_5: -22545274124673211
+      TopOfTheWalls_6: 2989316788815842468
+      TopOfTheWalls_7: -7992260450382422180
+      TopOfTheWalls_8: 7051464617923144507
+      TopOfTheWalls_9: -5575446273550756007
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

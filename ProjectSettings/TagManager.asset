@@ -25,12 +25,12 @@ TagManager:
   - Light
   - Object
   - Player
-  - Equippable
+  - 
   - Enemy
-  - Layer1Walkable
-  - Layer2Walkable
+  - 
+  - 
   - Obstacles
-  - Stair
+  - 
   - Ground
   - Wall
   - CameraBounds
@@ -81,7 +81,7 @@ TagManager:
   - name: Enemy
     uniqueID: 165762677
     locked: 0
-  - name: ObjectBelowWall
+  - name: ObjectBehindWall
     uniqueID: 2117537521
     locked: 0
   - name: SideDoorFront
@@ -90,17 +90,11 @@ TagManager:
   - name: Walls
     uniqueID: 2254398315
     locked: 0
-  - name: InfrontOfWall
-    uniqueID: 2412784039
-    locked: 0
-  - name: ObjectInfrontOfWa
+  - name: ObjectInfrontOfWall
     uniqueID: 143957
     locked: 0
   - name: TopOfWall
     uniqueID: 3659561709
-    locked: 0
-  - name: ItemAboveWall
-    uniqueID: 364916247
     locked: 0
   - name: WallAdditions
     uniqueID: 4056328005
@@ -110,9 +104,6 @@ TagManager:
     locked: 0
   - name: ItemsUI
     uniqueID: 3540568713
-    locked: 0
-  - name: Map
-    uniqueID: 3030910735
     locked: 0
   m_RenderingLayers:
   - Default

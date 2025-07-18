@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Interfaces;
-using Managers;
+using Singletons;
 using PickableItems;
 using PlayerScripts;
+using PlayerScripts.PlayerInteractor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 /// <summary>
 /// 
@@ -16,7 +14,7 @@ using UnityEngine.Serialization;
 public class PlayerPickup : Interactor
 {
     
-    [FormerlySerializedAs("_healthPickupSound")] [SerializeField] private AudioClip _pickupSound;
+    [SerializeField] private AudioClip pickupSound;
     
     private PlayerController _player;
     private LightSource _lightSource;
@@ -31,11 +29,11 @@ public class PlayerPickup : Interactor
 
     private void Awake()
     {
-        _player = GetComponentInParent<PlayerController>();
-        _audioSource = GetComponentInParent<AudioSource>();
+        _player            = GetComponentInParent<PlayerController>();
+        _audioSource       = GetComponentInParent<AudioSource>();
         _playerItemTracker = _player.GetComponent<PlayerItemTracker>();
-        _playerHealth = _player.GetComponent<Health>();
-        _lightSource = _player.GetComponentInChildren<LightSource>();
+        _playerHealth      = _player.GetComponent<Health>();
+        _lightSource       = _player.GetComponentInChildren<LightSource>();
     }
 
     protected override void Start()
@@ -131,7 +129,7 @@ public class PlayerPickup : Interactor
     private void PickupObject(PickableItem interactable)
     {
         interactable.Pickup();
-        _audioSource.PlayOneShot(_pickupSound);
+        _audioSource.PlayOneShot(pickupSound);
         switch (interactable) 
         {
             case not null when interactable.CompareTag("Rope"):
@@ -146,8 +144,8 @@ public class PlayerPickup : Interactor
             case PickableOil oil when _playerItemTracker.PlayerHasLamp():
                 oil.AddOilToLamp(_lightSource);
                 break;
-            case PickableHealthPotion hpPot:
-                PickedHealthPotion?.Invoke();
+            case PickableHealthPotion hpPot: 
+                if (GameManager.Instance.PlayerInTutorial()) PickedHealthPotion?.Invoke();
                 hpPot.AddHp(_playerHealth);
                 break;
         }

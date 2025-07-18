@@ -1,5 +1,5 @@
 using Enums;
-using Managers;
+using Singletons;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;

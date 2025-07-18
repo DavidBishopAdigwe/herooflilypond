@@ -1,0 +1,336 @@
+fileFormatVersion: 2
+guid: bb69bbdad64127349b8549fc8fda2281
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7297157008897486972
+    second: PlayerLampSpriteSheet_0
+  - first:
+      213: -4989130939873809987
+    second: PlayerLampSpriteSheet_1
+  - first:
+      213: 5644625078648342392
+    second: PlayerLampSpriteSheet_2
+  - first:
+      213: 799739968259311423
+    second: PlayerLampSpriteSheet_3
+  - first:
+      213: -307252286831416255
+    second: PlayerLampSpriteSheet_4
+  - first:
+      213: -7898231303328966307
+    second: PlayerLampSpriteSheet_5
+  - first:
+      213: 3344651409878485878
+    second: PlayerLampSpriteSheet_6
+  - first:
+      213: -5001795119150765813
+    second: PlayerLampSpriteSheet_7
+  - first:
+      213: 8717066326898409747
+    second: PlayerLampSpriteSheet_8
+  - first:
+      213: 3963667229143607020
+    second: PlayerLampSpriteSheet_9
+  - first:
+      213: -1579908688260727526
+    second: PlayerLampSpriteSheet_10
+  - first:
+      213: -4335392582873755492
+    second: PlayerLampSpriteSheet_11
+  - first:
+      213: -1884084615109389853
+    second: PlayerLampSpriteSheet_12
+  - first:
+      213: 5907258860041147050
+    second: PlayerLampSpriteSheet_13
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 576
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: PlayerLampSpriteSheet_0
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 0
+        width: 352
+        height: 269
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c70369933a5b44560800000000000000
+      internalID: 7297157008897486972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerLampSpriteSheet_1
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 0
+        width: 365
+        height: 270
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db929eef7db03cab0800000000000000
+      internalID: -4989130939873809987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerLampSpriteSheet_2
+      rect:
+        serializedVersion: 2
+        x: 1215
+        y: 0
+        width: 341
+        height: 274
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 877881f3a9cb55e40800000000000000
+      internalID: 5644625078648342392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerLampSpriteSheet_3
+      rect:
+        serializedVersion: 2
+        x: 1720
+        y: 0
+        width: 342
+        height: 286
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3747c0934f391b00800000000000000
+      internalID: 799739968259311423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerLampSpriteSheet_5
+      rect:
+        serializedVersion: 2
+        x: 2236
+        y: 3
+        width: 338
+        height: 277
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d59d43be978d36290800000000000000
+      internalID: -7898231303328966307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerLampSpriteSheet_6
+      rect:
+        serializedVersion: 2
+        x: 2738
+        y: 6
+        width: 348
+        height: 278
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67b015f8cb69a6e20800000000000000
+      internalID: 3344651409878485878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerLampSpriteSheet_7
+      rect:
+        serializedVersion: 2
+        x: 3251
+        y: 0
+        width: 351
+        height: 277
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b096cbbf6dd069ab0800000000000000
+      internalID: -5001795119150765813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerLampSpriteSheet_8
+      rect:
+        serializedVersion: 2
+        x: 3766
+        y: 1
+        width: 342
+        height: 275
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3118c4aa3ad39f870800000000000000
+      internalID: 8717066326898409747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: e0607c96d6e3b8342b079b0faa28d798
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      PlayerLampSpriteSheet_11: 320503101
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

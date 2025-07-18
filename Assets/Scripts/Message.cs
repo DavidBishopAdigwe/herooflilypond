@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using Enums;
+using Singletons;
 using UnityEngine.Serialization;
 
 public class Message : MonoBehaviour

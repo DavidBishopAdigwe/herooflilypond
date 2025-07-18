@@ -1,21 +1,25 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class BrightnessSlider : MonoBehaviour
+public class BrightnessSlider : SliderObject
 {
-    private Slider _sliderComponent;
+    [SerializeField] private Image brightnessOverlay;
+    
 
-    private void Awake()
+    protected override void Awake()
     {
-        _sliderComponent = gameObject.GetComponent<Slider>();
+        base.Awake();
+        Slider.value = 1 - brightnessOverlay.color.a;
     }
 
-    public void SliderValueChanged()
-    { 
-        Screen.brightness = _sliderComponent.value; 
-        Debug.Log($"changed from val{Screen.brightness}");
+    protected override void OnSliderValueChanged(float value)
+    {
+        var imageColor = brightnessOverlay.color;
+        imageColor.a = 1 - value;
+        brightnessOverlay.color = imageColor;
     }
     
 }

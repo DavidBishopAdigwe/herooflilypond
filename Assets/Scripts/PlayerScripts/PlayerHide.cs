@@ -1,12 +1,9 @@
-using System;
 using System.Collections;
 using Enums;
-using Interfaces;
-using Managers;
+using PlayerScripts.PlayerInteractor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace PlayerScripts
 {
@@ -18,7 +15,6 @@ namespace PlayerScripts
         [SerializeField] private UnityEvent onHide;
         [SerializeField] private HideState currentState = HideState.NotHiding;
         
-        private PlayerController _playerController;
         private SpriteRenderer _spriteRenderer;
         private Collider2D _collider;
     
@@ -33,7 +29,6 @@ namespace PlayerScripts
         {
             _collider = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _playerController = GetComponent<PlayerController>();
         }
 
 
